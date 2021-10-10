@@ -1,0 +1,7 @@
+root {
+    -fx-display: block;
+}
+.background1 {
+    -fx-background-image: url("../images/startview-back.png");
+    -fx-background-size: 100%;
+}
