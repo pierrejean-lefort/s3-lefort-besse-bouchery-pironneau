@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            styleClass="background1" stylesheets="@background.css"
-            fx:id="root"
-            prefHeight="327.0" prefWidth="601.0">
-
+<BorderPane fx:id="root" prefHeight="600" prefWidth="900" styleClass="background1" stylesheets="@background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Button fx:id="creerJoueur" mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <Label fx:id="text" text="Ta mère" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
