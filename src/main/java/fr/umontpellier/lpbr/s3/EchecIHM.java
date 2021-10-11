@@ -3,23 +3,21 @@ package fr.umontpellier.lpbr.s3;
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.ourviews.MyHome;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 public class EchecIHM extends Application {
     private Stage primaryStage;
     private Home homeView;
+    SessionFactory sessionFactory;
 
     public static void main(String[] args) {
         launch(args);
@@ -29,29 +27,37 @@ public class EchecIHM extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
-        try {
-            System.out.println("Connecting database...");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/s3", "root", "root");
-            Statement stmt = con.createStatement();
-            System.out.println();
-            System.out.println("Connection established successfully.");
+//        System.out.println(getClass().getResource("fxml/"));
 
-            // Create and execute an SQL statement that returns user name.
-//            String SQL = "SELECT SUSER_SNAME()";
-//            try (ResultSet rs = stmt.executeQuery(SQL)) {
+//        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+//                .configure(getClass().getResource("hibernate.cfg.xml"))
+//                .build();
 //
-//                // Iterate through the data in the result set and display it.
-//                while (rs.next()) {
-//                    System.out.println("user name: " + rs.getString(1));
-//                }
-//            }
-        }
-        catch (Exception e) {
-        e.printStackTrace();
-        }
+//        try {
+//            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+//
+//            testDB();
+//        } catch (Exception e) {
+//            StandardServiceRegistryBuilder.destroy( registry );
+//            System.out.println(e.getMessage());
+//        }
 
         primaryStage.setTitle("Echec !");
         initHomeView();
+    }
+
+    public void testDB() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+//        List<Joueur> result = session.createQuery("from joueurs", Joueur.class).list();
+//
+//        result.forEach(person -> {
+//            System.out.println(person.getNumLicence());
+//        });
+//
+//        session.getTransaction().commit();
+//        session.close();
     }
 
     public Stage getPrimaryStage() {

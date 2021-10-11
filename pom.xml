@@ -7,7 +7,10 @@
     <groupId>fr.umontpellier.lpbr.s3</groupId>
     <artifactId>ProjetEchec-S3</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
+    <name>Projet S3</name>
+    <description>Petit projet pour un logiciel de gestion de tournoi d'echec</description>
 
     <properties>
         <maven.compiler.source>1.11</maven.compiler.source>
@@ -88,11 +91,18 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.26</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.5.7.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
         <resources>
             <resource>
+                <filtering>false</filtering>
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>**/*</include>
