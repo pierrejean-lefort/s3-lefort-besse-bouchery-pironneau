@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,11 +32,17 @@ public class EchecIHM extends Application {
         this.primaryStage = primaryStage;
 
         try {
-            System.out.println("Connecting database...");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/s3", "root", "root");
-            Statement stmt = con.createStatement();
-            System.out.println();
-            System.out.println("Connection established successfully.");
+//            System.out.println("Connecting database...");
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/s3", "root", "root");
+//            Statement stmt = con.createStatement();
+//            System.out.println();
+//            System.out.println("Connection established successfully.");
+
+            final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure()
+                .build();
+
+
 
             // Create and execute an SQL statement that returns user name.
 //            String SQL = "SELECT SUSER_SNAME()";
