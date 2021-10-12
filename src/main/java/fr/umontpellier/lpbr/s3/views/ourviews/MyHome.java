@@ -2,10 +2,15 @@ package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.views.Home;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -16,6 +21,9 @@ import java.util.ResourceBundle;
 
 public class MyHome extends Home {
     @FXML private Pane root;
+
+    @FXML private Button creerJoueur;
+    @FXML private Label text;
 
     private EchecIHM ihm;
 
@@ -32,14 +40,25 @@ public class MyHome extends Home {
             root = new Pane(node);
             Scene scene = new Scene(root);
             Stage stage = ihm.getPrimaryStage();
+
             stage.setScene(scene);
             stage.show();
+
+            creerJoueur.setOnAction(creerJoueurAction);
 
             System.out.println("Initiated");
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
+
+    private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            System.out.println("Hello");
+            text.setText("Ton père");
+        }
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
