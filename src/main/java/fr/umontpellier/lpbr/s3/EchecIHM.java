@@ -1,15 +1,8 @@
 package fr.umontpellier.lpbr.s3;
 
-import fr.umontpellier.lpbr.s3.views.Home;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyCreationJoueur;
 import fr.umontpellier.lpbr.s3.views.ourviews.MyHome;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,13 +12,13 @@ import org.hibernate.cfg.Configuration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
 public class EchecIHM extends Application {
     private Stage primaryStage;
-    private Home homeView;
+    private MyHome homeView;
+    private MyCreationJoueur creationJoeueurView;
 
     public static void main(String[] args) {
         launch(args);
@@ -66,4 +59,6 @@ public class EchecIHM extends Application {
     private void initHomeView() {
         homeView = new MyHome(this);
     }
+
+    public void initCreationJoueurView() { creationJoeueurView = new MyCreationJoueur(this);}
 }
