@@ -11,11 +11,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 public class EchecIHM extends Application {
     private Stage primaryStage;
@@ -29,29 +35,28 @@ public class EchecIHM extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
-        try {
-            System.out.println("Connecting database...");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/s3", "root", "root");
-            Statement stmt = con.createStatement();
-            System.out.println();
-            System.out.println("Connection established successfully.");
-
-            // Create and execute an SQL statement that returns user name.
-//            String SQL = "SELECT SUSER_SNAME()";
-//            try (ResultSet rs = stmt.executeQuery(SQL)) {
-//
-//                // Iterate through the data in the result set and display it.
-//                while (rs.next()) {
-//                    System.out.println("user name: " + rs.getString(1));
-//                }
-//            }
-        }
-        catch (Exception e) {
-        e.printStackTrace();
-        }
-
         primaryStage.setTitle("Echec !");
         initHomeView();
+    }
+
+    public void testDB() {
+        Session sess = HibernateUtil.getSessionFactory().openSession();
+        sess.beginTransaction();
+
+        List<Joueur> joueurs = sess.createQuery("from joueurs").list();
+
+        for (Joueur j : joueurs) {
+            System.out.println(j);
+        }
+
+        sess.getTransaction().commit();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        System.out.println("Stopping app");
+        HibernateUtil.shutdown();
     }
 
     public Stage getPrimaryStage() {
