@@ -10,8 +10,9 @@ open module ihm.echec {
     requires java.persistence;
     requires java.naming;
     requires net.bytebuddy;
-    requires java.xml.bind;
-    requires org.hibernate.orm.jpamodelgen;
+    requires dom4j;
+    requires jdk.xml.dom;
+//    requires org.hibernate.orm.jpamodelgen;
 
     exports fr.umontpellier.lpbr.s3;
     exports fr.umontpellier.lpbr.s3.views;

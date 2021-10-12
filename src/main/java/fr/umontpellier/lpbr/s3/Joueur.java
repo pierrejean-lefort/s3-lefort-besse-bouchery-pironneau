@@ -12,17 +12,16 @@ import javax.persistence.TemporalType;
 
 import java.util.Date;
 
-@Entity
-@Table( name = "joueurs" )
+@Entity(name = "joueurs")
 public class Joueur {
-    private String numLicence;
+    private int numLicence;
     private String nom;
     private String prenom;
     private int elo;
     private Date dateNaissance;
-    private String nomClub;
+    private String club;
 
-    public void setNumLicence(String numLicence) {
+    public void setNumLicence(int numLicence) {
         this.numLicence = numLicence;
     }
 
@@ -53,13 +52,13 @@ public class Joueur {
         this.elo = elo;
     }
 
-    @Column(name = "nomClub")
-    public String getNomClub() {
-        return nomClub;
+    @Column(name = "club")
+    public String getClub() {
+        return club;
     }
 
-    public void setNomClub(String nomClub) {
-        this.nomClub = nomClub;
+    public void setClub(String club) {
+        this.club = club;
     }
 
     @Temporal(TemporalType.DATE)
@@ -73,13 +72,13 @@ public class Joueur {
     }
 
 
-    public Joueur(String numLicence, String nom, String prenom, int elo, Date dateNaissance, String nomClub) {
+    public Joueur(int numLicence, String nom, String prenom, int elo, Date dateNaissance, String club) {
         this.numLicence = numLicence;
         this.nom = nom;
         this.prenom = prenom;
         this.elo = elo;
         this.dateNaissance = dateNaissance;
-        this.nomClub = nomClub;
+        this.club = club;
     }
 
     public Joueur() {
@@ -87,7 +86,8 @@ public class Joueur {
     }
 
     @Id
-    public String getNumLicence() {
+    @Column(name = "numLicence")
+    public int getNumLicence() {
         return numLicence;
     }
 
@@ -99,7 +99,7 @@ public class Joueur {
                 ", prenom='" + prenom + '\'' +
                 ", elo=" + elo +
                 ", dateNaissance=" + dateNaissance +
-                ", nomClub='" + nomClub + '\'' +
+                ", nomClub='" + club + '\'' +
                 '}';
     }
 }
