@@ -1,10 +1,15 @@
-open module ihm.bang {
+open module ihm.echec {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.fxml;
 
     requires java.sql;
+    requires org.hibernate.orm.core;
+    requires org.hibernate.commons.annotations;
+    requires java.persistence;
+    requires java.naming;
+    requires net.bytebuddy;
 
     exports fr.umontpellier.lpbr.s3;
     exports fr.umontpellier.lpbr.s3.views;
