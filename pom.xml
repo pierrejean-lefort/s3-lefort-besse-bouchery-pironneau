@@ -94,11 +94,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.5.7.Final</version>
         </dependency>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
     </dependencies>
 
     <build>

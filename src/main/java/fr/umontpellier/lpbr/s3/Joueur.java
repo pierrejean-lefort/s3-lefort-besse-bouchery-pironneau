@@ -2,18 +2,13 @@ package fr.umontpellier.lpbr.s3;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import java.util.Date;
 
 @Entity(name = "joueurs")
 public class Joueur {
+    private int id;
     private int numLicence;
     private String nom;
     private String prenom;
@@ -21,11 +16,17 @@ public class Joueur {
     private Date dateNaissance;
     private String club;
 
+    private void setId(int id) { this.id = id; }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int getId() { return this.id; }
+
     public void setNumLicence(int numLicence) {
         this.numLicence = numLicence;
     }
 
-    @Column(name = "Nom")
+    @Column(name = "nom")
     public String getNom() {
         return nom;
     }
@@ -85,7 +86,6 @@ public class Joueur {
 
     }
 
-    @Id
     @Column(name = "numLicence")
     public int getNumLicence() {
         return numLicence;
