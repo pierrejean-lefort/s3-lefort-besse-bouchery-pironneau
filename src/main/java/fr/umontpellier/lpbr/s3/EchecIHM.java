@@ -37,6 +37,8 @@ public class EchecIHM extends Application {
 
         primaryStage.setTitle("Echec !");
         initHomeView();
+
+        testDB();
     }
 
     public void testDB() {
