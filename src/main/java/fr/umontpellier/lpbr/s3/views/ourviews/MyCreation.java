@@ -5,27 +5,23 @@ import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Joueur;
 import fr.umontpellier.lpbr.s3.views.Creation;
 import fr.umontpellier.lpbr.s3.views.View;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.hibernate.Session;
-import org.w3c.dom.Text;
+import org.hibernate.validator.HibernateValidator;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class MyCreation extends Creation {
 
@@ -76,12 +72,7 @@ public class MyCreation extends Creation {
             String eloSaisi = eloText.getText();
             String sexeSaisi = (String)sexeText.getValue();
             LocalDate dateNaissanceseSaisi = dateNaissanceText.getValue();
-            System.out.println(sexeSaisi);
-            if (nomSaisi.equals("") || prenomSaisi.equals("") || numLicenceSaisi.equals("") || nomClubSaisi.equals("") || eloSaisi.equals("") || dateNaissanceseSaisi == null || sexeSaisi.equals("")) {
-                error.setText("Un champs n'est pas valide");
-                return;
-            }
-            Instant instant = Instant.from(dateNaissanceseSaisi.atStartOfDay(ZoneId.systemDefault()));
+            Instant instant = dateNaissanceseSaisi == null ? Instant.now() : Instant.from(dateNaissanceseSaisi.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
 
 
@@ -91,20 +82,31 @@ public class MyCreation extends Creation {
             joueur.setNumLicence(numLicenceSaisi);
             joueur.setNom(nomSaisi);
             joueur.setPrenom(prenomSaisi);
-            joueur.setElo(Integer.parseInt(eloSaisi));
+            joueur.setElo(Objects.equals(eloSaisi, "") ? -1 : Integer.parseInt(eloSaisi));
             joueur.setClub(nomClubSaisi);
             joueur.setDateNaissance(date);
             joueur.setSexe(sexeSaisi);
             joueur.setNationalite("fr");
-            Session ses = HibernateUtil.getSessionFactory().openSession();
-            ses.beginTransaction();
-            ses.save(joueur);
-            ses.getTransaction().commit();
-            try {
-                View.getView().setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyHome");
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+
+
+//            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//            Validator validator = factory.getValidator();
+//            Validator v = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
+//
+//            Set<ConstraintViolation<Joueur>> violations = v.validate(joueur);
+//            for (ConstraintViolation<Joueur> violation : violations) {
+//                System.out.println(violation.getMessage());
+//            }
+
+//            Session ses = HibernateUtil.getSessionFactory().openSession();
+//            ses.beginTransaction();
+//            ses.save(joueur);
+//            ses.getTransaction().commit();
+//            try {
+//                View.getView().setScene(MyHome.class);
+//            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
         }
     };
 

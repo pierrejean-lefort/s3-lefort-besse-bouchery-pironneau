@@ -30,10 +30,9 @@ public class View {
         return this;
     }
 
-    public View setScene(String className) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+    public View setScene(Class view) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
         if (ihm == null) return this;
 
-        Class view = Class.forName(className);
         String fxmlPath = (String) view.getDeclaredField("fxmlPath").get(null);
         Scene scene = scenes.get(fxmlPath);
         if (scene != null) {

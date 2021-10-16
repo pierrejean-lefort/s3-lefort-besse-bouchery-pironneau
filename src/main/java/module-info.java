@@ -12,6 +12,7 @@ open module ihm.echec {
     requires net.bytebuddy;
     requires jdk.xml.dom;
     requires org.hibernate.validator;
+    requires java.validation;
 
     exports fr.umontpellier.lpbr.s3;
     exports fr.umontpellier.lpbr.s3.views;

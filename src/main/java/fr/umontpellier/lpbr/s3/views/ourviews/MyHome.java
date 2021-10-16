@@ -34,7 +34,7 @@ public class MyHome extends Home {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
-                View.getView().setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyCreation"); // Comment changer de scene
+                View.getView().setScene(MyCreation.class); // Comment changer de scene
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

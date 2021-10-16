@@ -2,6 +2,7 @@ package fr.umontpellier.lpbr.s3;
 
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.View;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyHome;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.hibernate.Session;
@@ -23,7 +24,7 @@ public class EchecIHM extends Application {
         primaryStage.setTitle("Echec !");
         View.getView()
                 .setIhm(this)
-                .setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyHome");
+                .setScene(MyHome.class);
     }
 
     public void testDB() {

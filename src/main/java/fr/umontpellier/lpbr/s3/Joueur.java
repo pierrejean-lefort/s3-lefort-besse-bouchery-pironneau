@@ -2,19 +2,21 @@ package fr.umontpellier.lpbr.s3;
 
 import javax.persistence.*;
 
+import javax.validation.constraints.*;
+
 import java.util.Date;
 
 @Entity(name = "joueurs")
 public class Joueur {
     @NotNull private int id;
-    private String numLicence;
-    private String nom;
-    private String prenom;
-    private int elo;
-    private Date dateNaissance;
-    private String club;
-    private String nationalite;
-    private String sexe;
+    @NotNull @Size(min = 1, max = 32) private String numLicence;
+    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nom;
+    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String prenom;
+    @NotNull @Min(500) @Max(5000) private int elo;
+    @NotNull private Date dateNaissance;
+    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String club;
+    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nationalite;
+    @NotNull @Size(min = 1, max = 32) private String sexe;
 
     private void setId(int id) { this.id = id; }
 
