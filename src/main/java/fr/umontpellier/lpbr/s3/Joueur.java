@@ -1,7 +1,5 @@
 package fr.umontpellier.lpbr.s3;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 import java.util.Date;

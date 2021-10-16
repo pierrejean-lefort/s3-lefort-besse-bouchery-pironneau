@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3.views;
 
+import fr.umontpellier.lpbr.s3.EchecIHM;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

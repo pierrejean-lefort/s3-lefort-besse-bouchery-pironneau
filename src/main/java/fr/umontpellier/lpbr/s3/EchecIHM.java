@@ -1,26 +1,11 @@
 package fr.umontpellier.lpbr.s3;
 
 import fr.umontpellier.lpbr.s3.views.Home;
-import fr.umontpellier.lpbr.s3.views.ourviews.MyHome;
+import fr.umontpellier.lpbr.s3.views.View;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.List;
 
 public class EchecIHM extends Application {
@@ -36,9 +21,9 @@ public class EchecIHM extends Application {
         this.primaryStage = primaryStage;
 
         primaryStage.setTitle("Echec !");
-        initHomeView();
-
-        testDB();
+        View.getView()
+                .setIhm(this)
+                .setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyHome");
     }
 
     public void testDB() {
@@ -49,6 +34,12 @@ public class EchecIHM extends Application {
 
         for (Joueur j : joueurs) {
             System.out.println(j);
+        }
+
+        List<Tournoi> tournois = sess.createQuery("from tournois").list();
+
+        for (Tournoi t : tournois) {
+            System.out.println(t);
         }
 
         sess.getTransaction().commit();
@@ -63,9 +54,5 @@ public class EchecIHM extends Application {
 
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    private void initHomeView() {
-        homeView = new MyHome(this);
     }
 }

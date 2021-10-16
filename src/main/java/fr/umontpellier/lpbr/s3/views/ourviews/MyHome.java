@@ -2,6 +2,7 @@ package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.views.Home;
+import fr.umontpellier.lpbr.s3.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,52 +17,33 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MyHome extends Home {
-    @FXML private Pane root;
-
+    public static String fxmlPath = "/fxml/homeView.fxml";
     @FXML private Button creerJoueur;
     @FXML private Label text;
 
-    private EchecIHM ihm;
-
-    public MyHome(EchecIHM echecIHM) {
-        super();
-        ihm = echecIHM;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/homeView.fxml"));
-
-        fxmlLoader.setController(this);
-
-        try {
-            Node node = fxmlLoader.load();
-            root = new Pane(node);
-            Scene scene = new Scene(root);
-            Stage stage = ihm.getPrimaryStage();
-
-            stage.setScene(scene);
-            stage.show();
-
-            creerJoueur.setOnAction(creerJoueurAction);
-
-            System.out.println("Initiated");
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    public MyHome() {
+//        creerJoueur.setOnAction(creerJoueurAction); // definir les action dans le initalize
     }
 
     private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            System.out.println("Hello");
-            text.setText("Ton père");
+//            try {
+//                View.getView().setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyTest"); // Comment changer de scene
+//            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
         }
     };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        creerJoueur.setOnAction(creerJoueurAction);
+        System.out.println("Initialized");
     }
 }
