@@ -11,6 +11,7 @@ open module ihm.echec {
     requires org.hibernate.commons.annotations;
     requires net.bytebuddy;
     requires jdk.xml.dom;
+    requires org.hibernate.validator;
 
     exports fr.umontpellier.lpbr.s3;
     exports fr.umontpellier.lpbr.s3.views;

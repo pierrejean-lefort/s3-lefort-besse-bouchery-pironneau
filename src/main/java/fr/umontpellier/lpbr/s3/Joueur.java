@@ -6,13 +6,15 @@ import java.util.Date;
 
 @Entity(name = "joueurs")
 public class Joueur {
-    private int id;
-    private int numLicence;
+    @NotNull private int id;
+    private String numLicence;
     private String nom;
     private String prenom;
     private int elo;
     private Date dateNaissance;
     private String club;
+    private String nationalite;
+    private String sexe;
 
     private void setId(int id) { this.id = id; }
 
@@ -20,7 +22,7 @@ public class Joueur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int getId() { return this.id; }
 
-    public void setNumLicence(int numLicence) {
+    public void setNumLicence(String numLicence) {
         this.numLicence = numLicence;
     }
 
@@ -70,14 +72,22 @@ public class Joueur {
         this.dateNaissance = dateNaissance;
     }
 
+    @Column(name = "nationalite")
+    public String getNationalite() {
+        return nationalite;
+    }
 
-    public Joueur(int numLicence, String nom, String prenom, int elo, Date dateNaissance, String club) {
-        this.numLicence = numLicence;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.elo = elo;
-        this.dateNaissance = dateNaissance;
-        this.club = club;
+    public void setNationalite(String nationalite) {
+        this.nationalite = nationalite;
+    }
+
+    @Column(name = "sexe")
+    public String getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
     }
 
     public Joueur() {
@@ -85,7 +95,7 @@ public class Joueur {
     }
 
     @Column(name = "numLicence")
-    public int getNumLicence() {
+    public String getNumLicence() {
         return numLicence;
     }
 

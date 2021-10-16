@@ -33,11 +33,11 @@ public class MyHome extends Home {
     private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-//            try {
-//                View.getView().setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyTest"); // Comment changer de scene
-//            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                View.getView().setScene("fr.umontpellier.lpbr.s3.views.ourviews.MyCreation"); // Comment changer de scene
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     };
 
