@@ -15,7 +15,7 @@
       <TextField fx:id="nomClubText" alignment="CENTER" layoutX="350.0" layoutY="138.0" />
       <TextField fx:id="numLicenceText" alignment="CENTER" layoutX="100.0" layoutY="138.0" />
       <TextField fx:id="eloText" alignment="CENTER" layoutX="100.0" layoutY="213.0" />
-      <Label fx:id="nom" layoutX="161.0" layoutY="46.0" text="Nom" textFill="#5b64d7">
+      <Label fx:id="nom" alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="46.0" text="Nom" textAlignment="CENTER" textFill="#5b64d7">
          <font>
             <Font name="Arial Black" size="12.0" />
          </font>
@@ -57,5 +57,30 @@
          </font>
       </Label>
       <ComboBox fx:id="sexeText" layoutX="226.0" layoutY="273.0" prefWidth="150.0" promptText="Sexe" />
+      <Label fx:id="nomErr" alignment="CENTER" layoutX="11.0" layoutY="51.0" prefHeight="50.0" prefWidth="81.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="numLicenceErr" alignment="CENTER" layoutX="12.0" layoutY="129.0" prefHeight="43.0" prefWidth="81.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="eloErr" alignment="CENTER" layoutX="12.0" layoutY="204.0" prefHeight="43.0" prefWidth="81.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="nomClubErr" alignment="CENTER" layoutX="506.0" layoutY="129.0" prefHeight="43.0" prefWidth="81.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="prenomErr" alignment="CENTER" layoutX="504.0" layoutY="54.0" prefHeight="43.0" prefWidth="81.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

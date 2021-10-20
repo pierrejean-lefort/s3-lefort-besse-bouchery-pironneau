@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
+import fr.umontpellier.lpbr.s3.DataValidation;
 import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Joueur;
@@ -55,6 +56,24 @@ public class MyCreation extends Creation {
     private Label categorieAffichage;
 
     @FXML
+    private Label nomErr;
+
+    @FXML
+    private Label prenomErr;
+
+    @FXML
+    private Label numLicenceErr;
+
+    @FXML
+    private Label nomClubErr;
+
+    @FXML
+    private Label eloErr;
+
+    @FXML
+    private Label dateNaissanceErr;
+
+    @FXML
     private ComboBox sexeText;
 
     @FXML private Label error;
@@ -71,8 +90,8 @@ public class MyCreation extends Creation {
             String nomClubSaisi = nomClubText.getText();
             String eloSaisi = eloText.getText();
             String sexeSaisi = (String)sexeText.getValue();
-            LocalDate dateNaissanceseSaisi = dateNaissanceText.getValue();
-            Instant instant = dateNaissanceseSaisi == null ? Instant.now() : Instant.from(dateNaissanceseSaisi.atStartOfDay(ZoneId.systemDefault()));
+            LocalDate dateNaissanceSaisi = dateNaissanceText.getValue();
+            Instant instant = dateNaissanceSaisi == null ? Instant.now() : Instant.from(dateNaissanceSaisi.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
 
 
@@ -87,6 +106,26 @@ public class MyCreation extends Creation {
             joueur.setDateNaissance(date);
             joueur.setSexe(sexeSaisi);
             joueur.setNationalite("fr");
+
+            DataValidation.textFieldIsNull(nomText, nomErr, "A remplir");
+            DataValidation.dataLength(nomText, nomErr, "Trop long", "32");
+            DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
+
+            DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir");
+            DataValidation.dataLength(prenomText, prenomErr, "Trop long", "32");
+            DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?");
+
+            DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir");
+            DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", "32");
+            DataValidation.textAlphabet(numLicenceText, numLicenceErr, "Des lettres ?");
+
+            DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir");
+            DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", "32");
+            DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?");
+
+            DataValidation.textFieldIsNull(eloText, eloErr, "A remplir");
+            DataValidation.dataLength(eloText, eloErr, "Trop long", "32");
+            DataValidation.textNumeric(eloText, eloErr, "Des chiffres?");
 
 
 //            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

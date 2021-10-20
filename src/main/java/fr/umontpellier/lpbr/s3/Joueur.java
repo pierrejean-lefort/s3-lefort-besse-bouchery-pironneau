@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity(name = "joueurs")
 public class Joueur {
-    @NotNull private int id;
+    private int id;
     @NotNull @Size(min = 1, max = 32) private String numLicence;
     @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nom;
     @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String prenom;
