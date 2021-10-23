@@ -23,6 +23,29 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
+    public static Session openSession() {
+        Session sess = sessionFactory.openSession();
+        sess.beginTransaction();
+        return sess;
+    }
+
+    public static void closeSession(Session sess) {
+        sess.getTransaction().commit();
+        sess.close();
+    }
+
+    public static void save(Object o) {
+        Session sess = openSession();
+        sess.save(o);
+        closeSession(sess);
+    }
+
+    public static void delete(Object o) {
+        Session sess = openSession();
+        sess.delete(o);
+        closeSession(sess);
+    }
+
     public static void shutdown() {
         if (sessionFactory == null) return;
         sessionFactory.close();

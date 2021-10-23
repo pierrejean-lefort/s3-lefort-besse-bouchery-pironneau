@@ -2,23 +2,22 @@ package fr.umontpellier.lpbr.s3;
 
 import javax.persistence.*;
 
-import javax.validation.constraints.*;
-
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "joueurs")
 public class Joueur {
     private int id;
-    @NotNull @Size(min = 1, max = 32) private String numLicence;
-    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nom;
-    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String prenom;
-    @NotNull @Min(500) @Max(5000) private int elo;
-    @NotNull private Date dateNaissance;
-    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String club;
-    @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nationalite;
-    @NotNull @Size(min = 1, max = 32) private String sexe;
+    private String numLicence;
+    private String nom;
+    private String prenom;
+    private int elo;
+    private Date dateNaissance;
+    private String club;
+    private String nationalite;
+    private String sexe;
     private Set<Participe> participations = new HashSet<>();
 
     private void setId(int id) { this.id = id; }
@@ -115,13 +114,19 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return "Joueur{" +
-                "numLicence='" + numLicence + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", elo=" + elo +
-                ", dateNaissance=" + dateNaissance +
-                ", nomClub='" + club + '\'' +
-                '}';
+        return "#" + id + " - N°" + numLicence + " - " + nom + " " + prenom + " - Elo: " + elo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return id == joueur.id && elo == joueur.elo && numLicence.equals(joueur.numLicence) && nom.equals(joueur.nom) && prenom.equals(joueur.prenom) && dateNaissance.equals(joueur.dateNaissance) && club.equals(joueur.club) && nationalite.equals(joueur.nationalite) && sexe.equals(joueur.sexe);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numLicence, nom, prenom, elo, dateNaissance, club, nationalite, sexe);
     }
 }

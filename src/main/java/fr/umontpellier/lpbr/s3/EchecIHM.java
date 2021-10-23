@@ -3,15 +3,18 @@ package fr.umontpellier.lpbr.s3;
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.View;
 import fr.umontpellier.lpbr.s3.views.ourviews.MyHome;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyTournoi;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EchecIHM extends Application {
     private Stage primaryStage;
-    private Home homeView;
+    private Tournoi selectedTournoi;
+    private Joueur selectedJoueur;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,7 +27,23 @@ public class EchecIHM extends Application {
         primaryStage.setTitle("Echec !");
         View.getView()
                 .setIhm(this)
-                .setScene(MyHome.class);
+                .setScene(MyTournoi.class);
+    }
+
+    public Tournoi getSelectedTournoi() {
+        return selectedTournoi;
+    }
+
+    public void setSelectedTournoi(Tournoi selectedTournoi) {
+        this.selectedTournoi = selectedTournoi;
+    }
+
+    public Joueur getSelectedJoueur() {
+        return selectedJoueur;
+    }
+
+    public void setSelectedJoueur(Joueur selectedJoueur) {
+        this.selectedJoueur = selectedJoueur;
     }
 
     public void testDB() {

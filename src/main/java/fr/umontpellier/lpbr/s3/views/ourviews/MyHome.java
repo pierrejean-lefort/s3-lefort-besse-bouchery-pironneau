@@ -32,33 +32,18 @@ import java.util.Set;
 
 public class MyHome extends Home {
     public static String fxmlPath = "/fxml/homeView.fxml";
-    @FXML private Button creerJoueur;
+    @FXML private Button retour;
     @FXML private Button nbRoundPlus;
     @FXML private Button nbRoundMoins;
     @FXML private Button commencer;
-    @FXML private Label text;
     @FXML private Label compteur;
     @FXML private ComboBox methode;
     @FXML private TextField nomTournoi;
-    @FXML private ListView listeParticipant;
     private int compt;
-
-
 
     public MyHome() {
 
     }
-
-    private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            try {
-                View.getView().setScene(MyCreation.class); // Comment changer de scene
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     private EventHandler<ActionEvent>  nbRoundMoinsAtion = new EventHandler<ActionEvent>() {
         @Override
@@ -99,22 +84,13 @@ public class MyHome extends Home {
 
 
             //enregistrement dans la bd
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            Validator validator = factory.getValidator();
-            Validator v = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
-
-
-
-            Set<ConstraintViolation<Tournoi>> violations = v.validate(nvTournoi);
-            for (ConstraintViolation<Tournoi> violation : violations) {
-                System.out.println(violation.getMessage());
-            }
             Session ses = HibernateUtil.getSessionFactory().openSession();
-           ses.beginTransaction();
+            ses.beginTransaction();
             ses.save(nvTournoi);
             ses.getTransaction().commit();
             try {
-                View.getView().setScene(MyHome.class);
+                View.getIhm().setSelectedTournoi(nvTournoi);
+                View.getView().setScene(MyTournoiInfo.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -123,12 +99,23 @@ public class MyHome extends Home {
 
     };
 
+    private EventHandler<ActionEvent>  retourAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getView().setScene(MyTournoi.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nbRoundPlus.setOnAction(nbRoundPlusAction);
         nbRoundMoins.setOnAction(nbRoundMoinsAtion);
-        creerJoueur.setOnAction(creerJoueurAction);
         commencer.setOnAction(commencerAction);
+        retour.setOnAction(retourAction);
         System.out.println("Initialized");
         methode.getItems().addAll("performance élo","","");
 

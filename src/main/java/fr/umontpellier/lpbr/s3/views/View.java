@@ -30,12 +30,16 @@ public class View {
         return this;
     }
 
-    public View setScene(Class view) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+    public static EchecIHM getIhm() {
+        return ihm;
+    }
+
+    public View setScene(Class view, boolean forceReaload) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
         if (ihm == null) return this;
 
         String fxmlPath = (String) view.getDeclaredField("fxmlPath").get(null);
         Scene scene = scenes.get(fxmlPath);
-        if (scene != null) {
+        if (scene != null && !forceReaload) {
             Stage stage = ihm.getPrimaryStage();
             stage.setScene(scene);
             System.out.println("Stage switched to " + view);
@@ -63,5 +67,9 @@ public class View {
         }
 
         return this;
+    }
+
+    public View setScene(Class view) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+        return setScene(view, false);
     }
 }

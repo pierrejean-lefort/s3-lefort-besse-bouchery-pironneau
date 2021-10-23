@@ -71,12 +71,6 @@ public class Tournoi {
 
     @Override
     public String toString() {
-        return "Tournoi{" +
-                "id=" + id +
-                ", nbRound=" + nbRound +
-                ", nom='" + nom + '\'' +
-                ", methode='" + methode + '\'' +
-                ", joueurs='" + getParitipation() + '\'' +
-                '}';
+        return "#" + id + " - " + nom + " - " + getParitipation().size() + " joueurs";
     }
 }
