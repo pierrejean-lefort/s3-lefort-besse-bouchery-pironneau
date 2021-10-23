@@ -22,14 +22,19 @@ import java.util.ResourceBundle;
 public class MyHome extends Home {
     @FXML private Pane root;
 
+    @FXML private Button nbRoundPlus;
+    @FXML private Button nbRoundMoins;
     @FXML private Button creerJoueur;
     @FXML private Label text;
+    @FXML private Label compteur;
+    private int compt;
 
     private EchecIHM ihm;
 
     public MyHome(EchecIHM echecIHM) {
         super();
         ihm = echecIHM;
+        compt = 0;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/homeView.fxml"));
 
@@ -45,6 +50,8 @@ public class MyHome extends Home {
             stage.show();
 
             creerJoueur.setOnAction(creerJoueurAction);
+            nbRoundPlus.setOnAction(nbRoundPlusAction);
+            nbRoundMoins.setOnAction(nbRoundMoinsAtion);
 
             System.out.println("Initiated");
         } catch (IOException exception) {
@@ -57,6 +64,24 @@ public class MyHome extends Home {
         public void handle(ActionEvent actionEvent) {
             System.out.println("Hello");
             text.setText("Ton père");
+        }
+    };
+
+    private EventHandler<ActionEvent>  nbRoundPlusAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            compt ++;
+            compteur.setText(""+compt+"");
+        }
+    };
+
+    private EventHandler<ActionEvent>  nbRoundMoinsAtion = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if (compt != 0){
+                compt --;
+                compteur.setText(""+compt+"");
+            }
         }
     };
 
