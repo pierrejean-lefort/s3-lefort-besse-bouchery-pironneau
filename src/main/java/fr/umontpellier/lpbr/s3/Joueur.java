@@ -5,6 +5,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "joueurs")
 public class Joueur {
@@ -17,6 +19,7 @@ public class Joueur {
     @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String club;
     @NotNull @Size(min = 1, max = 32) @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$") private String nationalite;
     @NotNull @Size(min = 1, max = 32) private String sexe;
+    private Set<Participe> participations = new HashSet<>();
 
     private void setId(int id) { this.id = id; }
 
@@ -99,6 +102,15 @@ public class Joueur {
     @Column(name = "numLicence")
     public String getNumLicence() {
         return numLicence;
+    }
+
+    @OneToMany(mappedBy="joueur")
+    public Set<Participe> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Set<Participe> participations) {
+        this.participations = participations;
     }
 
     @Override

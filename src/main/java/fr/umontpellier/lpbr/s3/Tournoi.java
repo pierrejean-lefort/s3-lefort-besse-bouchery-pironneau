@@ -1,6 +1,9 @@
 package fr.umontpellier.lpbr.s3;
 
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "tournois")
 public class Tournoi {
@@ -8,6 +11,7 @@ public class Tournoi {
     private int nbRound;
     private String nom;
     private String methode;
+    private Set<Participe> paritipation = new HashSet<>();
 
     public Tournoi() {
     }
@@ -56,6 +60,15 @@ public class Tournoi {
         this.methode = methode;
     }
 
+    @OneToMany(mappedBy="tournoi")
+    public Set<Participe> getParitipation() {
+        return paritipation;
+    }
+
+    public void setParitipation(Set<Participe> paritipation) {
+        this.paritipation = paritipation;
+    }
+
     @Override
     public String toString() {
         return "Tournoi{" +
@@ -63,6 +76,7 @@ public class Tournoi {
                 ", nbRound=" + nbRound +
                 ", nom='" + nom + '\'' +
                 ", methode='" + methode + '\'' +
+                ", joueurs='" + getParitipation() + '\'' +
                 '}';
     }
 }

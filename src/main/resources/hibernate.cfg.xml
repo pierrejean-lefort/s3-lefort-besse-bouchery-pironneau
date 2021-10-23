@@ -23,5 +23,6 @@
         <!-- Names the annotated entity class -->
         <mapping class="fr.umontpellier.lpbr.s3.Joueur"/>
         <mapping class="fr.umontpellier.lpbr.s3.Tournoi"/>
+        <mapping class="fr.umontpellier.lpbr.s3.Participe"/>
     </session-factory>
 </hibernate-configuration>
