@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.hibernate.Session;
+import org.hibernate.tool.schema.Action;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -27,6 +28,7 @@ import java.util.*;
 public class MyJoueurSearch extends JoueurSearch {
     public static String fxmlPath = "/fxml/joueurSearch.fxml";
     @FXML private Button retour;
+    @FXML private Button newJoueur;
     @FXML private ListView<Joueur> list;
     @FXML private Button selectionner;
     @FXML private TextField search;
@@ -83,6 +85,17 @@ public class MyJoueurSearch extends JoueurSearch {
         }
     };
 
+    private EventHandler<ActionEvent> newJoueurAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getView().setScene(MyCreation.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     private ChangeListener<String> searchListener = new ChangeListener<String>() {
         @Override
         public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -115,6 +128,7 @@ public class MyJoueurSearch extends JoueurSearch {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retour.setOnAction(retourAction);
         selectionner.setOnAction(selectionnerAction);
+        newJoueur.setOnAction(newJoueurAction);
         search.textProperty().addListener(searchListener);
 
         Session sess = HibernateUtil.getSessionFactory().openSession();

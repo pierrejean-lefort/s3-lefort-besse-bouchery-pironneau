@@ -10,11 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.hibernate.Session;
 import org.hibernate.validator.HibernateValidator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -137,15 +139,15 @@ public class MyCreation extends Creation {
 //                System.out.println(violation.getMessage());
 //            }
 
-//            Session ses = HibernateUtil.getSessionFactory().openSession();
-//            ses.beginTransaction();
-//            ses.save(joueur);
-//            ses.getTransaction().commit();
-//            try {
-//                View.getView().setScene(MyHome.class);
-//            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
+            Session ses = HibernateUtil.getSessionFactory().openSession();
+            ses.beginTransaction();
+            ses.save(joueur);
+            ses.getTransaction().commit();
+            try {
+                View.getView().setScene(MyJoueurSearch.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     };
 
