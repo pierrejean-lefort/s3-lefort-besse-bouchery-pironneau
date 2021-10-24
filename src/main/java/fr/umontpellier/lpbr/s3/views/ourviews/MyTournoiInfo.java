@@ -153,6 +153,7 @@ public class MyTournoiInfo extends TounoiInfo {
             joueurs.add(p.getJoueur());
             list.getItems().add(p.getJoueur());
         }
+
         list.getSelectionModel().selectedItemProperty().addListener(joueurChangeListener);
 
     }
