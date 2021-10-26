@@ -24,7 +24,7 @@ public class Joueur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int getId() { return this.id; }
+    public int getId() { return this.id; }
 
     public void setNumLicence(String numLicence) {
         this.numLicence = numLicence;

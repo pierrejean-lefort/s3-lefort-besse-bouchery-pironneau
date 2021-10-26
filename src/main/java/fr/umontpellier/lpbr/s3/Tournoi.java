@@ -11,7 +11,7 @@ public class Tournoi {
     private int nbRound;
     private String nom;
     private String methode;
-    private Set<Participe> paritipation = new HashSet<>();
+    private Set<Participe> participation = new HashSet<>();
 
     public Tournoi() {
     }
@@ -61,16 +61,16 @@ public class Tournoi {
     }
 
     @OneToMany(mappedBy="tournoi")
-    public Set<Participe> getParitipation() {
-        return paritipation;
+    public Set<Participe> getParticipation() {
+        return participation;
     }
 
-    public void setParitipation(Set<Participe> paritipation) {
-        this.paritipation = paritipation;
+    public void setParticipation(Set<Participe> participation) {
+        this.participation = participation;
     }
 
     @Override
     public String toString() {
-        return "#" + id + " - " + nom + " - " + getParitipation().size() + " joueurs";
+        return "#" + id + " - " + nom + " - " + getParticipation().size() + " joueurs";
     }
 }

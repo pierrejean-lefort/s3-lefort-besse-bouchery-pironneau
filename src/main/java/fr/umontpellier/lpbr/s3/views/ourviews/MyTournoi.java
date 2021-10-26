@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 public class MyTournoi extends Tournois {
     public static String fxmlPath = "/fxml/tournoiView.fxml";
     private ObservableList tournois;
+    private Session sess;
     @FXML private ListView<Tournoi> listTournoi;
     @FXML private Button selectTournoi;
     @FXML private Button creerTournoi;
@@ -32,6 +33,7 @@ public class MyTournoi extends Tournois {
     private EventHandler<ActionEvent> creerTournoiHandler = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            HibernateUtil.closeSession(sess);
             try {
                 View.getView().setScene(MyHome.class);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
@@ -43,6 +45,7 @@ public class MyTournoi extends Tournois {
     private EventHandler<ActionEvent> selectTournoiHandler = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            HibernateUtil.closeSession(sess);
             try {
                 View.getView().setScene(MyTournoiInfo.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
@@ -65,10 +68,9 @@ public class MyTournoi extends Tournois {
         creerTournoi.setOnAction(creerTournoiHandler);
         selectTournoi.setOnAction(selectTournoiHandler);
 
-        Session sess = HibernateUtil.getSessionFactory().openSession();
+        sess = HibernateUtil.getSessionFactory().openSession();
         sess.beginTransaction();
         tournois = FXCollections.observableArrayList(sess.createQuery("from tournois").list());
-        sess.getTransaction().commit();
 
         for(Object t : tournois) {
             listTournoi.getItems().add((Tournoi) t);

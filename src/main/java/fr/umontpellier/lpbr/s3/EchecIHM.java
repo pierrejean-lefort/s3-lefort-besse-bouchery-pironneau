@@ -63,6 +63,7 @@ public class EchecIHM extends Application {
         }
 
         sess.getTransaction().commit();
+        sess.close();
     }
 
     @Override

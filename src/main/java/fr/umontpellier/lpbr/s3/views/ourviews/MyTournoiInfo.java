@@ -80,7 +80,7 @@ public class MyTournoiInfo extends TounoiInfo {
         @Override
         public void handle(ActionEvent actionEvent) {
             if (selectedJoueur == null) return;
-            Set<Participe> participes = tournoi.getParitipation();
+            Set<Participe> participes = tournoi.getParticipation();
             Participe pp = null;
             for(Participe p : participes) {
                 if (p.getJoueur() == selectedJoueur) {
@@ -91,7 +91,7 @@ public class MyTournoiInfo extends TounoiInfo {
             if (pp == null) return;
 
             participes.remove(selectedJoueur);
-            View.getIhm().getSelectedTournoi().setParitipation(participes);
+            View.getIhm().getSelectedTournoi().setParticipation(participes);
             joueurs.removeAll(selectedJoueur);
             list.getItems().remove(selectedJoueur);
             selectedJoueur = null;
@@ -102,10 +102,10 @@ public class MyTournoiInfo extends TounoiInfo {
         @Override
         public void handle(ActionEvent actionEvent) {
             Session sess = HibernateUtil.openSession();
-            for (Participe p : tournoi.getParitipation()) {
+            for (Participe p : tournoi.getParticipation()) {
                 sess.delete(p);
             }
-            tournoi.setParitipation(new HashSet<>());
+            tournoi.setParticipation(new HashSet<>());
             sess.delete(tournoi);
             HibernateUtil.closeSession(sess);
 
@@ -149,7 +149,7 @@ public class MyTournoiInfo extends TounoiInfo {
         delete.setOnAction(deleteAction);
 
         joueurs = FXCollections.observableArrayList();
-        for (Participe p : tournoi.getParitipation()) {
+        for (Participe p : tournoi.getParticipation()) {
             joueurs.add(p.getJoueur());
             list.getItems().add(p.getJoueur());
         }

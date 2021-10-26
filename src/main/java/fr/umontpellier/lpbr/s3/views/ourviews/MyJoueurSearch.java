@@ -7,7 +7,6 @@ import fr.umontpellier.lpbr.s3.Tournoi;
 import fr.umontpellier.lpbr.s3.views.JoueurSearch;
 import fr.umontpellier.lpbr.s3.views.View;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.hibernate.Session;
-import org.hibernate.tool.schema.Action;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -29,6 +27,7 @@ public class MyJoueurSearch extends JoueurSearch {
     public static String fxmlPath = "/fxml/joueurSearch.fxml";
     @FXML private Button retour;
     @FXML private Button newJoueur;
+    @FXML private Button updateJoueur;
     @FXML private ListView<Joueur> list;
     @FXML private Button selectionner;
     @FXML private TextField search;
@@ -55,7 +54,7 @@ public class MyJoueurSearch extends JoueurSearch {
         public void handle(ActionEvent actionEvent) {
             Tournoi t = View.getIhm().getSelectedTournoi();
             Joueur j = View.getIhm().getSelectedJoueur();
-            for (Participe p : t.getParitipation()) {
+            for (Participe p : t.getParticipation()) {
                 System.out.println("J: " + j);
                 System.out.println("P: " + p.getJoueur());
                 System.out.println("-----");
@@ -72,9 +71,9 @@ public class MyJoueurSearch extends JoueurSearch {
 
             HibernateUtil.save(p);// add in databse
 
-            Set<Participe> pa = t.getParitipation(); // add in class because no refresh
+            Set<Participe> pa = t.getParticipation(); // add in class because no refresh
             pa.add(p);
-            t.setParitipation(pa);
+            t.setParticipation(pa);
 
             System.out.println("Joueur ajouté !");
             try {
@@ -90,6 +89,18 @@ public class MyJoueurSearch extends JoueurSearch {
         public void handle(ActionEvent actionEvent) {
             try {
                 View.getView().setScene(MyCreation.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private EventHandler<ActionEvent> updateJoueurAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if (View.getIhm().getSelectedJoueur() == null) return;
+            try {
+                View.getView().setScene(MyModification.class);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -120,6 +131,7 @@ public class MyJoueurSearch extends JoueurSearch {
     private ChangeListener<Joueur> joueurChangeListener = new ChangeListener<Joueur>() {
         @Override
         public void changed(ObservableValue<? extends Joueur> observableValue, Joueur joueur, Joueur t1) {
+            updateJoueur.setDisable(false);
             View.getIhm().setSelectedJoueur(t1);
         }
     };
@@ -129,12 +141,12 @@ public class MyJoueurSearch extends JoueurSearch {
         retour.setOnAction(retourAction);
         selectionner.setOnAction(selectionnerAction);
         newJoueur.setOnAction(newJoueurAction);
+        updateJoueur.setOnAction(updateJoueurAction);
         search.textProperty().addListener(searchListener);
 
-        Session sess = HibernateUtil.getSessionFactory().openSession();
-        sess.beginTransaction();
+        Session sess = HibernateUtil.openSession();
         allJoueurs = sess.createQuery("from joueurs").list();
-        sess.getTransaction().commit();
+        HibernateUtil.closeSession(sess);
 
         joueurs = FXCollections.observableArrayList();
 
