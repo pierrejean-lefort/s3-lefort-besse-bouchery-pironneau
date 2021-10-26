@@ -119,7 +119,7 @@ public class MyCreation extends Creation {
 
             DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir");
             DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", "32");
-            DataValidation.textAlphabet(numLicenceText, numLicenceErr, "Des lettres ?");
+            DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?");
 
             DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir");
             DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", "32");
