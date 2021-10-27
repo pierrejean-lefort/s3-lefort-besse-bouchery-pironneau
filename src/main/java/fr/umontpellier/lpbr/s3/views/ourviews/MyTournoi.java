@@ -33,7 +33,7 @@ public class MyTournoi extends Tournois {
     private EventHandler<ActionEvent> creerTournoiHandler = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            HibernateUtil.closeSession(sess);
+            if(sess.isOpen())HibernateUtil.closeSession(sess);
             try {
                 View.getView().setScene(MyHome.class);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
@@ -45,7 +45,7 @@ public class MyTournoi extends Tournois {
     private EventHandler<ActionEvent> selectTournoiHandler = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            HibernateUtil.closeSession(sess);
+            if(sess.isOpen())HibernateUtil.closeSession(sess);
             try {
                 View.getView().setScene(MyTournoiInfo.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
