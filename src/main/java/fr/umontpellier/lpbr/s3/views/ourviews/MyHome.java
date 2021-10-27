@@ -68,33 +68,34 @@ public class MyHome extends Home {
     private EventHandler<ActionEvent> commencerAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            //récupération des variables
-            String nomTournoiSaisi = nomTournoi.getText();
-            String methodeSaisi = (String)methode.getValue();
+            //TODO messages d'erreur.
+            if(compt<=0||
+                    nomTournoi.getText().isEmpty()||
+                    !methode.getValue().toString().equals("performance élo")){
+                System.out.println("ERROR: Work-In-Progress\nLa gestion des erreurs n'a pas été implémentée à cette partie pour le moment.\n\nVeillez a respecter la typographie des arguments passés à la vue CréationTournoi\n");
+            }else {
+
+                //récupération des variables
+                String nomTournoiSaisi = nomTournoi.getText();
+                String methodeSaisi = (String) methode.getValue();
 
 
-            //création du tournoi
-            Tournoi nvTournoi = new Tournoi();
-            nvTournoi.setNom(nomTournoiSaisi);
-            nvTournoi.setMethode(methodeSaisi);
-            nvTournoi.setNbRound(compt);
+                //création du tournoi
+                Tournoi nvTournoi = new Tournoi();
+                nvTournoi.setNom(nomTournoiSaisi);
+                nvTournoi.setMethode(methodeSaisi);
+                nvTournoi.setNbRound(compt);
 
-            //message d'erreur
+                //enregistrement dans la bd
+                HibernateUtil.save(nvTournoi);
 
-
-
-            //enregistrement dans la bd
-            Session ses = HibernateUtil.getSessionFactory().openSession();
-            ses.beginTransaction();
-            ses.save(nvTournoi);
-            ses.getTransaction().commit();
-            try {
-                View.getIhm().setSelectedTournoi(nvTournoi);
-                View.getView().setScene(MyTournoiInfo.class, true);
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
+                try {
+                    View.getIhm().setSelectedTournoi(nvTournoi);
+                    View.getView().setScene(MyTournoiInfo.class, true);
+                } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
 
     };
