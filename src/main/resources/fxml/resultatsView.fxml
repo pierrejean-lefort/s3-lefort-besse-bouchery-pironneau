@@ -18,12 +18,12 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Prec.">
+            <Button fx:id="prec" mnemonicParsing="false" text="Prec.">
                <HBox.margin>
                   <Insets left="50.0" right="50.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Suiv.">
+            <Button fx:id="suiv" mnemonicParsing="false" text="Suiv.">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>

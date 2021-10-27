@@ -37,6 +37,12 @@ public class MyResultat extends Resultat {
     @FXML
     private Button rdsuiv;
 
+    @FXML
+    private Button suiv;
+
+    @FXML
+    private Button prec;
+
     private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
@@ -67,6 +73,11 @@ public class MyResultat extends Resultat {
         }
 
         retour.setOnAction(retourAction);
+
+        imprimer.setDisable(true);
+        rdsuiv.setDisable(true);
+        suiv.setDisable(true);
+        prec.setDisable(true);
 
 
     }
