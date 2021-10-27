@@ -110,66 +110,88 @@ public class MyModification extends Creation {
             Date date = Date.from(instant);
 
 
+            //@TODO trouver un moyen pour que le code ci-dessous ne soit pas aussi dégueulasse.
 
             DataValidation.textFieldIsNull(nomText, nomErr, "A remplir");
-            DataValidation.dataLength(nomText, nomErr, "Trop long", "32");
+            DataValidation.dataLength(nomText, nomErr, "Trop long", 32);
             DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
 
             DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir");
-            DataValidation.dataLength(prenomText, prenomErr, "Trop long", "32");
+            DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32);
             DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?");
 
             DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir");
-            DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", "32");
-            DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des lettres ?");
+            DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32);
+            DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?");
 
             DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir");
-            DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", "32");
+            DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32);
             DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?");
 
             DataValidation.textFieldIsNull(eloText, eloErr, "A remplir");
-            DataValidation.dataLength(eloText, eloErr, "Trop long", "32");
-            DataValidation.textNumeric(eloText, eloErr, "Des chiffres?");
+            DataValidation.dataLength(eloText, eloErr, "Trop long", 32);
+            DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?");
 
+            if(
+                !DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")||
+                !DataValidation.dataLength(nomText, nomErr, "Trop long", 32)||
+                !DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?")||
 
+                !DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir")||
+                !DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32)||
+                !DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?")||
 
+                !DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir")||
+                !DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32)||
+                !DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des Chiffres ?")||
 
-            Joueur joueur = View.getIhm().getSelectedJoueur();
-            joueur.setNumLicence(numLicenceSaisi);
-            joueur.setNom(nomSaisi);
-            joueur.setPrenom(prenomSaisi);
-            joueur.setElo(Objects.equals(eloSaisi, "") ? -1 : Integer.parseInt(eloSaisi));
-            joueur.setClub(nomClubSaisi);
-            joueur.setDateNaissance(date);
-            joueur.setSexe(sexeSaisi);
-            joueur.setNationalite("fr");
+                !DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir")||
+                !DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32)||
+                !DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?")||
 
-//            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//            Validator validator = factory.getValidator();
-//            Validator v = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
-//
-//            Set<ConstraintViolation<Joueur>> violations = v.validate(joueur);
-//            for (ConstraintViolation<Joueur> violation : violations) {
-//                System.out.println(violation.getMessage());
-//            }
+                !DataValidation.textFieldIsNull(eloText, eloErr, "A remplir")||
+                !DataValidation.dataLength(eloText, eloErr, "Trop long", 32)||
+                !DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?")){
+                System.out.println("je suis bloké");
+            }else {
 
-            Session sess = HibernateUtil.openSession();
-            Query query = sess.createQuery(" UPDATE joueurs SET club = :club, dateNaissance = :dateNaissance,elo= :elo ,nationalite= :nationalite ,nom= :nom ,numLicence= :numLicence ,prenom= :prenom ,sexe= :sexe " + " WHERE id= :id");
-            query.setParameter("id", joueur.getId());
-            query.setParameter("club",joueur.getClub());
-            query.setParameter("dateNaissance",joueur.getDateNaissance());
-            query.setParameter("elo",joueur.getElo());
-            query.setParameter("nationalite",joueur.getNationalite());
-            query.setParameter("nom",joueur.getNom());
-            query.setParameter("numLicence",joueur.getNumLicence());
-            query.setParameter("prenom",joueur.getPrenom());
-            query.setParameter("sexe",joueur.getSexe());
-            query.executeUpdate();
-            HibernateUtil.closeSession(sess);
-            try {
-                View.getView().setScene(MyJoueurSearch.class, true);
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
+                Joueur joueur = View.getIhm().getSelectedJoueur();
+                joueur.setNumLicence(numLicenceSaisi);
+                joueur.setNom(nomSaisi);
+                joueur.setPrenom(prenomSaisi);
+                joueur.setElo(Objects.equals(eloSaisi, "") ? -1 : Integer.parseInt(eloSaisi));
+                joueur.setClub(nomClubSaisi);
+                joueur.setDateNaissance(date);
+                joueur.setSexe(sexeSaisi);
+                joueur.setNationalite("fr");
+
+                //            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+                //            Validator validator = factory.getValidator();
+                //            Validator v = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
+                //
+                //            Set<ConstraintViolation<Joueur>> violations = v.validate(joueur);
+                //            for (ConstraintViolation<Joueur> violation : violations) {
+                //                System.out.println(violation.getMessage());
+                //            }
+
+                Session sess = HibernateUtil.openSession();
+                Query query = sess.createQuery(" UPDATE joueurs SET club = :club, dateNaissance = :dateNaissance,elo= :elo ,nationalite= :nationalite ,nom= :nom ,numLicence= :numLicence ,prenom= :prenom ,sexe= :sexe " + " WHERE id= :id");
+                query.setParameter("id", joueur.getId());
+                query.setParameter("club", joueur.getClub());
+                query.setParameter("dateNaissance", joueur.getDateNaissance());
+                query.setParameter("elo", joueur.getElo());
+                query.setParameter("nationalite", joueur.getNationalite());
+                query.setParameter("nom", joueur.getNom());
+                query.setParameter("numLicence", joueur.getNumLicence());
+                query.setParameter("prenom", joueur.getPrenom());
+                query.setParameter("sexe", joueur.getSexe());
+                query.executeUpdate();
+                HibernateUtil.closeSession(sess);
+                try {
+                    View.getView().setScene(MyJoueurSearch.class, true);
+                } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
