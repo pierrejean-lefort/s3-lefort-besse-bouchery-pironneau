@@ -112,25 +112,31 @@ public class MyModification extends Creation {
 
             //@TODO trouver un moyen pour que le code ci-dessous ne soit pas aussi dégueulasse.
 
-            DataValidation.textFieldIsNull(nomText, nomErr, "A remplir");
-            DataValidation.dataLength(nomText, nomErr, "Trop long", 32);
-            DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
-
-            DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir");
-            DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32);
-            DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?");
-
-            DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir");
-            DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32);
-            DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?");
-
-            DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir");
-            DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32);
-            DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?");
-
-            DataValidation.textFieldIsNull(eloText, eloErr, "A remplir");
-            DataValidation.dataLength(eloText, eloErr, "Trop long", 32);
-            DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?");
+            if(DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")){
+                if (DataValidation.dataLength(nomText, nomErr, "Trop long", 32)){
+                    DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
+                }
+            }
+            if(DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir")){
+                if(DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32)){
+                    DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?");
+                }
+            }
+            if(DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir")){
+                if(DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32)){
+                    DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?");
+                }
+            }
+            if(DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir")){
+                if(DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32)){
+                    DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?");
+                }
+            }
+            if(DataValidation.textFieldIsNull(eloText, eloErr, "A remplir")){
+                if(DataValidation.dataLength(eloText, eloErr, "Trop long", 32)){
+                    DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?");
+                }
+            }
 
             if(
                 !DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")||

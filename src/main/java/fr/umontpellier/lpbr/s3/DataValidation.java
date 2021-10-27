@@ -21,13 +21,12 @@ public class DataValidation {
         return isNull;
     }
     /** @return true if nothing is wrong*/
-    public static boolean dataLength(TextField inputTextField, Label inputLabel, String validationText) {
+    public static boolean dataLength(TextField inputTextField, Label inputLabel, String validationText, int requiredLength) {
         boolean isDataLength = true;
         String validationString = null;
 
-        if (inputTextField.getText().length()>32) {
+        if (inputTextField.getText().length()>requiredLength) {
             isDataLength = false;
-            System.out.println(isDataLength);
             validationString = validationText;
         }
         inputLabel.setText(validationString);
@@ -75,7 +74,7 @@ public class DataValidation {
         inputLabel.setText(validationText);
         return exists;
     }
-
+    /*
     public static boolean dataValidatorText(TextField inputTextField, Label inPutLabel) {
         boolean test1 = true;
         boolean test2 = true;
@@ -103,5 +102,5 @@ public class DataValidation {
         }
         return (test1&&test2&&test3);
     }
-
+    */
 }
