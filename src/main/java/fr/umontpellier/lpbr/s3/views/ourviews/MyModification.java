@@ -33,6 +33,9 @@ public class MyModification extends Creation {
     public static String fxmlPath = "/fxml/modificationJoueurView.fxml";
 
     @FXML
+    private Button retour;
+
+    @FXML
     private Button modifierJoueur;
 
     @FXML
@@ -81,6 +84,17 @@ public class MyModification extends Creation {
 
 
     public MyModification() {}
+
+    private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getView().setScene(MyJoueurSearch.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     private EventHandler<ActionEvent> modifierJoueurAction = new EventHandler<ActionEvent>() {
         @Override
@@ -162,6 +176,7 @@ public class MyModification extends Creation {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Joueur joueur = View.getIhm().getSelectedJoueur();
+        retour.setOnAction(retourAction);
         modifierJoueur.setOnAction(modifierJoueurAction);
         sexeText.getItems().addAll("Homme", "Femme");
         nomText.setText(joueur.getNom());

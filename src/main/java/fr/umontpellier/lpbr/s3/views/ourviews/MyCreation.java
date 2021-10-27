@@ -5,6 +5,7 @@ import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Joueur;
 import fr.umontpellier.lpbr.s3.views.Creation;
+import fr.umontpellier.lpbr.s3.views.JoueurSearch;
 import fr.umontpellier.lpbr.s3.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,6 +30,9 @@ import java.util.Set;
 public class MyCreation extends Creation {
 
     public static String fxmlPath = "/fxml/creationJoueurView.fxml";
+
+    @FXML
+    private Button retour;
 
     @FXML
     private Button ajouterJoueur;
@@ -82,6 +86,17 @@ public class MyCreation extends Creation {
 
 
     public MyCreation() {}
+
+    private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getView().setScene(MyJoueurSearch.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
         @Override
@@ -153,6 +168,7 @@ public class MyCreation extends Creation {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        retour.setOnAction(retourAction);
         ajouterJoueur.setOnAction(creerJoueurAction);
         sexeText.getItems().addAll("Homme", "Femme");
     }
