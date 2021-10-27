@@ -21,12 +21,13 @@ public class DataValidation {
         return isNull;
     }
     /** @return true if nothing is wrong*/
-    public static boolean dataLength(TextField inputTextField, Label inputLabel, String validationText, int requiredLength) {
+    public static boolean dataLength(TextField inputTextField, Label inputLabel, String validationText) {
         boolean isDataLength = true;
         String validationString = null;
 
-        if (inputTextField.getLength()>requiredLength) {
+        if (inputTextField.getText().length()>32) {
             isDataLength = false;
+            System.out.println(isDataLength);
             validationString = validationText;
         }
         inputLabel.setText(validationString);
@@ -74,4 +75,33 @@ public class DataValidation {
         inputLabel.setText(validationText);
         return exists;
     }
+
+    public static boolean dataValidatorText(TextField inputTextField, Label inPutLabel) {
+        boolean test1 = true;
+        boolean test2 = true;
+        boolean test3 = true;
+        if (inputTextField.getText().isEmpty()) test1 = DataValidation.textFieldIsNull(inputTextField, inPutLabel, "A remplir");
+        else if (inputTextField.getText().length()>1) {
+            test2 = DataValidation.dataLength(inputTextField, inPutLabel, "Trop long");
+        }
+        else {
+            test3 = DataValidation.textAlphabet(inputTextField, inPutLabel, "Des lettres ?");
+        }
+        return (test1&&test2&&test3);
+    }
+
+    public static boolean dataValidatorNum(TextField inputTextField, Label inPutLabel) {
+        boolean test1 = true;
+        boolean test2 = true;
+        boolean test3 = true;
+        if (inputTextField.getText().isEmpty()) test1 = DataValidation.textFieldIsNull(inputTextField, inPutLabel, "A remplir");
+        else if (inputTextField.getText().length()>1) {
+            test2 = DataValidation.dataLength(inputTextField, inPutLabel, "Trop long");
+        }
+        else {
+            test3 = DataValidation.textNumeric(inputTextField, inPutLabel, "Des chiffres ?");
+        }
+        return (test1&&test2&&test3);
+    }
+
 }
