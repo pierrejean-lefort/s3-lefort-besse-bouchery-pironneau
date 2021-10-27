@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3;
 
+import fr.umontpellier.lpbr.s3.views.View;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -51,5 +52,23 @@ public class DataValidation {
         }
         inputLabel.setText(validationString);
         return isNumeric;
+    }
+
+    public static boolean joueurExiste(Joueur j, Tournoi t, Label inputLabel, String validationText){
+        boolean exists = true;
+        String validationString = null;
+
+        for (Participe p : t.getParticipation()) {
+            System.out.println("J: " + j);
+            System.out.println("P: " + p.getJoueur());
+            System.out.println("-----");
+            if (p.getJoueur().equals(j)) {
+                exists = false;
+                validationString = validationText;
+                break;
+            }
+        }
+        inputLabel.setText(validationText);
+        return exists;
     }
 }

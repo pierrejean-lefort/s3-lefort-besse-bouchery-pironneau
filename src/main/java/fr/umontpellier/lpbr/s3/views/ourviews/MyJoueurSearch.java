@@ -1,9 +1,6 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
-import fr.umontpellier.lpbr.s3.HibernateUtil;
-import fr.umontpellier.lpbr.s3.Joueur;
-import fr.umontpellier.lpbr.s3.Participe;
-import fr.umontpellier.lpbr.s3.Tournoi;
+import fr.umontpellier.lpbr.s3.*;
 import fr.umontpellier.lpbr.s3.views.JoueurSearch;
 import fr.umontpellier.lpbr.s3.views.View;
 import javafx.beans.value.ChangeListener;
@@ -64,6 +61,7 @@ public class MyJoueurSearch extends JoueurSearch {
                 }
             }
 
+            DataValidation.joueurExiste(j, t, error,"Ce joueur est déjà dans le tournoi !");
             Participe p = new Participe();
             p.setJoueur(j);
             p.setTournoi(t);

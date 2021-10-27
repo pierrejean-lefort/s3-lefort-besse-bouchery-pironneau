@@ -111,17 +111,6 @@ public class MyModification extends Creation {
 
 
 
-
-            Joueur joueur = View.getIhm().getSelectedJoueur();
-            joueur.setNumLicence(numLicenceSaisi);
-            joueur.setNom(nomSaisi);
-            joueur.setPrenom(prenomSaisi);
-            joueur.setElo(Objects.equals(eloSaisi, "") ? -1 : Integer.parseInt(eloSaisi));
-            joueur.setClub(nomClubSaisi);
-            joueur.setDateNaissance(date);
-            joueur.setSexe(sexeSaisi);
-            joueur.setNationalite("fr");
-
             DataValidation.textFieldIsNull(nomText, nomErr, "A remplir");
             DataValidation.dataLength(nomText, nomErr, "Trop long", "32");
             DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
@@ -142,6 +131,18 @@ public class MyModification extends Creation {
             DataValidation.dataLength(eloText, eloErr, "Trop long", "32");
             DataValidation.textNumeric(eloText, eloErr, "Des chiffres?");
 
+
+
+
+            Joueur joueur = View.getIhm().getSelectedJoueur();
+            joueur.setNumLicence(numLicenceSaisi);
+            joueur.setNom(nomSaisi);
+            joueur.setPrenom(prenomSaisi);
+            joueur.setElo(Objects.equals(eloSaisi, "") ? -1 : Integer.parseInt(eloSaisi));
+            joueur.setClub(nomClubSaisi);
+            joueur.setDateNaissance(date);
+            joueur.setSexe(sexeSaisi);
+            joueur.setNationalite("fr");
 
 //            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 //            Validator validator = factory.getValidator();
