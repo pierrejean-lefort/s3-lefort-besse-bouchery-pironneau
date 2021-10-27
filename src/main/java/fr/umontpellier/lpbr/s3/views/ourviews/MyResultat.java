@@ -50,11 +50,11 @@ public class MyResultat extends Resultat {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        int nbParticipant = getIhm().getSelectedTournoi().getParticipation().size();
+        int nbParticipant = View.getIhm().getSelectedTournoi().getParticipation().size();
 
         float nbLigne = ((float) nbParticipant)/6;
 
-        Participe[] joueurs = getIhm().getSelectedTournoi().getParticipation().toArray(new Participe[nbParticipant]);
+        Participe[] joueurs = View.getIhm().getSelectedTournoi().getParticipation().toArray(new Participe[nbParticipant]);
 
         for (int i = 0; i < Math.max(Math.min(nbLigne, 3), 1); i++) {
             HBox hbox = new HBox();
