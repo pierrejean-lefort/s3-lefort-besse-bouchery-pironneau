@@ -59,8 +59,14 @@ public class EchecIHM extends Application {
             System.out.println(t);
         }
 
-        sess.getTransaction().commit();
-        sess.close();
+        List<Partie> parties = sess.createQuery("from parties").list();
+
+        for (Partie p : parties) {
+            System.out.println(p);
+        }
+
+
+        HibernateUtil.closeSession(sess);
     }
 
     @Override

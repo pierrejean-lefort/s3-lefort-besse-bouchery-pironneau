@@ -24,5 +24,6 @@
         <mapping class="fr.umontpellier.lpbr.s3.Joueur"/>
         <mapping class="fr.umontpellier.lpbr.s3.Tournoi"/>
         <mapping class="fr.umontpellier.lpbr.s3.Participe"/>
+        <mapping class="fr.umontpellier.lpbr.s3.Partie"/>
     </session-factory>
 </hibernate-configuration>
