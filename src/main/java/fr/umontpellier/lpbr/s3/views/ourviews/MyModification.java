@@ -67,6 +67,8 @@ public class MyModification extends Creation {
     @FXML
     private Label eloErr;
 
+    @FXML private Label sexErr;
+
     @FXML
     private Label dateNaissanceErr;
 
@@ -104,6 +106,8 @@ public class MyModification extends Creation {
 
 
             //@TODO trouver un moyen pour que le code ci-dessous ne soit pas aussi dégueulasse.
+
+            if (sexeSaisi == null) sexErr.setText("A remplir.");
 
             if(DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")){
                 if (DataValidation.dataLength(nomText, nomErr, "Trop long", 32)){

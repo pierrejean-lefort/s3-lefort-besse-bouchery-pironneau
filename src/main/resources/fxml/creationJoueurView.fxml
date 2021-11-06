@@ -51,11 +51,6 @@
          </font>
       </Button>
       <DatePicker fx:id="dateNaissanceText" layoutX="338.0" layoutY="213.0" />
-      <Label fx:id="error" alignment="CENTER" layoutX="18.0" layoutY="324.0" prefHeight="17.0" prefWidth="565.0" textFill="RED">
-         <font>
-            <Font name="Arial Black" size="12.0" />
-         </font>
-      </Label>
       <ComboBox fx:id="sexeText" layoutX="226.0" layoutY="273.0" prefWidth="150.0" promptText="Sexe" />
       <Label fx:id="nomErr" alignment="CENTER" layoutX="100.0" layoutY="85.0" prefHeight="25.0" prefWidth="149.0" textFill="RED">
          <font>
@@ -87,5 +82,10 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Button>
+      <Label fx:id="sexErr" alignment="CENTER" layoutX="227.0" layoutY="305.0" prefHeight="25.0" prefWidth="149.0" textFill="RED">
+         <font>
+            <Font name="Arial Black" size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

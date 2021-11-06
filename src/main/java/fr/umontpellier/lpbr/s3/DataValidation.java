@@ -36,7 +36,7 @@ public class DataValidation {
         boolean isAlphabet = true;
         String validationString = null;
 
-        if (!inputTextField.getText().matches("[a-zA-Z]+")) {
+        if (!inputTextField.getText().matches("^([a-zA-Z]{2,}[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}([a-zA-Z]{1,})?)")) {
             isAlphabet = false;
             validationString = validationText;
         }
@@ -74,7 +74,7 @@ public class DataValidation {
         return exists;
     }
     /*
-    public static boolean dataValidatorText(TextField inputTextField, Label inPutLabel) {
+    public static boolean dataVal idatorText(TextField inputTextField, Label inPutLabel) {
         boolean test1 = true;
         boolean test2 = true;
         boolean test3 = true;

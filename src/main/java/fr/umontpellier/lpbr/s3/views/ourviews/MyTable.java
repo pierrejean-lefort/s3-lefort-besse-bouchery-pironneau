@@ -3,6 +3,7 @@ package fr.umontpellier.lpbr.s3.views.ourviews;
 import fr.umontpellier.lpbr.s3.Joueur;
 import fr.umontpellier.lpbr.s3.views.Table;
 import fr.umontpellier.lpbr.s3.views.View;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +14,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MyTable extends Table {
+
+    public Label table = new Label();
+
+    public Label getTable() {
+        return super.getTable();
+    }
+
+
     public MyTable(Joueur jblanc, Joueur jnoir) {
 
         HBox hbox = new HBox();
@@ -21,6 +30,7 @@ public class MyTable extends Table {
         Label lbl = new Label(jnoir.getNom());
         lbl.setStyle("-fx-text-fill: white");
         noir.getChildren().add(lbl);
+
 
         Pane blanc = new Pane();
         Label lbl2 = new Label(jblanc.getNom());

@@ -70,13 +70,16 @@ public class MyCreation extends Creation {
     @FXML
     private Label eloErr;
 
+    @FXML private Label sexErr;
+
     @FXML
     private Label dateNaissanceErr;
 
     @FXML
-    private ComboBox sexeText;
+    private ComboBox<String> sexeText;
 
     @FXML private Label error;
+
 
 
     public MyCreation() {}
@@ -95,6 +98,9 @@ public class MyCreation extends Creation {
     private EventHandler<ActionEvent> creerJoueurAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+
+
+
             String nomSaisi = nomText.getText();
             String prenomSaisi = prenomText.getText();
             String numLicenceSaisi = numLicenceText.getText();
@@ -106,6 +112,8 @@ public class MyCreation extends Creation {
             Date date = Date.from(instant);
 
             //@TODO trouver un moyen pour que le code ci-dessous ne soit pas aussi dégueulasse.
+
+            if (sexeSaisi == null) sexErr.setText("A remplir.");
 
             if(DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")){
                 if (DataValidation.dataLength(nomText, nomErr, "Trop long", 32)){
@@ -191,6 +199,8 @@ public class MyCreation extends Creation {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retour.setOnAction(retourAction);
         ajouterJoueur.setOnAction(creerJoueurAction);
-        sexeText.getItems().addAll("Homme", "Femme");
+        String homme = "Homme";
+        String femme = "Femme";
+        sexeText.getItems().addAll(homme, femme);
     }
 }

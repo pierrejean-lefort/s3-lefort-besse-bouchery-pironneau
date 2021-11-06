@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -58,11 +59,18 @@ public class MyResultat extends Resultat {
 
         Participe[] joueurs = View.getIhm().getSelectedTournoi().getParticipation().toArray(new Participe[nbParticipant]);
 
+        int compteur = 0;
+
         for (int i = 0; i < Math.max(Math.min(nbLigne, 3), 1); i++) {
             HBox hbox = new HBox();
             hbox.setStyle("-fx-border-style: solid inside;");
             for (int j = 0; j < 3; j++) {
+                compteur++;
                 Table m1 = new MyTable(joueurs[0].getJoueur(), joueurs[1].getJoueur());
+                m1.getTable().setText("Table" + compteur);
+                m1.getTable().setTranslateY(10);
+                m1.getChildren().add(m1.getTable());
+
                 hbox.getChildren().add(m1);
             }
             vbox.getChildren().add(hbox);
