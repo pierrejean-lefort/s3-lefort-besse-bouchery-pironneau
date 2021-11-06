@@ -1,6 +1,5 @@
 package fr.umontpellier.lpbr.s3;
 
-import fr.umontpellier.lpbr.s3.views.View;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 /** Les fonctions de cette classe renvoie vrai (true) lorsque tout vas bien

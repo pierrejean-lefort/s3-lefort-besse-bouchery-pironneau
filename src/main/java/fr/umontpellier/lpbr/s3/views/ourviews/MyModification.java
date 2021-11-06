@@ -1,7 +1,6 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.DataValidation;
-import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Joueur;
 import fr.umontpellier.lpbr.s3.views.Creation;
@@ -12,21 +11,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.hibernate.validator.HibernateValidator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.chrono.Chronology;
 import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class MyModification extends Creation {
 

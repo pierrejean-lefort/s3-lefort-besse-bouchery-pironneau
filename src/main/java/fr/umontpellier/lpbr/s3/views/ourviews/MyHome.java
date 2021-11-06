@@ -1,33 +1,17 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
-import fr.umontpellier.lpbr.s3.DataValidation;
-import fr.umontpellier.lpbr.s3.EchecIHM;
 import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Tournoi;
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.View;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.hibernate.Session;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 public class MyHome extends Home {
