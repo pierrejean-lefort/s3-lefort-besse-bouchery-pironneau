@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3;
 
+import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.views.View;
 import fr.umontpellier.lpbr.s3.views.ourviews.MyTournoi;
 import javafx.application.Application;
@@ -22,9 +23,13 @@ public class EchecIHM extends Application {
         this.primaryStage = primaryStage;
 
         primaryStage.setTitle("Echec !");
-        View.getView()
-                .setIhm(this)
-                .setScene(MyTournoi.class);
+        if (false) {
+            View.getView()
+                    .setIhm(this)
+                    .setScene(MyTournoi.class);
+        } else {
+            testDB();
+        }
     }
 
     public Tournoi getSelectedTournoi() {
@@ -46,25 +51,24 @@ public class EchecIHM extends Application {
     public void testDB() {
         Session sess = HibernateUtil.getSessionFactory().openSession();
         sess.beginTransaction();
-
         List<Joueur> joueurs = sess.createQuery("from joueurs").list();
+        List<Tournoi> tournois = sess.createQuery("from tournois").list();
+        List<Partie> parties = sess.createQuery("from parties").list();
 
         for (Joueur j : joueurs) {
             System.out.println(j);
         }
 
-        List<Tournoi> tournois = sess.createQuery("from tournois").list();
-
         for (Tournoi t : tournois) {
+            System.out.println("Tournoi au round #" + t.gotCurrentRound());
+//            (new Suisse(t)).orderByElo();
             System.out.println(t);
+            System.out.println(t.gotRepartition());
         }
-
-        List<Partie> parties = sess.createQuery("from parties").list();
 
         for (Partie p : parties) {
             System.out.println(p);
         }
-
 
         HibernateUtil.closeSession(sess);
     }

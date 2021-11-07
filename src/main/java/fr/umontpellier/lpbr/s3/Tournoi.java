@@ -1,6 +1,10 @@
 package fr.umontpellier.lpbr.s3;
 
 
+import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
+import fr.umontpellier.lpbr.s3.SystemTournoi.SystemTournoi;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +16,7 @@ public class Tournoi {
     private int nbRound;
     private String nom;
     private String methode;
+    private int status;
     private Set<Participe> participation = new HashSet<>();
     private Set<Partie> parties = new HashSet<>();
 
@@ -85,9 +90,43 @@ public class Tournoi {
         return "#" + id + " - " + nom + " - " + getParticipation().size() + " joueurs";
     }
 
-//    public int getCurrentRound() {
-//
-//    }
-//
-//    public List<Joueur> getRepartition()
+    @Column(name="status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int gotCurrentRound() {
+        Session sess = HibernateUtil.openSession();
+        Object p = sess.createQuery("SELECT MAX(numRonde) FROM parties WHERE tournoi = :id")
+            .setParameter("id", this)
+                .getSingleResult();
+        HibernateUtil.closeSession(sess);
+
+        if (p == null) p = 0;
+
+        return (int) p;
+    }
+
+    public List<Partie> gotRepartition() {
+        if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null;
+
+        int newRound = gotCurrentRound() + 1;
+
+        SystemTournoi sys = new Suisse(this);
+        return newRound == 1 ? sys.firstRound() : sys.newRound(newRound);
+    }
+
+    public Tournoi clone() {
+        Tournoi t = new Tournoi();
+        t.setId(id);
+        t.setStatus(status);
+        t.setNom(nom);
+        t.setMethode(methode);
+        t.setNbRound(nbRound);
+        return t;
+    }
 }

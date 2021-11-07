@@ -1,4 +1,5 @@
 package fr.umontpellier.lpbr.s3;
+import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.*;
 import org.hibernate.cfg.*;
 
@@ -49,6 +50,17 @@ public class HibernateUtil {
     public static void shutdown() {
         if (sessionFactory == null) return;
         sessionFactory.close();
+    }
+
+    public static Object prepareToSave(Object o) {
+        if (o.getClass() == Tournoi.class) {
+            Tournoi t = ((Tournoi) o).clone();
+            t.setParticipation(null);
+            t.setParties(null);
+            return t;
+        }
+
+        return o;
     }
 
 }

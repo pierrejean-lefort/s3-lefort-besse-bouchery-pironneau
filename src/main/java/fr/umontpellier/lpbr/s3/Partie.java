@@ -1,5 +1,7 @@
 package fr.umontpellier.lpbr.s3;
 
+import org.hibernate.Session;
+
 import javax.persistence.*;
 
 @Entity(name = "parties")
@@ -45,7 +47,7 @@ public class Partie {
         this.numRonde = numRonde;
     }
 
-    @Column(name="resultat")
+    @Column(name="resultat", nullable = true)
     public String getResultat() {
         return resultat;
     }
@@ -95,5 +97,33 @@ public class Partie {
                 ", joueur_blanc=" + joueur_blanc +
                 ", joueur_noir=" + joueur_noir +
                 '}';
+    }
+
+    /**
+     * Créer et sauvegarder une nouvelle partie
+     * @param t Tournoi auquel associé la partie
+     * @param jb Joueur blanc qui joue pour cette partie
+     * @param jn Joueur noir qui joue pour cette partie
+     * @param num Numéro du rounde associé
+     * @param tbl Tabel sur laquelle joue les joueurs
+     * @return la partie créée
+     */
+    public static Partie createPartie(Tournoi t, Joueur jb, Joueur jn, int num, String tbl) {
+        Partie p = new Partie();
+        p.setTournoi(t);
+        p.setJoueur_blanc(jb);
+        p.setJoueur_noir(jn);
+        p.setNumRonde(num);
+        p.setTable(tbl);
+
+        Session sess = HibernateUtil.openSession();
+        if (t.getStatus() == 0) {
+            t.setStatus(1);
+            sess.save(HibernateUtil.prepareToSave(t));
+        }
+        sess.save(p);
+        HibernateUtil.closeSession(sess);
+
+        return p;
     }
 }
