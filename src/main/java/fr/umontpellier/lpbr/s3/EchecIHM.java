@@ -23,7 +23,7 @@ public class EchecIHM extends Application {
         this.primaryStage = primaryStage;
 
         primaryStage.setTitle("Echec !");
-        if (false) {
+        if (true) {
             View.getView()
                     .setIhm(this)
                     .setScene(MyTournoi.class);
