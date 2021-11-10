@@ -1,5 +1,4 @@
 package fr.umontpellier.lpbr.s3;
-import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.*;
 import org.hibernate.cfg.*;
 
