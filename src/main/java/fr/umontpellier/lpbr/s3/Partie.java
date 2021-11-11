@@ -96,7 +96,7 @@ public class Partie {
                 ", tournoi=" + tournoi +
                 ", joueur_blanc=" + joueur_blanc +
                 ", joueur_noir=" + joueur_noir +
-                '}';
+                "}\n";
     }
 
     /**

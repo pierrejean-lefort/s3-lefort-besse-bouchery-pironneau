@@ -55,17 +55,18 @@ public class EchecIHM extends Application {
         List<Tournoi> tournois = sess.createQuery("from tournois").list();
         List<Partie> parties = sess.createQuery("from parties").list();
 
+        System.out.println("\n Joueurs:");
         for (Joueur j : joueurs) {
             System.out.println(j);
         }
 
+        System.out.println("\n Tournois:");
         for (Tournoi t : tournois) {
-            System.out.println("Tournoi au round #" + t.gotCurrentRound());
-//            (new Suisse(t)).orderByElo();
-            System.out.println(t);
-            System.out.println(t.gotRepartition());
+            System.out.println(t + " - round " + t.gotCurrentRound());
+            System.out.println(t.gotRepartition(1));
         }
 
+        System.out.println("\n Parties:");
         for (Partie p : parties) {
             System.out.println(p);
         }

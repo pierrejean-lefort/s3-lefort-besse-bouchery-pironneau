@@ -67,7 +67,7 @@ public class Tournoi {
         this.methode = methode;
     }
 
-    @OneToMany(mappedBy="tournoi")
+    @OneToMany(mappedBy="tournoi", fetch = FetchType.EAGER)
     public Set<Participe> getParticipation() {
         return participation;
     }
@@ -76,7 +76,7 @@ public class Tournoi {
         this.participation = participation;
     }
 
-    @OneToMany(mappedBy="tournoi")
+    @OneToMany(mappedBy="tournoi", fetch = FetchType.EAGER)
     public Set<Partie> getParties() {
         return parties;
     }
@@ -111,13 +111,26 @@ public class Tournoi {
         return (int) p;
     }
 
-    public List<Partie> gotRepartition() {
+    public List<Partie> gotRound(int round) {
+        Session sess = HibernateUtil.openSession();
+        List<Partie> p = sess.createQuery("FROM parties WHERE numRonde = :round AND tournoi = :id")
+                .setParameter("id", this)
+                .setParameter("round", round)
+                .list();
+        HibernateUtil.closeSession(sess);
+
+        return p.size() != 0 ? p : null;
+    }
+
+    public List<Partie> gotRepartition(int round) {
+        List<Partie> p = gotRound(round);
+        if (p != null) return p;
+
         if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null;
 
-        int newRound = gotCurrentRound() + 1;
 
         SystemTournoi sys = new Suisse(this);
-        return newRound == 1 ? sys.firstRound() : sys.newRound(newRound);
+        return round == 1 ? sys.firstRound() : sys.newRound(round);
     }
 
     public Tournoi clone() {
