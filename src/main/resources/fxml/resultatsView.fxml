@@ -20,12 +20,17 @@
             </Button>
             <Button fx:id="prec" mnemonicParsing="false" text="Prec.">
                <HBox.margin>
-                  <Insets left="50.0" right="50.0" />
+                  <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </Button>
+            <Label fx:id="page" text="0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
             <Button fx:id="suiv" mnemonicParsing="false" text="Suiv.">
                <HBox.margin>
-                  <Insets right="50.0" />
+                  <Insets left="20.0" right="20.0" />
                </HBox.margin>
             </Button>
             <Button fx:id="rdsuiv" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="46.0" prefWidth="120.0" text="ROUND SUIVANT" />

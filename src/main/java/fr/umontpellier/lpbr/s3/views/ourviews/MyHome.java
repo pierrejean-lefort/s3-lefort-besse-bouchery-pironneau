@@ -58,11 +58,11 @@ public class MyHome extends Home {
         @Override
         public void handle(ActionEvent actionEvent) {
             //TODO messages d'erreur.
-            if(compt<=0||
-                    nomTournoi.getText().isEmpty()||
-                    !methode.getValue().toString().equals("performance élo")){
-                System.out.println("ERROR: Work-In-Progress\nLa gestion des erreurs n'a pas été implémentée à cette partie pour le moment.\n\nVeillez a respecter la typographie des arguments passés à la vue CréationTournoi\n");
-            }else {
+//            if(compt<=0||
+//                    nomTournoi.getText().isEmpty()||
+//                    !methode.getValue().toString().equals("performance élo")){
+//                System.out.println("ERROR: Work-In-Progress\nLa gestion des erreurs n'a pas été implémentée à cette partie pour le moment.\n\nVeillez a respecter la typographie des arguments passés à la vue CréationTournoi\n");
+//            }else {
 
                 //récupération des variables
                 String nomTournoiSaisi = nomTournoi.getText();
@@ -85,7 +85,7 @@ public class MyHome extends Home {
                 } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-            }
+//            }
         }
 
     };
@@ -107,15 +107,8 @@ public class MyHome extends Home {
         nbRoundMoins.setOnAction(nbRoundMoinsAtion);
         commencer.setOnAction(commencerAction);
         retour.setOnAction(retourAction);
-        methode = new ComboBox();
         ObservableList<Methode> list = Methode.getMethodeList();
         methode.setItems(list);
-
-        System.out.println("Initialized");
-
-
-
-
 
     }
 }

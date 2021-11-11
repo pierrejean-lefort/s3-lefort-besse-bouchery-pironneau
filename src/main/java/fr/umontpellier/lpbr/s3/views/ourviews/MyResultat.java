@@ -43,6 +43,11 @@ public class MyResultat extends Resultat {
     @FXML
     private Button prec;
 
+    @FXML
+    private Label page;
+
+    private int partieSize;
+
     private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
@@ -54,20 +59,67 @@ public class MyResultat extends Resultat {
         }
     };
 
+    private EventHandler<ActionEvent> pageSuiv = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            int curPage = View.getIhm().getCurrentPage();
+            if ((curPage)*9+9 > partieSize) return;
+            View.getIhm().setCurrentPage(curPage+1);
+            try {
+                View.getView().setScene(MyResultat.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private EventHandler<ActionEvent> pagePrec = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            int curPage = View.getIhm().getCurrentPage();
+            if ((curPage-1) < 0) return;
+            View.getIhm().setCurrentPage(curPage-1);
+            try {
+                View.getView().setScene(MyResultat.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
+
+
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        suiv.setDisable(true);
+        retour.setOnAction(retourAction);
 
-        int nbParticipant = View.getIhm().getSelectedTournoi().getParticipation().size();
-        List<Partie> partie = View.getIhm().getSelectedTournoi().gotRepartition(View.getIhm().getSelectedTournoi().gotCurrentRound());
-        float nbLigne = ((float) nbParticipant)/6;
+        imprimer.setDisable(true);
+        rdsuiv.setDisable(true);
 
-        Participe[] joueurs = View.getIhm().getSelectedTournoi().getParticipation().toArray(new Participe[nbParticipant]);
+        suiv.setOnAction(pageSuiv);
+        prec.setOnAction(pagePrec);
+
+        page.setText(View.getIhm().getCurrentPage()+"");
+
+        int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
+
+        if (round == 0) round = 1;
+        System.out.println(round);
+
+        List<Partie> partie = View.getIhm().getSelectedTournoi().gotRepartition(round);
+
+        if (partie == null) return;
+
+        partieSize = partie.size();
 
         List<HBox> ligne = new ArrayList<>();
 
         int i = 0;
         int j = -1;
+
+        partie = partie.subList(View.getIhm().getCurrentPage()*9, Math.min(View.getIhm().getCurrentPage()*9+9, partieSize));
 
         for(Partie p : partie) {
 
@@ -77,7 +129,7 @@ public class MyResultat extends Resultat {
                 ligne.add(j, hbox);
             }
             Table m1 = new MyTable(p.getJoueur_blanc(), p.getJoueur_noir());
-            m1.getTable().setText("Table" + i);
+            m1.getTable().setText("Table" + p.getTable());
             m1.getTable().setTranslateY(10);
             m1.getChildren().add(m1.getTable());
             ligne.get(j).getChildren().add(m1);
@@ -85,16 +137,8 @@ public class MyResultat extends Resultat {
         }
 
         for(HBox hb : ligne) {
-
             vbox.getChildren().add(hb);
         }
-
-        retour.setOnAction(retourAction);
-
-        imprimer.setDisable(true);
-        rdsuiv.setDisable(true);
-        suiv.setDisable(true);
-        prec.setDisable(true);
 
 
     }

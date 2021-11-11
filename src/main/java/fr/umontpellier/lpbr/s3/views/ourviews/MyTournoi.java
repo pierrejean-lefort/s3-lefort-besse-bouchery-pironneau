@@ -47,7 +47,9 @@ public class MyTournoi extends Tournois {
         public void handle(ActionEvent actionEvent) {
             if(sess.isOpen())HibernateUtil.closeSession(sess);
             try {
-                View.getView().setScene(View.getIhm().getSelectedTournoi().gotCurrentRound() != 0 ? MyResultat.class : MyTournoiInfo.class, true);
+                int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
+                if (round != 0) View.getIhm().setCurrentPage(0);
+                View.getView().setScene(round != 0 ? MyResultat.class : MyTournoiInfo.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

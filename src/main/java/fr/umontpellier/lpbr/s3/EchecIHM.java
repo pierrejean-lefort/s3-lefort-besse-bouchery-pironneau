@@ -13,6 +13,7 @@ public class EchecIHM extends Application {
     private Stage primaryStage;
     private Tournoi selectedTournoi;
     private Joueur selectedJoueur;
+    private int currentPage;
 
     public static void main(String[] args) {
         launch(args);
@@ -21,6 +22,8 @@ public class EchecIHM extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+
+        this.currentPage = 0;
 
         primaryStage.setTitle("Echec !");
         if (true) {
@@ -46,6 +49,14 @@ public class EchecIHM extends Application {
 
     public void setSelectedJoueur(Joueur selectedJoueur) {
         this.selectedJoueur = selectedJoueur;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     public void testDB() {
