@@ -52,5 +52,7 @@
             <Font name="Arial Black" size="24.0" />
          </font>
       </Label>
+      <Label fx:id="methode1" layoutX="40.0" layoutY="388.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="methode2" layoutX="40.0" layoutY="416.0" prefHeight="17.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

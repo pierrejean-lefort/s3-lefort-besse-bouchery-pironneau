@@ -1,9 +1,12 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.HibernateUtil;
+import fr.umontpellier.lpbr.s3.Methode;
 import fr.umontpellier.lpbr.s3.Tournoi;
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.View;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +27,8 @@ public class MyHome extends Home {
     @FXML private ComboBox methode;
     @FXML private TextField nomTournoi;
     private int compt;
+    @FXML private Label methode1;
+    @FXML private Label methode2;
 
     public MyHome() {
 
@@ -61,7 +66,8 @@ public class MyHome extends Home {
 
                 //récupération des variables
                 String nomTournoiSaisi = nomTournoi.getText();
-                String methodeSaisi = (String) methode.getValue();
+                String methodeSaisi =  methode.getValue().toString();
+                methode1.setText(methodeSaisi);
 
 
                 //création du tournoi
@@ -101,8 +107,11 @@ public class MyHome extends Home {
         nbRoundMoins.setOnAction(nbRoundMoinsAtion);
         commencer.setOnAction(commencerAction);
         retour.setOnAction(retourAction);
+        methode = new ComboBox();
+        ObservableList<Methode> list = Methode.getMethodeList();
+        methode.setItems(list);
+
         System.out.println("Initialized");
-        methode.getItems().addAll("performance élo","","");
 
 
 

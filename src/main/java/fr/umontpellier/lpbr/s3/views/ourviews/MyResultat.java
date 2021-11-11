@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.Participe;
+import fr.umontpellier.lpbr.s3.Partie;
 import fr.umontpellier.lpbr.s3.views.Resultat;
 import fr.umontpellier.lpbr.s3.views.Table;
 import fr.umontpellier.lpbr.s3.views.View;
@@ -14,6 +15,8 @@ import javafx.scene.layout.VBox;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyResultat extends Resultat {
@@ -53,27 +56,37 @@ public class MyResultat extends Resultat {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        int nbParticipant = View.getIhm().getSelectedTournoi().getParticipation().size();
+        suiv.setDisable(true);
 
+        int nbParticipant = View.getIhm().getSelectedTournoi().getParticipation().size();
+        List<Partie> partie = View.getIhm().getSelectedTournoi().gotRepartition(View.getIhm().getSelectedTournoi().gotCurrentRound());
         float nbLigne = ((float) nbParticipant)/6;
 
         Participe[] joueurs = View.getIhm().getSelectedTournoi().getParticipation().toArray(new Participe[nbParticipant]);
 
-        int compteur = 0;
+        List<HBox> ligne = new ArrayList<>();
 
-        for (int i = 0; i < Math.max(Math.min(nbLigne, 3), 1); i++) {
-            HBox hbox = new HBox();
-            hbox.setStyle("-fx-border-style: solid inside;");
-            for (int j = 0; j < 3; j++) {
-                compteur++;
-                Table m1 = new MyTable(joueurs[0].getJoueur(), joueurs[1].getJoueur());
-                m1.getTable().setText("Table" + compteur);
-                m1.getTable().setTranslateY(10);
-                m1.getChildren().add(m1.getTable());
+        int i = 0;
+        int j = -1;
 
-                hbox.getChildren().add(m1);
+        for(Partie p : partie) {
+
+            if (i%3 == 0) {
+                j++;
+                HBox hbox = new HBox();
+                ligne.add(j, hbox);
             }
-            vbox.getChildren().add(hbox);
+            Table m1 = new MyTable(p.getJoueur_blanc(), p.getJoueur_noir());
+            m1.getTable().setText("Table" + i);
+            m1.getTable().setTranslateY(10);
+            m1.getChildren().add(m1.getTable());
+            ligne.get(j).getChildren().add(m1);
+            i++;
+        }
+
+        for(HBox hb : ligne) {
+
+            vbox.getChildren().add(hb);
         }
 
         retour.setOnAction(retourAction);
