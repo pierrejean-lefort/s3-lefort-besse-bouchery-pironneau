@@ -1,5 +1,7 @@
 package fr.umontpellier.lpbr.s3;
 
+import org.hibernate.Session;
+
 import javax.persistence.*;
 
 import java.util.*;
@@ -111,6 +113,53 @@ public class Joueur {
     public void setParticipations(Set<Participe> participations) {
         this.participations = participations;
     }
+
+    @OneToMany(mappedBy="joueur_blanc")
+    public Set<Partie> getPartiesBlanc() {
+        return parties_jb;
+    }
+
+    public void setPartiesBlanc(Set<Partie> parties) {
+        this.parties_jb = parties;
+    }
+
+    @OneToMany(mappedBy="joueur_noir")
+    public Set<Partie> getPartiesNoir() {
+        return parties_jn;
+    }
+
+    public void setPartiesNoir(Set<Partie> parties) {
+        this.parties_jn = parties_jb;
+    }
+
+    public Set<Partie> gotParties() {
+        Set<Partie> r = new HashSet<>();
+        r.addAll(parties_jb);
+        r.addAll(parties_jn);
+        return r;
+    }
+    public double nbPoint(Tournoi t){
+        double compt = 0;
+        Session ses = HibernateUtil.openSession();
+        List<Partie> parties = ((Session) ses).createSQLQuery("FROM parties WHERE (joueur_blanc =:j OR joueur_noir =:j)AND tournoi = :t")
+                .setParameter("j",this)
+                .setParameter("t",t)
+                .list();
+        for (Partie p: parties){
+            int res = p.getResultat();
+            if (res == 1 && this.equals(p.getJoueur_blanc())){
+                compt ++;
+            }
+            else if (res == 2 && this.equals(p.getJoueur_noir())){
+                compt ++;
+            }
+            else if (res == 3 ){
+                compt = compt + 0.5;
+            }
+        }
+        return compt;
+    }
+
 
     @Override
     public String toString() {
