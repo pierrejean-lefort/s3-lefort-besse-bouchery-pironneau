@@ -129,7 +129,7 @@ public class MyResultat extends Resultat {
         suiv.setOnAction(pageSuiv);
         prec.setOnAction(pagePrec);
 
-        page.setText(View.getIhm().getCurrentPage()+"");
+        page.setText((View.getIhm().getCurrentPage()+1)+"");
 
         int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
 
