@@ -16,7 +16,7 @@
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <!-- Validate the database schema on startup -->
         <property name="hbm2ddl.auto">validate</property>
 

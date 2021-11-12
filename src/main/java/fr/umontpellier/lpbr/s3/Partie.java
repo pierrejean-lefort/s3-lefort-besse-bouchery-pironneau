@@ -88,15 +88,7 @@ public class Partie {
 
     @Override
     public String toString() {
-        return "Partie{" +
-                "id=" + id +
-                ", table='" + table + '\'' +
-                ", numRonde=" + numRonde +
-                ", resultat='" + resultat + '\'' +
-                ", tournoi=" + tournoi +
-                ", joueur_blanc=" + joueur_blanc +
-                ", joueur_noir=" + joueur_noir +
-                "}\n";
+        return "|#" + id + " | " + joueur_blanc.getId() + " | " + joueur_noir.getId() + " | " + resultat + "\n";
     }
 
     /**
@@ -116,13 +108,15 @@ public class Partie {
         p.setNumRonde(num);
         p.setTable(tbl);
 
-        Session sess = HibernateUtil.openSession();
-        if (t.getStatus() == 0) {
-            t.setStatus(1);
-            sess.save(HibernateUtil.prepareToSave(t));
+        if (num == 1) { // TODO: remove this after tests
+            Session sess = HibernateUtil.openSession();
+            if (t.getStatus() == 0) {
+                t.setStatus(1);
+                sess.save(HibernateUtil.prepareToSave(t));
+            }
+            sess.save(p);
+            HibernateUtil.closeSession(sess);
         }
-        sess.save(p);
-        HibernateUtil.closeSession(sess);
 
         return p;
     }

@@ -67,7 +67,7 @@ public class Tournoi {
         this.methode = methode;
     }
 
-    @OneToMany(mappedBy="tournoi")
+    @OneToMany(mappedBy="tournoi", fetch = FetchType.EAGER)
     public Set<Participe> getParticipation() {
         return participation;
     }

@@ -114,34 +114,10 @@ public class Joueur {
         this.participations = participations;
     }
 
-    @OneToMany(mappedBy="joueur_blanc")
-    public Set<Partie> getPartiesBlanc() {
-        return parties_jb;
-    }
-
-    public void setPartiesBlanc(Set<Partie> parties) {
-        this.parties_jb = parties;
-    }
-
-    @OneToMany(mappedBy="joueur_noir")
-    public Set<Partie> getPartiesNoir() {
-        return parties_jn;
-    }
-
-    public void setPartiesNoir(Set<Partie> parties) {
-        this.parties_jn = parties_jb;
-    }
-
-    public Set<Partie> gotParties() {
-        Set<Partie> r = new HashSet<>();
-        r.addAll(parties_jb);
-        r.addAll(parties_jn);
-        return r;
-    }
     public double nbPoint(Tournoi t){
         double compt = 0;
         Session ses = HibernateUtil.openSession();
-        List<Partie> parties = ((Session) ses).createSQLQuery("FROM parties WHERE (joueur_blanc =:j OR joueur_noir =:j)AND tournoi = :t")
+        List<Partie> parties = ses.createQuery("from parties WHERE (joueur_blanc =:j OR joueur_noir =:j)AND tournoi = :t")
                 .setParameter("j",this)
                 .setParameter("t",t)
                 .list();
@@ -157,6 +133,7 @@ public class Joueur {
                 compt = compt + 0.5;
             }
         }
+        HibernateUtil.closeSession(ses);
         return compt;
     }
 

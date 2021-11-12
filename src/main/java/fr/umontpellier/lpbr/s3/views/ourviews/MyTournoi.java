@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class MyTournoi extends Tournois {
     public static String fxmlPath = "/fxml/tournoiView.fxml";
-    private ObservableList tournois;
+    private ObservableList<Tournoi> tournois;
     @FXML private ListView<Tournoi> listTournoi;
     @FXML private Button selectTournoi;
     @FXML private Button creerTournoi;
@@ -70,8 +70,8 @@ public class MyTournoi extends Tournois {
         Session sess = HibernateUtil.openSession();
         tournois = FXCollections.observableArrayList(sess.createQuery("from tournois").list());
 
-        for(Object t : tournois) {
-            listTournoi.getItems().add((Tournoi) t);
+        for(Tournoi t : tournois) {
+            listTournoi.getItems().add(t);
         }
         listTournoi.getSelectionModel().selectedItemProperty().addListener(tournoiChangeListener);
         HibernateUtil.closeSession(sess);

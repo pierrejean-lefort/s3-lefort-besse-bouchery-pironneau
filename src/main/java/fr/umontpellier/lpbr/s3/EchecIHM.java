@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EchecIHM extends Application {
@@ -73,8 +74,16 @@ public class EchecIHM extends Application {
 
         System.out.println("\n Tournois:");
         for (Tournoi t : tournois) {
-            System.out.println(t + " - round " + t.gotCurrentRound());
-            System.out.println(t.gotRepartition(1));
+            int r = t.gotCurrentRound();
+            System.out.println(t + " - round " + r);
+
+            if (r == 1 && t.getParticipation().size() == 22) {
+                List<Partie> p2 = new ArrayList<>(parties);
+                p2.removeIf(p -> p.getNumRonde() != r);
+                System.out.println("Dernier round: " + p2);
+
+                System.out.println("Prochain round: " + t.gotRepartition(r+1));
+            }
         }
 
         System.out.println("\n Parties:");
