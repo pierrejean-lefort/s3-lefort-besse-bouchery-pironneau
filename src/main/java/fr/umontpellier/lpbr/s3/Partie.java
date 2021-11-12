@@ -9,7 +9,7 @@ public class Partie {
     private int id;
     private String table;
     private int numRonde;
-    private String resultat;
+    private int resultat;
 
     private Tournoi tournoi;
     private Joueur joueur_blanc;
@@ -48,11 +48,11 @@ public class Partie {
     }
 
     @Column(name="resultat", nullable = true)
-    public String getResultat() {
+    public int getResultat() {
         return resultat;
     }
 
-    public void setResultat(String resultat) {
+    public void setResultat(int resultat) {
         this.resultat = resultat;
     }
 
