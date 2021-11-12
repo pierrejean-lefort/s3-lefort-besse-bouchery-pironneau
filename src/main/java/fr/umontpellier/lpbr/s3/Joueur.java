@@ -2,10 +2,7 @@ package fr.umontpellier.lpbr.s3;
 
 import javax.persistence.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "joueurs")
 public class Joueur {
@@ -19,6 +16,13 @@ public class Joueur {
     private String nationalite;
     private String sexe;
     private Set<Participe> participations = new HashSet<>();
+    private Set<Partie> parties_jb = new HashSet<>();
+    private Set<Partie> parties_jn = new HashSet<>();
+    private Set<Partie> parties = new HashSet<>();
+
+    public Joueur() {
+
+    }
 
     private void setId(int id) { this.id = id; }
 
@@ -94,10 +98,6 @@ public class Joueur {
         this.sexe = sexe;
     }
 
-    public Joueur() {
-
-    }
-
     @Column(name = "numLicence")
     public String getNumLicence() {
         return numLicence;
@@ -110,6 +110,31 @@ public class Joueur {
 
     public void setParticipations(Set<Participe> participations) {
         this.participations = participations;
+    }
+
+    @OneToMany(mappedBy="joueur_blanc")
+    public Set<Partie> getPartiesBlanc() {
+        return parties_jb;
+    }
+
+    public void setPartiesBlanc(Set<Partie> parties) {
+        this.parties_jb = parties;
+    }
+
+    @OneToMany(mappedBy="joueur_noir")
+    public Set<Partie> getPartiesNoir() {
+        return parties_jn;
+    }
+
+    public void setPartiesNoir(Set<Partie> parties) {
+        this.parties_jn = parties_jb;
+    }
+
+    public Set<Partie> gotParties() {
+        Set<Partie> r = new HashSet<>();
+        r.addAll(parties_jb);
+        r.addAll(parties_jn);
+        return r;
     }
 
     @Override
