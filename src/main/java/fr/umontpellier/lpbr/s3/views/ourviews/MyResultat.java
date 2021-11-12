@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
+import fr.umontpellier.lpbr.s3.HibernateUtil;
 import fr.umontpellier.lpbr.s3.Participe;
 import fr.umontpellier.lpbr.s3.Partie;
 import fr.umontpellier.lpbr.s3.views.Resultat;
@@ -8,10 +9,12 @@ import fr.umontpellier.lpbr.s3.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.hibernate.Session;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -87,6 +90,30 @@ public class MyResultat extends Resultat {
         }
     };
 
+    private EventHandler<ActionEvent> roundSuiv = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            for (Node n : vbox.getChildren()) {
+                for (Node nn : ((HBox)n).getChildren()) {
+                    MyTable tbl = (MyTable)nn;
+                    if (!tbl.isValid()) {
+                        System.out.println("Toutes les tables ne sont pas validées");
+                        return;
+                    }
+                }
+            }
+            if (View.getIhm().getSelectedTournoi().gotRepartition(View.getIhm().getSelectedTournoi().gotCurrentRound()+1)==null) {
+                System.out.println("Pas de répartition pour le round suivant");
+                return;
+            }
+            try {
+                View.getView().setScene(MyResultat.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
 
 
 
@@ -96,7 +123,8 @@ public class MyResultat extends Resultat {
         retour.setOnAction(retourAction);
 
         imprimer.setDisable(true);
-        rdsuiv.setDisable(true);
+
+        rdsuiv.setOnAction(roundSuiv);
 
         suiv.setOnAction(pageSuiv);
         prec.setOnAction(pagePrec);
@@ -128,7 +156,7 @@ public class MyResultat extends Resultat {
                 HBox hbox = new HBox();
                 ligne.add(j, hbox);
             }
-            Table m1 = new MyTable(p.getJoueur_blanc(), p.getJoueur_noir());
+            Table m1 = new MyTable(p);
             m1.getTable().setText("Table" + p.getTable());
             m1.getTable().setTranslateY(10);
             m1.getChildren().add(m1.getTable());
@@ -139,7 +167,6 @@ public class MyResultat extends Resultat {
         for(HBox hb : ligne) {
             vbox.getChildren().add(hb);
         }
-
 
     }
 }
