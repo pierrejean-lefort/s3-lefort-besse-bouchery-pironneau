@@ -9,6 +9,13 @@ public class Partie {
     private int id;
     private String table;
     private int numRonde;
+
+    /**
+     * resultat :
+     * 1 if white wins
+     * 2 if black wins
+     * 3 if equality
+     */
     private int resultat;
 
     private Tournoi tournoi;
