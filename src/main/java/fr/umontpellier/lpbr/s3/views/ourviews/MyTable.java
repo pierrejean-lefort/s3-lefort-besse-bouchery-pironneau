@@ -39,7 +39,7 @@ public class MyTable extends Table {
         HBox hbox = new HBox();
 
         Pane noir = new Pane();
-        Label lbl = new Label(p.getJoueur_noir().getNom());
+        Label lbl = new Label(p.getJoueur_noir().getNom() + " " + p.getJoueur_noir().getPrenom());
         lbl.setStyle("-fx-text-fill: white");
         Label checkN = new Label("");
         checkN.setAlignment(Pos.BASELINE_CENTER);
@@ -60,7 +60,7 @@ public class MyTable extends Table {
 
 
         Pane blanc = new Pane();
-        Label lbl2 = new Label(p.getJoueur_blanc().getNom());
+        Label lbl2 = new Label(p.getJoueur_blanc().getNom() + " " + p.getJoueur_blanc().getPrenom());
         Label checkB = new Label("");
         checkB.setPadding(new Insets(25));
         checkB.setFont(new Font(20));

@@ -7,9 +7,7 @@ import fr.umontpellier.lpbr.s3.views.View;
 import org.hibernate.Session;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "tournois")
 public class Tournoi {
@@ -100,16 +98,35 @@ public class Tournoi {
         this.status = status;
     }
 
-    public int gotCurrentRound() {
-        Session sess = HibernateUtil.openSession();
-        Object p = sess.createQuery("SELECT MAX(numRonde) FROM parties WHERE tournoi = :id")
-            .setParameter("id", this)
-                .getSingleResult();
-        HibernateUtil.closeSession(sess);
+    public int gotCurrentRound() { // get the last finished round, return 0 if no round has been finished
+//        Session sess = HibernateUtil.openSession();
+//        Object p = sess.createQuery("SELECT MAX(numRonde) FROM parties WHERE tournoi = :id")
+//        Object p = sess.createQuery("SELECT MAX(t3.numRonde) FROM ( " +
+//                            "SELECT p1.tournoi_id, p1.numRonde" +
+//                            "FROM parties AS p1 LEFT JOIN ( " +
+//                                "SELECT p2.tournoi_id, p2.numRonde FROM parties AS p2 WHERE p2.resultat = 0" +
+//                            ") As t2 USING (tournoi_id)" +
+//                            "WHERE t2.tournoi_id IS NULL" +
+//                        ") As t3 WHERE tournoi = :id")
+//            .setParameter("id", this)
+//                .getSingleResult();
+//        HibernateUtil.closeSession(sess);
+        int p = 0;
 
-        if (p == null) p = 0;
+        Set<Partie> parties = getParties();
+        List<Partie> parties1 = new ArrayList<>(parties);
+        parties1.sort(Comparator.comparingInt(Partie::getNumRonde));
+        System.out.println(parties1);
+        for (Partie p1 : parties1) {
+            if (p1.getNumRonde() > p) p = p1.getNumRonde();
+            if (p1.getResultat() == 0) {
+                return p;
+            }
+        }
 
-        return (int) p;
+        return p + 1;
+
+//        SELECT MAX(t3.numRonde) FROM ( SELECT p1.tournoi_id, p1.numRonde FROM parties AS p1 LEFT JOIN ( SELECT p2.tournoi_id, p2.numRonde FROM parties AS p2 WHERE p2.resultat = 0 ) As t2 USING (tournoi_id) WHERE t2.tournoi_id IS NULL ) As t3
     }
 
     public List<Partie> gotRound(int round) {
@@ -118,10 +135,11 @@ public class Tournoi {
                 .setParameter("id", this)
                 .setParameter("round", round)
                 .list();
-        HibernateUtil.closeSession(sess);
         if (p.size() != 0) {
             EchecIHM.taskSetProgress(100);
         }
+
+        HibernateUtil.closeSession(sess);
 
         return p.size() != 0 ? p : null;
     }

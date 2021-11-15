@@ -19,15 +19,19 @@ public class MyLoading extends Loading {
     public static String fxmlPath = "/fxml/loading.fxml";
     @FXML private ProgressBar progressBar;
     @FXML private ProgressIndicator progressIndicator;
+    private Thread thread;
 
     private ChangeListener progressChange = new ChangeListener() {
         @Override
         public void changed(ObservableValue observableValue, Object o, Object t1) {
             double p = (double) t1;
-            System.out.println(p);
             progressIndicator.setProgress(p);
             progressBar.setProgress(p);
-            if (p >= 0.95) {
+            System.out.println(p);
+            System.out.println(thread);
+            if (thread != null) System.out.println(thread.isAlive());
+
+            if (p >= 0.95 && thread != null && thread.isAlive()) {
                 try {
                     View.getView().setScene(MyResultat.class, true);
                 } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException | ClassNotFoundException e) {
@@ -36,16 +40,15 @@ public class MyLoading extends Loading {
             } else if (p == -0.01) {
                 int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
 
-//                if (round == 0) round = 1;
-                round++; // TODO: remove this when algo ready
+                if (round == 0) round = 1;
 
                 int finalRound = round;
-                Thread t = new Thread(() -> {
+                thread = new Thread(() -> {
+                    System.out.println("New task for round " + finalRound);
                     EchecIHM.taskSetProgress(1);
-                    System.out.println(View.getIhm().getSelectedTournoi().gotRepartition(finalRound));
+                    View.getIhm().getSelectedTournoi().gotRepartition(finalRound);
                 });
-
-                t.start();
+                thread.start();
             }
         }
     };

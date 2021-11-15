@@ -44,9 +44,14 @@
       <AnchorPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="retour" layoutY="2.0" mnemonicParsing="false" text="Retour" />
-            <Label layoutX="254.0" layoutY="5.0" text="Round #1">
+            <Label fx:id="roundLbl" layoutX="254.0" layoutY="5.0" text="Round #1">
                <font>
                   <Font name="Arial Black" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="error" layoutX="283.0" layoutY="28.0" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Arial Black" size="11.0" />
                </font>
             </Label>
          </children>

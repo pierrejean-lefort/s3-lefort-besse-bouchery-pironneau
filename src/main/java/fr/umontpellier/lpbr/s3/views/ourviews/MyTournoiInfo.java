@@ -68,11 +68,7 @@ public class MyTournoiInfo extends TounoiInfo {
     private EventHandler<ActionEvent> startAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            try {
-                View.getView().setScene(MyResultat.class, true);
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            View.getIhm().setLoading();
         }
     };
 

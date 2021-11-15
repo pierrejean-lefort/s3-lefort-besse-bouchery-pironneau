@@ -52,6 +52,12 @@ public class MyResultat extends Resultat {
     @FXML
     private Label page;
 
+    @FXML
+    private Label roundLbl;
+
+    @FXML
+    private Label error;
+
     private int partieSize;
 
     private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
@@ -96,18 +102,18 @@ public class MyResultat extends Resultat {
     private EventHandler<ActionEvent> roundSuiv = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            System.out.println("suiv2");
 
             for (Node n : vbox.getChildren()) {
                 for (Node nn : ((HBox)n).getChildren()) {
                     MyTable tbl = (MyTable)nn;
                     if (!tbl.isValid()) {
-                        System.out.println("Toutes les tables ne sont pas validées");
+                        String err = "Toutes les tables ne sont pas validées";
+                        System.out.println(err);
+                        error.setText(err);
                         return;
                     }
                 }
             }
-            System.out.println("suiv");
             View.getIhm().setLoading();
         }
     };
@@ -127,10 +133,11 @@ public class MyResultat extends Resultat {
 
         int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
 
-//        if (round == 0) round = 1;
-//
-        round++; // TODO: Remove this when algo ready
-        System.out.println(round);
+        if (round == 0) round = 1;
+
+        roundLbl.setText("Round #"+round);
+        System.out.println("Round #"+round);
+
         List<Partie> partie = View.getIhm().getSelectedTournoi().gotRepartition(round);
 
         if (partie == null) {
