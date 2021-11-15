@@ -6,6 +6,7 @@ import fr.umontpellier.lpbr.s3.Partie;
 import fr.umontpellier.lpbr.s3.views.Resultat;
 import fr.umontpellier.lpbr.s3.views.Table;
 import fr.umontpellier.lpbr.s3.views.View;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,7 +21,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class MyResultat extends Resultat {
 
@@ -93,6 +96,8 @@ public class MyResultat extends Resultat {
     private EventHandler<ActionEvent> roundSuiv = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            System.out.println("suiv2");
+
             for (Node n : vbox.getChildren()) {
                 for (Node nn : ((HBox)n).getChildren()) {
                     MyTable tbl = (MyTable)nn;
@@ -102,21 +107,10 @@ public class MyResultat extends Resultat {
                     }
                 }
             }
-            if (View.getIhm().getSelectedTournoi().gotRepartition(View.getIhm().getSelectedTournoi().gotCurrentRound()+1)==null) {
-                System.out.println("Pas de répartition pour le round suivant");
-                return;
-            }
-            try {
-                View.getView().setScene(MyResultat.class, true);
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            System.out.println("suiv");
+            View.getIhm().setLoading();
         }
     };
-
-
-
-
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -133,12 +127,21 @@ public class MyResultat extends Resultat {
 
         int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
 
-        if (round == 0) round = 1;
+//        if (round == 0) round = 1;
+//
+        round++; // TODO: Remove this when algo ready
         System.out.println(round);
-
         List<Partie> partie = View.getIhm().getSelectedTournoi().gotRepartition(round);
 
-        if (partie == null) return;
+        if (partie == null) {
+            try {
+                View.getView().setScene(MyTournoi.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        };
 
         partieSize = partie.size();
 

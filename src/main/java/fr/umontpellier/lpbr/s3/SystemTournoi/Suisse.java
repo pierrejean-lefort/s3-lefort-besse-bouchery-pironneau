@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3.SystemTournoi;
 
 import fr.umontpellier.lpbr.s3.*;
+import fr.umontpellier.lpbr.s3.views.View;
 import org.hibernate.Session;
 
 import java.util.*;
@@ -30,17 +31,19 @@ public class Suisse extends SystemTournoi {
 
     private List<Joueur> orderByNbPointetelo(List<Joueur> l){
         List<Joueur> joueurs= new ArrayList<>();
-        Map<Joueur,Double> map = new HashMap<>();
+        Map<Integer,Double> map = new HashMap<>();
         for (Joueur j : l){
             joueurs.add(j);
-            map.put(j,j.nbPoint(t));
+            map.put(j.getId(),j.nbPoint(t));
         }
+        System.out.println("start sort");
         Collections.sort(joueurs, (j1,j2)->{
-            if (map.get(j1)==map.get(j2)){
+            if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
                 return j2.getElo() - j1.getElo();
             }
-            else return (int) (map.get(j1)-map.get(j2));
+            else return (int) (map.get(j1.getId())-map.get(j2.getId()));
         });
+        System.out.println("end sort");
         return joueurs;
     }
 
@@ -68,10 +71,12 @@ public class Suisse extends SystemTournoi {
     public List<Joueur> getSameScore(Joueur j, List<Joueur> l) {
         double score = j.nbPoint(t);
 
+        System.out.println("start order by");
         List<Joueur> sameScore = orderByNbPointetelo(l);
         double finalScore = score;
         sameScore.removeIf(j2 -> j2.nbPoint(t) != finalScore);
         while(sameScore.size() == 0) {
+            System.out.println(score);
             if (score - 0.5 < 0) {
                 return null;
             }
@@ -104,19 +109,28 @@ public class Suisse extends SystemTournoi {
     public Joueur getAdversaire(Joueur j, List<Joueur> possible, int round, boolean wasBlanc) {
         List<Joueur> possible2 = new ArrayList<>(possible);
 
+        System.out.println("possible2");
+
         List<Joueur> jamaisJoue = getNewJoueurs(j, possible2);
+
+        System.out.println("jamaisJoue");
 
         List<Joueur> deCouleurDiff = getDiffColor(jamaisJoue, round - 1, wasBlanc);
 
+        System.out.println("couleurDiff");
+
         List<Joueur> mmPts = getSameScore(j, deCouleurDiff);
+        System.out.println("mmpts");
         if (mmPts == null) {
             mmPts = getSameScore(j, jamaisJoue);
+            System.out.println("mmpts2");
         }
 
         if (mmPts == null) {
             return null;
         }
 
+        System.out.println("return");
         return mmPts.get(mmPts.size()/2);
     }
 
@@ -128,6 +142,7 @@ public class Suisse extends SystemTournoi {
         for(int i = 0; i < sortedElo.size()/2; i++) {
             Joueur jb = sortedElo.get(i);
             Joueur jn = sortedElo.get(sortedElo.size()/2+i);
+            EchecIHM.taskSetProgress(i/(sortedElo.size()/2));
             parties.add(Partie.createPartie(t, j ? jb : jn, j ? jn : jb, 1, "" + (i + 1)));
             j = !j;
         }
@@ -141,12 +156,13 @@ public class Suisse extends SystemTournoi {
         List<Partie> parties = new ArrayList<>();
 
         List<Joueur> aApparai = new ArrayList<>();
-        for (Participe p : t.getParticipation()) {
+        Set<Participe> participes = t.getParticipation();
+        for (Participe p : participes) {
             aApparai.add(p.getJoueur());
         }
 
         int i = 1;
-        for (Participe p : t.getParticipation()) {
+        for (Participe p : participes) {
             Joueur j = p.getJoueur();
             if (!aApparai.contains(j))
                 continue;
@@ -159,15 +175,21 @@ public class Suisse extends SystemTournoi {
                     .setParameter("r", round-1)
                     .list()).size() != 0;
 
+            System.out.println(wasBlanc);
+
             Joueur adversaire = getAdversaire(j, aApparai, round, wasBlanc);
             if (adversaire == null) {
                 System.out.println("Pas d'adversaire trouvé pour" + j.getId() + " !");
                 aApparai.add(j);
                 continue;
             }
+            System.out.println(adversaire);
 
             aApparai.remove(adversaire);
 
+            double size = participes.size();
+            double index = i*2;
+            EchecIHM.taskSetProgress((index/size)*100);
             parties.add(Partie.createPartie(t, wasBlanc ? adversaire : j, wasBlanc ? j : adversaire, round, "" + i));
             i++;
         }

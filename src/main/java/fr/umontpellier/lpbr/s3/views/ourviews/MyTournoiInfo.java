@@ -69,8 +69,7 @@ public class MyTournoiInfo extends TounoiInfo {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
-                View.getIhm().setCurrentPage(0);
-                View.getView().setScene(MyResultat.class);
+                View.getView().setScene(MyResultat.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

@@ -2,11 +2,20 @@ package fr.umontpellier.lpbr.s3;
 
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.views.View;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyLoading;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyResultat;
 import fr.umontpellier.lpbr.s3.views.ourviews.MyTournoi;
+import fr.umontpellier.lpbr.s3.views.ourviews.MyTournoiInfo;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +24,7 @@ public class EchecIHM extends Application {
     private Tournoi selectedTournoi;
     private Joueur selectedJoueur;
     private int currentPage;
+    private DoubleProperty progress;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,6 +35,7 @@ public class EchecIHM extends Application {
         this.primaryStage = primaryStage;
 
         this.currentPage = 0;
+        this.progress = new SimpleDoubleProperty(0.0);
 
         primaryStage.setTitle("Echec !");
         if (true) {
@@ -58,6 +69,30 @@ public class EchecIHM extends Application {
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
+    }
+
+    public static void taskSetProgress(double progress) {
+        Platform.runLater(() -> {
+            System.out.println("new progress l" + progress);
+            View.getIhm().setProgress(progress);
+        });
+    }
+
+    public DoubleProperty getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress.set(progress/100);
+    }
+
+    public void setLoading() {
+        try {
+            View.getView().setScene(MyLoading.class);
+            setProgress(-1);
+        } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void testDB() {

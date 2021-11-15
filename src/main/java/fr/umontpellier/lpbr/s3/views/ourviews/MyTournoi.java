@@ -45,8 +45,12 @@ public class MyTournoi extends Tournois {
         public void handle(ActionEvent actionEvent) {
             try {
                 int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
-                if (round != 0) View.getIhm().setCurrentPage(0);
-                View.getView().setScene(round != 0 ? MyResultat.class : MyTournoiInfo.class, true);
+                View.getIhm().setCurrentPage(0);
+                if (round != 0) {
+                    View.getIhm().setLoading();
+                    return;
+                }
+                View.getView().setScene(MyTournoiInfo.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

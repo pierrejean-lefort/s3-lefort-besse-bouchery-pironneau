@@ -116,11 +116,13 @@ public class Joueur {
 
     public double nbPoint(Tournoi t){
         double compt = 0;
-        Session ses = HibernateUtil.openSession();
-        List<Partie> parties = ses.createQuery("from parties WHERE (joueur_blanc =:j OR joueur_noir =:j)AND tournoi = :t")
-                .setParameter("j",this)
-                .setParameter("t",t)
-                .list();
+//        Session ses = HibernateUtil.openSession();
+//        List<Partie> parties = ses.createQuery("from parties WHERE (joueur_blanc =:j OR joueur_noir =:j)AND tournoi = :t")
+//                .setParameter("j",this)
+//                .setParameter("t",t)
+//                .list();
+        Set<Partie> parties = t.getParties();
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
         for (Partie p: parties){
             int res = p.getResultat();
             if (res == 1 && this.equals(p.getJoueur_blanc())){
@@ -133,7 +135,7 @@ public class Joueur {
                 compt = compt + 0.5;
             }
         }
-        HibernateUtil.closeSession(ses);
+//        HibernateUtil.closeSession(ses);
         return compt;
     }
 

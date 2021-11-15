@@ -3,6 +3,7 @@ package fr.umontpellier.lpbr.s3;
 
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.SystemTournoi.SystemTournoi;
+import fr.umontpellier.lpbr.s3.views.View;
 import org.hibernate.Session;
 
 import javax.persistence.*;
@@ -118,6 +119,9 @@ public class Tournoi {
                 .setParameter("round", round)
                 .list();
         HibernateUtil.closeSession(sess);
+        if (p.size() != 0) {
+            EchecIHM.taskSetProgress(100);
+        }
 
         return p.size() != 0 ? p : null;
     }
