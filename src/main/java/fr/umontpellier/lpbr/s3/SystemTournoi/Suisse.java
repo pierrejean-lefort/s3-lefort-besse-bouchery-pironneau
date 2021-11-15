@@ -19,7 +19,12 @@ public class Suisse extends SystemTournoi {
         for (Participe p : t.getParticipation()) {
             joueurs.add(p.getJoueur());
         }
-        joueurs.sort((j1 , j2) -> j2.getElo() - j1.getElo());
+        joueurs.sort((j1 , j2) -> {
+            if (j1.getElo() == j2.getElo())
+                return j1.getNom().compareTo(j2.getNom());
+            else
+                return j2.getElo() - j1.getElo();
+        });
         return joueurs;
     }
 

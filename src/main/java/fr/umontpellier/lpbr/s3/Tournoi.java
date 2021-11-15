@@ -142,21 +142,4 @@ public class Tournoi {
         t.setNbRound(nbRound);
         return t;
     }
-
-    public double nbPoint(Joueur joueur){
-        double compt = 0;
-        for (Partie p: parties){
-            int res = p.getResultat();
-            if (res == 1 && joueur.equals(p.getJoueur_blanc())){
-                compt ++;
-            }
-            else if (res == 2 && joueur.equals(p.getJoueur_noir())){
-                compt ++;
-            }
-            else if (res == 3 && (joueur.equals(p.getJoueur_noir()) || joueur.equals(p.getJoueur_blanc()))){
-                compt = compt + 0.5;
-            }
-        }
-        return compt;
-    }
 }
