@@ -36,7 +36,21 @@ public class MyTable extends Table {
 
     public MyTable(Partie p) {
 
+        Label equa = new Label();
+        equa.setLayoutX(75);
+        equa.setLayoutY(50);
+        equa.setStyle("-fx-text-fill: white");
+
+        Label lity = new Label();
+        lity.setLayoutX(0);
+        lity.setLayoutY(50);
+        lity.setStyle("-fx-text-fill: black");
+
         HBox hbox = new HBox();
+
+        Label checkB = new Label("");
+        checkB.setPadding(new Insets(25));
+        checkB.setFont(new Font(20));
 
         Pane noir = new Pane();
         Label lbl = new Label(p.getJoueur_noir().getNom() + " " + p.getJoueur_noir().getPrenom());
@@ -47,11 +61,18 @@ public class MyTable extends Table {
         checkN.setFont(new Font(20));
         checkN.setStyle("-fx-text-fill: white");
         isNChecked = formatResultat(false, p);
-        checkN.setText(isNChecked ? "v" : "");
-        noir.getChildren().addAll(lbl, checkN);
+        checkN.setText(isNChecked ? "X" : "");
+        noir.getChildren().addAll(lbl, checkN, equa);
         noir.setOnMouseClicked(event -> {
             isNChecked = !isNChecked;
-            checkN.setText(isNChecked ? "v" : "");
+            checkN.setText(isNChecked ? "X" : "");
+            if (isBChecked && isNChecked) {
+                equa.setText("equa");
+                lity.setText("lity");
+            } else {
+                equa.setText("");
+                lity.setText("");
+            }
             Session ses = HibernateUtil.openSession();
             p.setResultat(getResultat());
             ses.update(p);
@@ -61,15 +82,19 @@ public class MyTable extends Table {
 
         Pane blanc = new Pane();
         Label lbl2 = new Label(p.getJoueur_blanc().getNom() + " " + p.getJoueur_blanc().getPrenom());
-        Label checkB = new Label("");
-        checkB.setPadding(new Insets(25));
-        checkB.setFont(new Font(20));
         isBChecked = formatResultat(true, p);
-        checkB.setText(isBChecked ? "v" : "");
-        blanc.getChildren().addAll(lbl2, checkB);
+        checkB.setText(isBChecked ? "X" : "");
+        blanc.getChildren().addAll(lbl2, checkB, lity);
         blanc.setOnMouseClicked(event -> {
             isBChecked = !isBChecked;
-            checkB.setText(isBChecked ? "v" : "");
+            checkB.setText(isBChecked ? "X" : "");
+            if (isBChecked && isNChecked) {
+                equa.setText("equa");
+                lity.setText("lity");
+            } else {
+                equa.setText("");
+                lity.setText("");
+            }
             Session ses = HibernateUtil.openSession();
             p.setResultat(getResultat());
             ses.update(p);
@@ -82,6 +107,8 @@ public class MyTable extends Table {
         noir.setStyle("-fx-background-color: black;");
         hbox.getChildren().addAll(noir, blanc);
         this.getChildren().add(hbox);
+
+
     }
 
     public boolean isValid() {

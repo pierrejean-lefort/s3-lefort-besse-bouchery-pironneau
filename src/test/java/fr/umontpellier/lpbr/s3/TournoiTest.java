@@ -14,7 +14,7 @@ public class TournoiTest {
     private Tournoi testTournoi;
     private Session sess;
 
-    @Before
+    @BeforeEach
     public void init() {
         sess = HibernateUtil.openSession();
 
@@ -53,10 +53,10 @@ public class TournoiTest {
     public void gotCurrentRoundTest() {
         System.out.println("Test running");
         int r = testTournoi.gotCurrentRound();
-        assertEquals(r, 0);
+        assertEquals(1, r);
     }
 
-    @After
+    @AfterEach
     public void shutdown() {
         System.out.println("Test shutdown");
 
