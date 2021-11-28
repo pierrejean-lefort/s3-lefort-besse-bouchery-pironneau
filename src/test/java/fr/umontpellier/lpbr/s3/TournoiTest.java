@@ -4,10 +4,9 @@ import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.*;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
@@ -16,21 +15,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.Instant;
 import java.util.Date;
 
+@ExtendWith(MockitoExtension.class)
 public class TournoiTest {
+
     private Tournoi testTournoi;
-    private Session sess;
+
 
     @BeforeEach
     public void init() {
-        sess = HibernateUtil.openSession();
 
         System.out.println("Test initializing");
 
+        testTournoi = Mockito.mock(Tournoi.class);
         testTournoi = new Tournoi();
         testTournoi.setNom("Test");
         testTournoi.setMethode(Methode.getMethodeList().get(0).getCode());
         testTournoi.setNbRound(9);
-        sess.save(testTournoi);
+
 
         for (int i = 0; i < 20; i++) {
             Joueur j = new Joueur();
@@ -42,14 +43,14 @@ public class TournoiTest {
             j.setDateNaissance(Date.from(Instant.now()));
             j.setNumLicence("1655416574" + i);
             j.setSexe("H");
-            sess.save(j);
+
 
             Participe p = new Participe();
             p.setTournoi(testTournoi);
             p.setJoueur(j);
             p.setElo_joueur(j.getElo());
 
-            sess.save(p);
+
         }
 
         System.out.println("Test initialized");
@@ -62,11 +63,5 @@ public class TournoiTest {
         assertEquals(1, r);
     }
 
-    @AfterEach
-    public void shutdown() {
-        System.out.println("Test shutdown");
 
-        sess.close();
-        HibernateUtil.shutdown();
-    }
 }
