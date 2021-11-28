@@ -115,13 +115,15 @@ public class Partie {
         p.setNumRonde(num);
         p.setTable(tbl);
 
-        Session sess = HibernateUtil.openSession();
-        if (t.getStatus() == 0) {
-            t.setStatus(1);
-            sess.save(HibernateUtil.prepareToSave(t));
-        }
-        sess.save(p);
-        HibernateUtil.closeSession(sess);
+//        if (num == 0) {
+            Session sess = HibernateUtil.openSession();
+            if (t.getStatus() == 0) {
+                t.setStatus(1);
+                sess.save(HibernateUtil.prepareToSave(t));
+            }
+            sess.save(p);
+            HibernateUtil.closeSession(sess);
+//        }
 
         return p;
     }

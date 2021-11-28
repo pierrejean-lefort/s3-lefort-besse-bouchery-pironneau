@@ -43,7 +43,14 @@ public class EchecIHM extends Application {
                     .setIhm(this)
                     .setScene(MyTournoi.class);
         } else {
-            testDB();
+//            testDB();
+            Session sess = HibernateUtil.openSession();
+
+            Tournoi t = (Tournoi) sess.createQuery("FROM tournois WHERE id=3").getSingleResult();
+
+            System.out.println(t.gotCurrentRound());
+
+            sess.close();
         }
     }
 
@@ -90,6 +97,7 @@ public class EchecIHM extends Application {
         try {
             View.getView().setScene(MyLoading.class);
             setProgress(-1);
+            setCurrentPage(0);
         } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -112,12 +120,12 @@ public class EchecIHM extends Application {
             int r = t.gotCurrentRound();
             System.out.println(t + " - round " + r);
 
-            if (r == 1 && t.getParticipation().size() == 22) {
+            if (r == 2 && t.getParticipation().size() == 22) {
                 List<Partie> p2 = new ArrayList<>(parties);
-                p2.removeIf(p -> p.getNumRonde() != r);
+                p2.removeIf(p -> p.getNumRonde() != 1);
                 System.out.println("Dernier round: " + p2);
 
-                System.out.println("Prochain round: " + t.gotRepartition(r+1));
+                System.out.println("Prochain round: " + t.gotRepartition(r));
             }
         }
 

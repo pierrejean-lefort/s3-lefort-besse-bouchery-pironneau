@@ -27,11 +27,8 @@ public class MyLoading extends Loading {
             double p = (double) t1;
             progressIndicator.setProgress(p);
             progressBar.setProgress(p);
-            System.out.println(p);
-            System.out.println(thread);
-            if (thread != null) System.out.println(thread.isAlive());
 
-            if (p >= 0.95 && thread != null && thread.isAlive()) {
+            if (p >= 1 && thread != null && thread.isAlive()) {
                 try {
                     View.getView().setScene(MyResultat.class, true);
                 } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException | ClassNotFoundException e) {

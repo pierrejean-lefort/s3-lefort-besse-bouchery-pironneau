@@ -113,28 +113,60 @@ public class Tournoi {
 //        HibernateUtil.closeSession(sess);
         int p = 0;
 
-        Set<Partie> parties = getParties();
-        List<Partie> parties1 = new ArrayList<>(parties);
-        parties1.sort(Comparator.comparingInt(Partie::getNumRonde));
+//        Set<Partie> parties = getParties();
+        Session sess = HibernateUtil.openSession();
+        List<Partie> parties1 = sess.createQuery("FROM parties WHERE tournoi=:t ORDER BY numRonde ASC")
+                .setParameter("t", this)
+                .list();
+        HibernateUtil.closeSession(sess);
         System.out.println(parties1);
+
+//        parties1.sort(Comparator.comparingInt(Partie::getNumRonde));
+        if (parties1.size() == 0) {
+            System.out.println("no parties");
+            return p;
+        }
         for (Partie p1 : parties1) {
             if (p1.getNumRonde() > p) p = p1.getNumRonde();
             if (p1.getResultat() == 0) {
+                System.out.println("not finished " + p1);
                 return p;
             }
         }
 
+        System.out.println("finished");
         return p + 1;
 
 //        SELECT MAX(t3.numRonde) FROM ( SELECT p1.tournoi_id, p1.numRonde FROM parties AS p1 LEFT JOIN ( SELECT p2.tournoi_id, p2.numRonde FROM parties AS p2 WHERE p2.resultat = 0 ) As t2 USING (tournoi_id) WHERE t2.tournoi_id IS NULL ) As t3
     }
 
-    public List<Partie> gotRound(int round) {
+    public boolean isRoundValid(int round) {
         Session sess = HibernateUtil.openSession();
-        List<Partie> p = sess.createQuery("FROM parties WHERE numRonde = :round AND tournoi = :id")
-                .setParameter("id", this)
-                .setParameter("round", round)
+        List<Partie> parties1 = sess.createQuery("FROM parties WHERE tournoi=:t AND numRonde=:num")
+                .setParameter("t", this)
+                .setParameter("num", round)
                 .list();
+        HibernateUtil.closeSession(sess);
+
+        if (parties1.size() == 0) {
+            System.out.println("no parties");
+            return false;
+        }
+        for (Partie p1 : parties1) {
+            if (p1.getResultat() == 0) {
+                System.out.println("not finished " + p1);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Set<Partie> gotRound(int round) {
+        Session sess = HibernateUtil.openSession();
+        sess.refresh(this);
+        Set<Partie> p = getParties();
+        p.removeIf((pp) -> pp.getNumRonde() != round);
         if (p.size() != 0) {
             EchecIHM.taskSetProgress(100);
         }
@@ -145,12 +177,20 @@ public class Tournoi {
     }
 
     public List<Partie> gotRepartition(int round) {
-        List<Partie> p = gotRound(round);
-        if (p != null) return p;
+        Session sess = HibernateUtil.openSession();
+        sess.refresh(this);
+        HibernateUtil.closeSession(sess);
+
+        Set<Partie> p1 = gotRound(round);
+        if (p1 != null) return new ArrayList<>(p1);
 
         if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null;
 
-
+        if (round != 1 && !isRoundValid(round-1)) {
+            System.out.println("Le dernier round n'a pas été fini !");
+            EchecIHM.taskSetProgress(100);
+            return null;
+        }
         SystemTournoi sys = new Suisse(this);
         return round == 1 ? sys.firstRound() : sys.newRound(round);
     }
@@ -165,3 +205,4 @@ public class Tournoi {
         return t;
     }
 }
+
