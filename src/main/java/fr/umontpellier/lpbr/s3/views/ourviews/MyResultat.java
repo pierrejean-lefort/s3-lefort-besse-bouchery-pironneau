@@ -19,10 +19,7 @@ import org.hibernate.Session;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class MyResultat extends Resultat {
@@ -59,6 +56,7 @@ public class MyResultat extends Resultat {
     private Label error;
 
     private int partieSize;
+    private int round;
 
     private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
         @Override
@@ -103,16 +101,22 @@ public class MyResultat extends Resultat {
         @Override
         public void handle(ActionEvent actionEvent) {
 
-            for (Node n : vbox.getChildren()) {
-                for (Node nn : ((HBox)n).getChildren()) {
-                    MyTable tbl = (MyTable)nn;
-                    if (!tbl.isValid()) {
-                        String err = "Toutes les tables ne sont pas validées";
-                        System.out.println(err);
-                        error.setText(err);
-                        return;
-                    }
-                }
+//            for (Node n : vbox.getChildren()) {
+//                for (Node nn : ((HBox)n).getChildren()) {
+//                    MyTable tbl = (MyTable)nn;
+//                    if (!tbl.isValid()) {
+//                        String err = "Toutes les tables ne sont pas validées";
+//                        System.out.println(err);
+//                        error.setText(err);
+//                        return;
+//                    }
+//                }
+//            }
+            if (!View.getIhm().getSelectedTournoi().isRoundValid(round)) {
+                String err = "Toutes les tables ne sont pas validées";
+                System.out.println(err);
+                error.setText(err);
+                return;
             }
             View.getIhm().setLoading();
         }
@@ -131,8 +135,9 @@ public class MyResultat extends Resultat {
 
         page.setText((View.getIhm().getCurrentPage()+1)+"");
 
-        int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
+        round = View.getIhm().getSelectedTournoi().gotCurrentRound();
 
+        System.out.println(round);
         if (round == 0) round = 1;
 
         roundLbl.setText("Round #"+round);
@@ -157,6 +162,7 @@ public class MyResultat extends Resultat {
         int i = 0;
         int j = -1;
 
+        partie.sort(Comparator.comparingInt(p -> Integer.parseInt(p.getTable())));
         partie = partie.subList(View.getIhm().getCurrentPage()*9, Math.min(View.getIhm().getCurrentPage()*9+9, partieSize));
 
         for(Partie p : partie) {
