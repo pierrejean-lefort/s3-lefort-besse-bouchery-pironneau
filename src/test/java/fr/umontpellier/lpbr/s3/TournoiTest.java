@@ -15,14 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.Instant;
 import java.util.Date;
 
-@ExtendWith(MockitoExtension.class)
+
 public class TournoiTest {
 
     private Tournoi testTournoi;
 
 
     @BeforeEach
-    public void init() {
+    public void setUp() {
+
 
         System.out.println("Test initializing");
 
@@ -63,5 +64,10 @@ public class TournoiTest {
         assertEquals(1, r);
     }
 
+
+    @After
+    public void deleteAll() {
+
+    }
 
 }
