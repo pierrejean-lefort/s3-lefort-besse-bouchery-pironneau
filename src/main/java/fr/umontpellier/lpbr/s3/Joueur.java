@@ -140,6 +140,26 @@ public class Joueur {
         return compt;
     }
 
+    public double nbPoint(Tournoi t, int numRound){
+        double compt = 0;
+        Set<Partie> parties = t.getParties();
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        parties.removeIf((p) -> p.getNumRonde()>numRound);
+        for (Partie p: parties){
+            int res = p.getResultat();
+            if (res == 1 && this.equals(p.getJoueur_blanc())){
+                compt ++;
+            }
+            else if (res == 2 && this.equals(p.getJoueur_noir())){
+                compt ++;
+            }
+            else if (res == 3 ){
+                compt = compt + 0.5;
+            }
+        }
+//        HibernateUtil.closeSession(ses);
+        return compt;
+    }
 
     @Override
     public String toString() {
