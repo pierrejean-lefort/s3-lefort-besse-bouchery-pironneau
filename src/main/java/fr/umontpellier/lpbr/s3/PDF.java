@@ -22,7 +22,7 @@ public class PDF {
 
 
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("resultat round"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("resultat round"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()+".pdf"));
             document.open();
             PdfPTable table = new PdfPTable(6); // création du nombre de colone
             table.setWidthPercentage(100); //Width 100%
@@ -84,6 +84,8 @@ public class PDF {
             document.add(table);
             document.close();
             writer.close();
+
+
 
 
 
