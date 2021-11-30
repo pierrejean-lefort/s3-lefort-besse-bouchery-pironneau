@@ -176,6 +176,10 @@ public class Tournoi {
         return p.size() != 0 ? p : null;
     }
 
+    /**
+     * @param round le numéro de la round souhaitée
+     * @return Liste de Partie correspondant au round, null si le dernier round n'est pas rentré
+     */
     public List<Partie> gotRepartition(int round) {
         Session sess = HibernateUtil.openSession();
         sess.refresh(this);
