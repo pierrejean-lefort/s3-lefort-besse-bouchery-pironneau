@@ -17,9 +17,13 @@ import javafx.scene.control.Cell;
 public class PDF {
 
     public static void resultatRoundCreatePDF(ArrayList<Partie> partieListe, Tournoi t){
+
         Document document = new Document();
-        int nbPartie = partieListe.size();
+
+
         try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("resultat round"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()));
+            document.open();
             PdfPTable table = new PdfPTable(6); // création du nombre de colone
             table.setWidthPercentage(100); //Width 100%
             table.setSpacingBefore(10f); //Space before table
@@ -77,6 +81,11 @@ public class PDF {
 
 
             }
+            document.add(table);
+            document.close();
+            writer.close();
+
+
 
 
 
