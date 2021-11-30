@@ -79,6 +79,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.10</version>
+        </dependency>
+
 <!--        Database-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -114,13 +120,6 @@
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
             <version>4.0.16-alpha</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.3.3</version>
             <scope>test</scope>
         </dependency>
 

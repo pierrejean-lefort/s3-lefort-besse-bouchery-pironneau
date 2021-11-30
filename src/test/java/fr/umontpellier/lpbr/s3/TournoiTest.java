@@ -26,10 +26,11 @@ public class TournoiTest {
         sess.createSQLQuery("FLUSH TABLES");
 
         testTournoi = new Tournoi();
-        testTournoi.setNom("Test");
+        testTournoi.setId(1);
+        testTournoi.setNom("Test1");
         testTournoi.setMethode(Methode.getMethodeList().get(0).getCode());
         testTournoi.setNbRound(9);
-
+        sess.save(testTournoi);
 
         for (int i = 0; i < 20; i++) {
             Joueur j = new Joueur();
@@ -50,16 +51,33 @@ public class TournoiTest {
             p.setTournoi(testTournoi);
             p.setJoueur(j);
             p.setElo_joueur(j.getElo());
+            sess.save(p);
 
-
+            HibernateUtil.closeSession(sess);
+            sess = HibernateUtil.openSession();
         }
 
-        System.out.println("Test initialized");
+        HibernateUtil.closeSession(sess);
     }
 
     @Test
-    public void gotCurrentRoundTest() {
-        System.out.println("Test running");
+    public void gotCurrentRoundTestFirstRound() {
+        sess = HibernateUtil.openSession();
+        for (Partie p : testTournoi.getParties()) {
+            p.setJoueur_blanc(null);
+            p.setJoueur_noir(null);
+            sess.delete(p);
+        }
+        HibernateUtil.closeSession(sess);
+
+        int r = testTournoi.gotCurrentRound();
+        assertEquals(0, r);
+    }
+
+    @Test
+    public void gotCurrentRoundTestSecondRound() {
+        testTournoi.gotRepartition(1);
+
         int r = testTournoi.gotCurrentRound();
         assertEquals(1, r);
     }

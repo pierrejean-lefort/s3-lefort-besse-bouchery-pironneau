@@ -26,7 +26,7 @@ public class Joueur {
 
     }
 
-    private void setId(int id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

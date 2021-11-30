@@ -79,6 +79,8 @@ public class EchecIHM extends Application {
     }
 
     public static void taskSetProgress(double progress) {
+        if (View.getIhm() == null) return;
+
         Platform.runLater(() -> {
             System.out.println("new progress l" + progress);
             View.getIhm().setProgress(progress);
