@@ -75,7 +75,8 @@ public class MyResultat extends Resultat {
 
             partie.sort(Comparator.comparingInt(p -> Integer.parseInt(p.getTable())));
 
-            PDF.roundCreatePDF(partie);
+            PDF.resultatRoundCreatePDF(partie, View.getIhm().getSelectedTournoi());
+            imprimer.setDisable(true);
         }
     };
 
@@ -148,7 +149,7 @@ public class MyResultat extends Resultat {
         retour.setOnAction(retourAction);
 
         imprimer.setOnAction(imprimerAction);
-        imprimer.setDisable(true);
+        imprimer.setDisable(false);
 
         rdsuiv.setOnAction(roundSuiv);
 
