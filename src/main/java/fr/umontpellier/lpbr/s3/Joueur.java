@@ -140,7 +140,7 @@ public class Joueur {
         return compt;
     }
 
-    public double nbPoint(Tournoi t, int numRound){
+    public double nbPoint(Tournoi t, double numRound){
         double compt = 0;
         Set<Partie> parties = t.getParties();
         parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
