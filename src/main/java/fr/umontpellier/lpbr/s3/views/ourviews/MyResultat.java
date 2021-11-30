@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.HibernateUtil;
+import fr.umontpellier.lpbr.s3.PDF;
 import fr.umontpellier.lpbr.s3.Participe;
 import fr.umontpellier.lpbr.s3.Partie;
 import fr.umontpellier.lpbr.s3.views.Resultat;
@@ -57,6 +58,27 @@ public class MyResultat extends Resultat {
 
     private int partieSize;
     private int round;
+
+    private EventHandler<ActionEvent> imprimerAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            ArrayList<Partie> partie = new ArrayList<>(View.getIhm().getSelectedTournoi().gotRepartition(round));
+
+            if (partie == null) {
+                try {
+                    View.getView().setScene(MyTournoi.class);
+                } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return;
+            };
+
+            partie.sort(Comparator.comparingInt(p -> Integer.parseInt(p.getTable())));
+
+            PDF.resultatRoundCreatePDF(partie, View.getIhm().getSelectedTournoi());
+            imprimer.setDisable(true);
+        }
+    };
 
     private EventHandler<ActionEvent> retourAction = new EventHandler<ActionEvent>() {
         @Override
@@ -126,7 +148,8 @@ public class MyResultat extends Resultat {
 
         retour.setOnAction(retourAction);
 
-        imprimer.setDisable(true);
+        imprimer.setOnAction(imprimerAction);
+        imprimer.setDisable(false);
 
         rdsuiv.setOnAction(roundSuiv);
 

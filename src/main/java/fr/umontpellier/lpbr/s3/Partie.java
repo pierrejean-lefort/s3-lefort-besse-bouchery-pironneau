@@ -93,6 +93,15 @@ public class Partie {
         this.joueur_noir = joueur_noir;
     }
 
+
+    public String resultatToString(){
+        if (resultat == 1) return "1-0" ;
+        else if (resultat ==  2) return "0-1";
+        else return "X-X" ;
+    }
+
+
+
     @Override
     public String toString() {
         return "|#" + id + " | " + joueur_blanc.getId() + " | " + joueur_noir.getId() + " | " + resultat + "\n";
