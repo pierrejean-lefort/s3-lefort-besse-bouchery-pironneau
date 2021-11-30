@@ -9,6 +9,7 @@ open module ihm.echec {
     requires java.naming;
     requires org.hibernate.orm.core;
     requires net.bytebuddy;
+    requires itextpdf;
 
     exports fr.umontpellier.lpbr.s3;
     exports fr.umontpellier.lpbr.s3.views;

@@ -1,33 +1,30 @@
 package fr.umontpellier.lpbr.s3;
 
-import org.hibernate.Session;
-import org.junit.After;
+import org.hibernate.*;
 import org.junit.Before;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 
 public class TournoiTest {
 
-    private Tournoi testTournoi;
-
+    private static Tournoi testTournoi;
+    private static Session sess;
 
     @BeforeEach
-    public void setUp() {
+    public void init() {
+        sess = HibernateUtil.openSession();
+        sess.createSQLQuery("FLUSH TABLES");
 
-
-        System.out.println("Test initializing");
-
-        testTournoi = Mockito.mock(Tournoi.class);
         testTournoi = new Tournoi();
         testTournoi.setNom("Test");
         testTournoi.setMethode(Methode.getMethodeList().get(0).getCode());
@@ -44,7 +41,10 @@ public class TournoiTest {
             j.setDateNaissance(Date.from(Instant.now()));
             j.setNumLicence("1655416574" + i);
             j.setSexe("H");
+            sess.save(j);
 
+            System.out.println("ta grosse darrone");
+            System.out.println(j.getId());
 
             Participe p = new Participe();
             p.setTournoi(testTournoi);
@@ -65,9 +65,30 @@ public class TournoiTest {
     }
 
 
-    @After
+    @AfterEach
     public void deleteAll() {
+        sess = HibernateUtil.openSession();
+        for (Participe p : testTournoi.getParticipation()) {
+            Joueur j = p.getJoueur();
+            j.setParticipations(null);
+            sess.delete(j);
 
+            p.setTournoi(null);
+            p.setJoueur(null);
+            sess.delete(p);
+        }
+
+        for (Partie p : testTournoi.getParties()) {
+            p.setJoueur_blanc(null);
+            p.setJoueur_noir(null);
+            sess.delete(p);
+        }
+
+        testTournoi.setParticipation(null);
+        testTournoi.setParties(null);
+        sess.delete(testTournoi);
+        sess.flush();
+        HibernateUtil.closeSession(sess);
     }
 
 }
