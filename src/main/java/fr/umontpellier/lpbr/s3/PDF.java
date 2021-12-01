@@ -29,6 +29,13 @@ public class PDF {
             table.setSpacingBefore(10f); //Space before table
             table.setSpacingAfter(10f); //Space after table
 
+            //largueur colone
+
+            float[] columnWidths = {1f, 1f, 3f, 1f, 3f,1f};
+            table.setWidths(columnWidths);
+
+
+
              // ajoue des noms des colums pour l'impression
             PdfPCell cell1= new PdfPCell(new Paragraph("table"));
             table.addCell(cell1);
@@ -84,6 +91,7 @@ public class PDF {
             document.add(table);
             document.close();
             writer.close();
+            System.out.println("le doc a était créer ");
 
 
 
