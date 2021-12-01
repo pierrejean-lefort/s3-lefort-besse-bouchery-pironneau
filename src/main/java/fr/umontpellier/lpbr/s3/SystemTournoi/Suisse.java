@@ -96,12 +96,12 @@ public class Suisse extends SystemTournoi {
         return r;
     }
 
-    public Joueur getAdversaire(Joueur j, List<Joueur> possible, int round, boolean wasBlanc) {
-        List<Joueur> possible2 = new ArrayList<>(possible);
+    public Joueur getAdversaire(Joueur j, List<Joueur> possible, int round, boolean wasBlanc) { //là on commence à avoir mal à la tête
+        List<Joueur> possible2 = new ArrayList<>(possible); //liste avec tous les joueurs non appariés
 
-        List<Joueur> jamaisJoue = getNewJoueurs(j, possible2);
+        List<Joueur> jamaisJoue = getNewJoueurs(j, possible2); //liste des joueurs contre qui il a jamais joué
 
-        List<Joueur> deCouleurDiff = getDiffColor(jamaisJoue, round - 1, wasBlanc);
+        List<Joueur> deCouleurDiff = getDiffColor(jamaisJoue, round - 1, wasBlanc); //liste des joueurs de couleur opposée au round n-1
 
         List<Joueur> mmPts = getSameScore(j, deCouleurDiff);
         if (mmPts == null) {
@@ -148,7 +148,7 @@ public class Suisse extends SystemTournoi {
             if (!aApparai.contains(j)) // sert à rien ???
                 continue;
 
-            aApparai.remove(j); // on enlève le joueur que l'on traite de la liste des joueurs avec qui il peut etre appareillé
+            aApparai.remove(j); // on enlève le joueur que l'on traite de la liste des joueurs avec qui il peut etre apparié
 
 
             boolean wasBlanc = j.wasBlanc(t, round-1); // on regarde si il a été blanc au round précédent
@@ -156,12 +156,12 @@ public class Suisse extends SystemTournoi {
             Joueur adversaire = getAdversaire(j, aApparai, round, wasBlanc); //on appelle une fonction giga cursed pour avoir son adversaire
             if (adversaire == null) { //si la fonction cursed a planté, c'est l'alarme, c'est la galère
                 System.out.println("Pas d'adversaire trouvé pour" + j.getId() + " !");
-                aApparai.add(j); //le joueur que l'on voulait appareiller est relâché dans la fosse
+                aApparai.add(j); //le joueur que l'on voulait apparier est relâché dans la fosse
                 continue; //on continue si ça plante ???
             }
             System.out.println(adversaire);  //si ça a planté rip, sinon affiche adv j
 
-            aApparai.remove(adversaire); // l'adversaire n'est plus à appareiller
+            aApparai.remove(adversaire); // l'adversaire n'est plus à apparier
 
             double size = participes.size(); //formules magiques pour faire une barre de progression
             double index = i*2;
