@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.html.WebColors;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -33,6 +35,8 @@ public class PDF {
 
             float[] columnWidths = {1f, 1f, 3f, 1f, 3f,1f};
             table.setWidths(columnWidths);
+
+
 
 
 
@@ -63,30 +67,40 @@ public class PDF {
 
 
             for (Partie p : partieListe ) {
+                int intGetTab = Integer.parseInt(p.getTable());
+                BaseColor myColor = WebColors.getRGBColor("#ffffff");
+                if (intGetTab%2 == 0){
+                    // couleur fond case
+                    myColor = WebColors.getRGBColor("#a6ada9");
+                }
+                else {
+                    myColor = WebColors.getRGBColor("#ffffff");
+                }
                 PdfPCell nbTable= new PdfPCell(new Paragraph(p.getTable()));// début de la nouvelle ligne
+                nbTable.setBackgroundColor(myColor); // définition de la couleur
                 table.addCell(nbTable); //ajoue de la cellule au tableau
 
                 PdfPCell ptsBlanc = new PdfPCell(new Paragraph((int)p.getJoueur_blanc().nbPoint(t,p.getNumRonde())));
+                ptsBlanc.setBackgroundColor(myColor);
                 table.addCell(ptsBlanc);
 
                 PdfPCell nomPrenomEloBlanc = new PdfPCell(new Paragraph(p.getJoueur_blanc().toString()));
+                nomPrenomEloBlanc.setBackgroundColor(myColor);
                 table.addCell(nomPrenomEloBlanc);
 
 
                 PdfPCell resultat = new PdfPCell(new Paragraph(p.resultatToString()));
+                resultat.setBackgroundColor(myColor);
                 table.addCell(resultat);
 
                 PdfPCell nomPrenomEloNoir = new PdfPCell(new Paragraph(p.getJoueur_noir().toString()));
+                nomPrenomEloNoir.setBackgroundColor(myColor);
                 table.addCell(nomPrenomEloNoir);
 
 
                 PdfPCell ptsNoir = new PdfPCell(new Paragraph((int)p.getJoueur_noir().nbPoint(t,p.getNumRonde())));
+                ptsNoir.setBackgroundColor(myColor);
                 table.addCell(ptsNoir);
-
-
-
-
-
             }
             document.add(table);
             document.close();
