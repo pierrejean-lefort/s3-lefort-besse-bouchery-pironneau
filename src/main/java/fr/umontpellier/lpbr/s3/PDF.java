@@ -22,10 +22,12 @@ public class PDF {
 
         Document document = new Document();
 
-
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("resultat round"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()+".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Table round :"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()+".pdf"));
             document.open();
+
+            document.add(new Paragraph("Table round"+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
+
             PdfPTable table = new PdfPTable(6); // création du nombre de colone
             table.setWidthPercentage(100); //Width 100%
             table.setSpacingBefore(10f); //Space before table
@@ -36,31 +38,39 @@ public class PDF {
             float[] columnWidths = {1f, 1f, 3f, 1f, 3f,1f};
             table.setWidths(columnWidths);
 
+            //définition d'une couleurr
 
+            BaseColor myColor = BaseColor.CYAN;
 
 
 
              // ajoue des noms des colums pour l'impression
             PdfPCell cell1= new PdfPCell(new Paragraph("table"));
+            cell1.setBackgroundColor(myColor);
             table.addCell(cell1);
 
             PdfPCell cell2= new PdfPCell(new Paragraph("pts"));
+            cell2.setBackgroundColor(myColor);
             table.addCell(cell2);
 
             PdfPCell cell3= new PdfPCell(new Paragraph("blanc"));
+            cell3.setBackgroundColor(myColor);
             table.addCell(cell3);
 
 
 
             PdfPCell cell5= new PdfPCell(new Paragraph("res"));
+            cell5.setBackgroundColor(myColor);
             table.addCell(cell5);
 
             PdfPCell cell6= new PdfPCell(new Paragraph("Noir"));
+            cell6.setBackgroundColor(myColor);
             table.addCell(cell6);
 
 
 
             PdfPCell cell8= new PdfPCell(new Paragraph("pts"));
+            cell8.setBackgroundColor(myColor);
             table.addCell(cell8);
 
 
@@ -68,7 +78,7 @@ public class PDF {
 
             for (Partie p : partieListe ) {
                 int intGetTab = Integer.parseInt(p.getTable());
-                BaseColor myColor = WebColors.getRGBColor("#ffffff");
+
                 if (intGetTab%2 == 0){
                     // couleur fond case
                     myColor = WebColors.getRGBColor("#a6ada9");
@@ -107,17 +117,14 @@ public class PDF {
             writer.close();
             System.out.println("le doc a était créer ");
 
-
-
-
-
-
-
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
     }
+
+
+
 
 }

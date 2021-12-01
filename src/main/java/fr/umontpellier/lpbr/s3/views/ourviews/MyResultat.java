@@ -206,6 +206,5 @@ public class MyResultat extends Resultat {
         for(HBox hb : ligne) {
             vbox.getChildren().add(hb);
         }
-
     }
 }
