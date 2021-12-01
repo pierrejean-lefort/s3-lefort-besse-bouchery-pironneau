@@ -145,24 +145,25 @@ public class Suisse extends SystemTournoi {
         int i = 1;
         for (Participe p : participes) {
             Joueur j = p.getJoueur();
-            if (!aApparai.contains(j))
+            if (!aApparai.contains(j)) // sert à rien ???
                 continue;
 
-            aApparai.remove(j);
+            aApparai.remove(j); // on enlève le joueur que l'on traite de la liste des joueurs avec qui il peut etre appareillé
 
-            boolean wasBlanc = j.wasBlanc(t, round-1);
 
-            Joueur adversaire = getAdversaire(j, aApparai, round, wasBlanc);
-            if (adversaire == null) {
+            boolean wasBlanc = j.wasBlanc(t, round-1); // on regarde si il a été blanc au round précédent
+
+            Joueur adversaire = getAdversaire(j, aApparai, round, wasBlanc); //on appelle une fonction giga cursed pour avoir son adversaire
+            if (adversaire == null) { //si la fonction cursed a planté, c'est l'alarme, c'est la galère
                 System.out.println("Pas d'adversaire trouvé pour" + j.getId() + " !");
-                aApparai.add(j);
-                continue;
+                aApparai.add(j); //le joueur que l'on voulait appareiller est relâché dans la fosse
+                continue; //on continue si ça plante ???
             }
-            System.out.println(adversaire);
+            System.out.println(adversaire);  //si ça a planté rip, sinon affiche adv j
 
-            aApparai.remove(adversaire);
+            aApparai.remove(adversaire); // l'adversaire n'est plus à appareiller
 
-            double size = participes.size();
+            double size = participes.size(); //formules magiques pour faire une barre de progression
             double index = i*2;
             EchecIHM.taskSetProgress((index/size)*100);
             parties.add(Partie.createPartie(t, wasBlanc ? adversaire : j, wasBlanc ? j : adversaire, round, "" + i));
