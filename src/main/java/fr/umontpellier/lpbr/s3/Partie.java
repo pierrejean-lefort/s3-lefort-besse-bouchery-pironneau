@@ -104,7 +104,7 @@ public class Partie {
 
     @Override
     public String toString() {
-        return "|#" + id + " | " + joueur_blanc.getId() + " | " + joueur_noir.getId() + " | " + resultat + "\n";
+        return "|#" + id + " | " + joueur_blanc.getId() + " | " + joueur_noir.getId() + " | " + resultat + " | " + table + "\n";
     }
 
     /**

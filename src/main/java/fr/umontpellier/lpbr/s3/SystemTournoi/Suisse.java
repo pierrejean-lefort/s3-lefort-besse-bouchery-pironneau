@@ -119,7 +119,7 @@ public class Suisse extends SystemTournoi {
     public List<Partie> firstRound() {
         List<Partie> parties = new ArrayList<>();
         List<Joueur> sortedElo = orderByElo();
-        boolean j = false;
+        boolean j = true;
         for(int i = 0; i < sortedElo.size()/2; i++) {
             Joueur jb = sortedElo.get(i);
             Joueur jn = sortedElo.get(sortedElo.size()/2+i);

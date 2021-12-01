@@ -32,20 +32,17 @@ public class TournoiTest {
         testTournoi.setNbRound(9);
         sess.save(testTournoi);
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             Joueur j = new Joueur();
-            j.setNom("Test" + i);
+            j.setNom("Test" + (i+1));
             j.setPrenom("Test");
             j.setClub("Club" + i);
-            j.setElo(1000+i*3);
+            j.setElo(2000-i*3);
             j.setNationalite("fr");
             j.setDateNaissance(Date.from(Instant.now()));
             j.setNumLicence("1655416574" + i);
             j.setSexe("H");
             sess.save(j);
-
-            System.out.println("ta grosse darrone");
-            System.out.println(j.getId());
 
             Participe p = new Participe();
             p.setTournoi(testTournoi);
@@ -60,16 +57,18 @@ public class TournoiTest {
         HibernateUtil.closeSession(sess);
     }
 
+    private Joueur searchByName(String name) {
+        System.out.println("searching " + name);
+        for (Participe p : testTournoi.getParticipation()) {
+            if (p.getJoueur().getNom().equals(name)) {
+                return p.getJoueur();
+            }
+        }
+        return null;
+    }
+
     @Test
     public void gotCurrentRoundTestFirstRound() {
-        sess = HibernateUtil.openSession();
-        for (Partie p : testTournoi.getParties()) {
-            p.setJoueur_blanc(null);
-            p.setJoueur_noir(null);
-            sess.delete(p);
-        }
-        HibernateUtil.closeSession(sess);
-
         int r = testTournoi.gotCurrentRound();
         assertEquals(0, r);
     }
@@ -81,6 +80,85 @@ public class TournoiTest {
         int r = testTournoi.gotCurrentRound();
         assertEquals(1, r);
     }
+
+    @Test
+    public void gotCurrentRoundTestSecondRoundWithResults() {
+        List<Partie> parties = testTournoi.gotRepartition(1);
+        sess = HibernateUtil.openSession();
+        for (Partie p : parties) {
+            p.setResultat(1);
+            sess.update(p);
+        }
+        HibernateUtil.closeSession(sess);
+        for (Partie p : testTournoi.getParties()) {
+            System.out.println(p.getId() + " " + p.getResultat());
+        }
+
+        int r = testTournoi.gotCurrentRound();
+        assertEquals(2, r);
+    }
+
+    @Test
+    public void gotCurrentRoundTestThirdRound() {
+        List<Partie> parties = testTournoi.gotRepartition(1);
+        sess = HibernateUtil.openSession();
+        for (Partie p : parties) {
+            p.setResultat(1);
+            sess.update(p);
+        }
+        HibernateUtil.closeSession(sess);
+        for (Partie p : testTournoi.getParties()) {
+            System.out.println(p.getId() + " " + p.getResultat());
+        }
+        testTournoi.gotRepartition(2);
+
+        int r = testTournoi.gotCurrentRound();
+        assertEquals(2, r);
+    }
+
+    @Test
+    public void getCurrentRoundRepartition() {
+        List<Partie> r = testTournoi.gotRepartition(1);
+
+        assertEquals(r.get(0).getJoueur_blanc().getId(), searchByName("Test1").getId());
+        assertEquals(r.get(0).getJoueur_noir().getId(), searchByName("Test5").getId());
+        assertEquals(r.get(1).getJoueur_blanc().getId(), searchByName("Test6").getId());
+        assertEquals(r.get(1).getJoueur_noir().getId(), searchByName("Test2").getId());
+        assertEquals(r.get(2).getJoueur_blanc().getId(), searchByName("Test3").getId());
+        assertEquals(r.get(2).getJoueur_noir().getId(), searchByName("Test7").getId());
+        assertEquals(r.get(3).getJoueur_blanc().getId(), searchByName("Test8").getId());
+        assertEquals(r.get(3).getJoueur_noir().getId(), searchByName("Test4").getId());
+    }
+
+    @Test
+    public void getCurrentRoundRepartition2() {
+        List<Partie> r = testTournoi.gotRepartition(1);
+        sess = HibernateUtil.openSession();
+        boolean j = true;
+        for(Partie p : r) {
+            p.setResultat(j ? 1 : 2);
+            sess.update(p);
+        }
+        HibernateUtil.closeSession(sess);
+        r = testTournoi.gotRepartition(2);
+
+        System.out.println(searchByName("Test4"));
+        System.out.println(r);
+
+        assertEquals(r.get(0).getJoueur_blanc().getId(), searchByName("Test4").getId());
+        assertEquals(r.get(0).getJoueur_noir().getId(), searchByName("Test1").getId());
+
+        assertEquals(r.get(1).getJoueur_blanc().getId(), searchByName("Test2").getId());
+        assertEquals(r.get(1).getJoueur_noir().getId(), searchByName("Test3").getId());
+
+        assertEquals(r.get(2).getJoueur_blanc().getId(), searchByName("Test5").getId());
+        assertEquals(r.get(2).getJoueur_noir().getId(), searchByName("Test8").getId());
+
+        assertEquals(r.get(3).getJoueur_blanc().getId(), searchByName("Test7").getId());
+        assertEquals(r.get(3).getJoueur_noir().getId(), searchByName("Test6").getId());
+    }
+
+
 
 
     @AfterEach
@@ -105,8 +183,8 @@ public class TournoiTest {
         testTournoi.setParticipation(null);
         testTournoi.setParties(null);
         sess.delete(testTournoi);
-        sess.flush();
-        HibernateUtil.closeSession(sess);
+        //HibernateUtil.closeSession(sess);
+        sess.close();
     }
 
 }

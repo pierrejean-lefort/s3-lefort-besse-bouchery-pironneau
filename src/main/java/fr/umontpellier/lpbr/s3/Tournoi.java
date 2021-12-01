@@ -191,7 +191,7 @@ public class Tournoi {
         if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null;
 
         if (round != 1 && !isRoundValid(round-1)) {
-            System.out.println("Le dernier round n'a pas été fini !");
+            System.out.println("Le dernier round " + (round-1) + " n'a pas été fini !");
             EchecIHM.taskSetProgress(100);
             return null;
         }
