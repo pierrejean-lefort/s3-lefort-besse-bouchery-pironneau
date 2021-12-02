@@ -12,7 +12,7 @@ import java.util.*;
 @Entity(name = "tournois")
 public class Tournoi {
     private int id;
-    private int nbRound;
+    private int nbRound; //nombre de rondes à jouer
     private String nom;
     private String methode;
     private int status;
