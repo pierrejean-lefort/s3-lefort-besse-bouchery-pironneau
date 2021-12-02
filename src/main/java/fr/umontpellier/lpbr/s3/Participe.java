@@ -84,6 +84,8 @@ public class Participe {
                 ", joueur=" + joueur.getNom() +
                 ", tournoi=" + tournoi.getNom() +
                 ", elo_joueur=" + elo_joueur +
+                ", couleurPref=" + couleurPref +
+                ", flotteur=" + flotteur +
                 '}';
     }
 }
