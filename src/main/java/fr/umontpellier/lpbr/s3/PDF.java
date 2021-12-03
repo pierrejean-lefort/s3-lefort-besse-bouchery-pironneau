@@ -128,7 +128,7 @@ public class PDF {
 
     }
 
-    // todo changer le toString pour ne pas afficher la clef et le num de liscense
+
 
     public static void appareillementPDF(ArrayList<Partie> partieListe, Tournoi t){
         Document document = new Document();
@@ -137,7 +137,7 @@ public class PDF {
 
             document.open();
 
-            document.add(new Paragraph("Les matchs du round "+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
+            document.add(new Paragraph("Les matchs du round "+partieListe.get(0).getNumRonde()+" sont : "));
 
             PdfPTable table = new PdfPTable(3);
 
@@ -147,7 +147,7 @@ public class PDF {
 
             //largueur colone
 
-            float[] columnWidths = {1f, 1f, 1f};
+            float[] columnWidths = {0.25f, 2f, 2f};
             table.setWidths(columnWidths);
 
             //définition d'une couleurr
