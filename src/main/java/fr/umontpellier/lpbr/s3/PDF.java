@@ -23,7 +23,11 @@ public class PDF {
         Document document = new Document();
 
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Table round :"+partieListe.get(0).getNumRonde()+" du tournois"+t.getNom()+".pdf"));
+
+            // création du pdf et choix du nom (penser a ne pas utiliser de caractère spéciaux)
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Table round  "+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
+
+
             document.open();
 
             document.add(new Paragraph("Table round"+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
