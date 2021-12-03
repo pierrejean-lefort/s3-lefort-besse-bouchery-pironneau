@@ -12,7 +12,9 @@ import org.junit.runner.RunWith;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,6 +25,7 @@ public class TournoiTest {
 
     @BeforeEach
     public void init() {
+        System.out.println("initialisation");
         sess = HibernateUtil.openSession();
         sess.createSQLQuery("FLUSH TABLES");
 
@@ -56,6 +59,7 @@ public class TournoiTest {
         }
 
         HibernateUtil.closeSession(sess);
+        System.out.println("stopping initialisation");
     }
 
     private Joueur searchByName(String name) {
@@ -133,7 +137,11 @@ public class TournoiTest {
 
     @Test
     public void getCurrentRoundRepartition2() {
+        System.out.println("Starting test");
         List<Partie> r = testTournoi.gotRepartition(1);
+//        Set<Partie> ajoutPartie = new HashSet<Partie>(r);
+//        ajoutPartie.addAll(testTournoi.getParties());
+//        testTournoi.setParties(ajoutPartie);
         sess = HibernateUtil.openSession();
         boolean j = true;
         for(Partie p : r) {
@@ -142,7 +150,10 @@ public class TournoiTest {
         }
         HibernateUtil.closeSession(sess);
         r = testTournoi.gotRepartition(2);
-
+//        ajoutPartie = new HashSet<Partie>(r);
+//        ajoutPartie.addAll(testTournoi.getParties());
+//        testTournoi.setParties(ajoutPartie);
+        sess = HibernateUtil.openSession();
         System.out.println(searchByName("Test4"));
         System.out.println(r);
 
@@ -157,6 +168,7 @@ public class TournoiTest {
 
         assertEquals(r.get(3).getJoueur_blanc().getId(), searchByName("Test7").getId());
         assertEquals(r.get(3).getJoueur_noir().getId(), searchByName("Test6").getId());
+        System.out.println("test terminé");
     }
 
 

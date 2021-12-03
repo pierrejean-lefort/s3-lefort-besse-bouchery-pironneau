@@ -49,10 +49,10 @@ public class SuisseComplet extends SystemTournoi{
         Map<Integer,Double> map = new HashMap<>();
         for (Participe j : l){
             joueurs.add(j);
-            map.put(j.getJoueur().getId(),j.getJoueur().nbPoint(t));
+            map.put(j.getId(),j.getJoueur().nbPoint(t));
         }
         Collections.sort(joueurs, (j1, j2)->{
-            if (Objects.equals(map.get(j1.getJoueur().getId()), map.get(j2.getJoueur().getId()))){ //map magie noire pour trier la liste
+            if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){ //map magie noire pour trier la liste
                 return j2.getJoueur().getElo() - j1.getJoueur().getElo();
             }
             else return (int) (map.get(j1.getId())-map.get(j2.getId()));
@@ -172,7 +172,7 @@ public class SuisseComplet extends SystemTournoi{
             parties.add(Partie.createPartie(t, j ? jb : jn, j ? jn : jb, 1, "" + (i + 1)));
             j = !j;
         }
-
+        t.setParties(new HashSet<>(parties));
         HibernateUtil.closeSession(sess);
 
         return parties;
@@ -268,12 +268,16 @@ public class SuisseComplet extends SystemTournoi{
      * @return les parties à jouer de la round suivantes
      */
     public boolean newRoundAux(List<Partie> parties, List<Participe> participants, int round, int numPartie, int totalSize){
+        Set<Partie> existe = new HashSet<>(t.getParties());
         //todo: faire de cet algo un truc qui fonctionne
         //indice de la partie
+        //on trie les joueurs
+        participants = orderByNbPointeteloP(participants);
         //cas de base chelou
         if(participants.isEmpty()) return true;
 
         //cas de base (dernier groupe de points)
+        t.setParties(existe);
         if(participants.get(0).getJoueur().nbPoint(t)==0){
             if (participants.size()<2) return false;
             List<Participe> nivPts = new ArrayList<>(participants);

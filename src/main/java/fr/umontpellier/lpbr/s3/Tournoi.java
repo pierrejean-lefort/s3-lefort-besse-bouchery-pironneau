@@ -141,6 +141,15 @@ public class Tournoi {
 //        SELECT MAX(t3.numRonde) FROM ( SELECT p1.tournoi_id, p1.numRonde FROM parties AS p1 LEFT JOIN ( SELECT p2.tournoi_id, p2.numRonde FROM parties AS p2 WHERE p2.resultat = 0 ) As t2 USING (tournoi_id) WHERE t2.tournoi_id IS NULL ) As t3
     }
 
+    public Set<Partie> gotPartiesFromBD(){
+        Session sess = HibernateUtil.openSession();
+        Set<Partie> parties1 = new HashSet<>(sess.createQuery("FROM parties WHERE tournoi=:t")
+                .setParameter("t", this)
+                .list());
+        HibernateUtil.closeSession(sess);
+        return parties1;
+    }
+
     public boolean isRoundValid(int round) {
         Session sess = HibernateUtil.openSession();
         List<Partie> parties1 = sess.createQuery("FROM parties WHERE tournoi=:t AND numRonde=:num")
@@ -159,7 +168,6 @@ public class Tournoi {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -167,7 +175,7 @@ public class Tournoi {
     public Set<Partie> gotRound(int round) {
         Session sess = HibernateUtil.openSession();
         sess.refresh(this);
-        Set<Partie> p = getParties();
+        Set<Partie> p = new HashSet<>(getParties());
         p.removeIf((pp) -> pp.getNumRonde() != round);
         if (p.size() != 0) {
             EchecIHM.taskSetProgress(100);
@@ -183,14 +191,14 @@ public class Tournoi {
      * @return Liste de Partie correspondant au round, null si le dernier round n'est pas rentré
      */
     public List<Partie> gotRepartition(int round) {
+
         Session sess = HibernateUtil.openSession();
         sess.refresh(this);
         HibernateUtil.closeSession(sess);
-
         Set<Partie> p1 = gotRound(round);
         if (p1 != null) return new ArrayList<>(p1);
 
-        if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null;
+        if (getParticipation().size() == 0 || getParticipation().size() % 2 != 0) return null; //nombre de joueurs pairs seulement;
 
         if (round != 1 && !isRoundValid(round-1)) {
             System.out.println("Le dernier round " + (round-1) + " n'a pas été fini !");
