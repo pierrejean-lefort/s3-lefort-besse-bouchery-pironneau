@@ -205,7 +205,7 @@ public class Tournoi {
             EchecIHM.taskSetProgress(100);
             return null;
         }
-        SystemTournoi sys = new SuisseComplet(this);
+        SystemTournoi sys = new Suisse(this);
         try {
             return round == 1 ? sys.firstRound() : sys.newRound(round);
         } catch (Exception e) {
