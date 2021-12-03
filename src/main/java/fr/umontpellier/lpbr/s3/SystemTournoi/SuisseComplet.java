@@ -267,7 +267,7 @@ public class SuisseComplet extends SystemTournoi{
      * @param numPartie indice de la premiere partie à apparier
      * @return les parties à jouer de la round suivantes
      */
-    public boolean newRoundAux(List<Partie> parties, List<Participe> participants, int round, int numPartie){
+    public boolean newRoundAux(List<Partie> parties, List<Participe> participants, int round, int numPartie, int totalSize){
         //todo: faire de cet algo un truc qui fonctionne
         //indice de la partie
         //cas de base chelou
@@ -313,7 +313,7 @@ public class SuisseComplet extends SystemTournoi{
                     }
                     testingPermutations = false; //si on a un appariement on quitte la boucle
                 }
-
+                EchecIHM.taskSetProgress(((double) p / totalSize) * 100);
                 //todo: tester les échanges entre S1 et S2
                 //si on arrive là c'est que on a reussi à faire des appariements, on ajoute les parties et on return true
                 List<Partie> resultatAppariement = appariementCouleur(numPartie,round,S1, S2); //je fais comme si c'était bon
@@ -375,7 +375,7 @@ public class SuisseComplet extends SystemTournoi{
                     int faking = numPartie+ S1.size();
 
                     //APPEL A LA FONCTION RECURSIVE ULTRA LOURDE
-                    if(newRoundAux(partiesTemp,participantsTemp,round,faking)){
+                    if(newRoundAux(partiesTemp,participantsTemp,round,faking, totalSize)){
                         parties.addAll(partiesTemp);
                         break;
                     }
@@ -387,7 +387,7 @@ public class SuisseComplet extends SystemTournoi{
                     }
                     return false;                  //si aucune permutation dans S2 n'a donné de solution, on return false (C13) todo:faire flotter le/les joueurs empêchant l'appariement
                 }
-
+                EchecIHM.taskSetProgress(((double) p / totalSize) * 100);
                 //todo: tester les échanges entre S1 et S2
                 //si on arrive là c'est que on a reussi à faire des appariements, on ajoute les parties et on return true
                 List<Partie> resultatAppariement = appariementCouleur(numPartie,round,S1, S2); //je fais comme si c'était bon
@@ -455,54 +455,29 @@ public class SuisseComplet extends SystemTournoi{
      * @return les parties à jouer de la round suivantes
      */
 
-    public List<Partie> newRound(int nonMerci) throws Exception { //round ignoré todo:utiliser newRoundAux()
+    public List<Partie> newRound(int nonMerci) throws Exception { //round ignoré
         if(t.getNbRound()==t.gotCurrentRound()) {
             throw new Exception("tournoi terminé");
         }else if (t.gotCurrentRound()==0) {
-            throw new Exception("round non terminé");
+            throw new Exception("round precedent non terminé");
         } else {
             int round = t.gotCurrentRound();
 
             List<Partie> parties = new ArrayList<>(); //instancie la liste des parties à apparier
 
-            List<Joueur> aApparai = new ArrayList<>(); //on prends tout les joueurs participants
             Set<Participe> participes = t.getParticipation();
-            for (Participe p : participes) {
-                aApparai.add(p.getJoueur());
-            }
-
-            int i = 1; //pour affichage progression
+            //on prends tout les joueurs participants
+            List<Participe> participe = new ArrayList<>(participes);
 
             //corps de la méthode
-
-            for (Participe p : participes) {
-                Joueur j = p.getJoueur();
-                if (!aApparai.contains(j)) // sert à rien ???
-                    continue;
-
-                aApparai.remove(j); // on enlève le joueur que l'on traite de la liste des joueurs avec qui il peut etre apparié
-
-
-                boolean wasBlanc = j.wasBlanc(t, round - 1); // on regarde si il a été blanc au round précédent
-
-                Joueur adversaire = getAdversaire(j, aApparai, round, wasBlanc); //on appelle une fonction giga cursed pour avoir son adversaire
-                if (adversaire == null) { //si la fonction cursed a planté, c'est l'alarme, c'est la galère
-                    System.out.println("Pas d'adversaire trouvé pour" + j.getId() + " !");
-                    aApparai.add(j); //le joueur que l'on voulait apparier est relâché dans la fosse
-                    continue; //on passe au joueur suivant si ça plante
-                }
-                System.out.println(adversaire);  //si ça a planté rip, sinon affiche adv j
-
-                aApparai.remove(adversaire); // l'adversaire n'est plus à apparier
-
-                double size = participes.size(); //formules magiques pour faire une barre de progression
-                double index = i * 2;
-                EchecIHM.taskSetProgress((index / size) * 100);
-                parties.add(Partie.createPartie(t, wasBlanc ? adversaire : j, wasBlanc ? j : adversaire, round, "" + i));
-                i++;
-
+            long start = System.currentTimeMillis();
+            System.out.println("début appariement");
+            if(newRoundAux(parties, participe, round, 1, participe.size())){
+                System.out.println("appariement terminé");
+            }else{
+                System.out.println("appariement échoué");
             }
-
+            System.out.println("temps d'execution (ms) : "+(start-System.currentTimeMillis()));
             HibernateUtil.closeSession(sess);
 
             return parties;
