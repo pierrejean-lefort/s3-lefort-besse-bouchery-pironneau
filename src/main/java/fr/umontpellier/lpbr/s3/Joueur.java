@@ -161,6 +161,10 @@ public class Joueur {
         return compt;
     }
 
+    public String toStringPDF() {
+        return " - " + nom + " " + prenom + " - Elo: " + elo;
+    }
+
     @Override
     public String toString() {
         return "#" + id + " - N°" + numLicence + " - " + nom + " " + prenom + " - Elo: " + elo;

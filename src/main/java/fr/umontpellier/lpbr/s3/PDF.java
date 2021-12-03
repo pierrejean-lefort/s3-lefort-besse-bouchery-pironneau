@@ -98,7 +98,7 @@ public class PDF {
                 ptsBlanc.setBackgroundColor(myColor);
                 table.addCell(ptsBlanc);
 
-                PdfPCell nomPrenomEloBlanc = new PdfPCell(new Paragraph(p.getJoueur_blanc().toString()));
+                PdfPCell nomPrenomEloBlanc = new PdfPCell(new Paragraph(p.getJoueur_blanc().toStringPDF()));
                 nomPrenomEloBlanc.setBackgroundColor(myColor);
                 table.addCell(nomPrenomEloBlanc);
 
@@ -107,7 +107,7 @@ public class PDF {
                 resultat.setBackgroundColor(myColor);
                 table.addCell(resultat);
 
-                PdfPCell nomPrenomEloNoir = new PdfPCell(new Paragraph(p.getJoueur_noir().toString()));
+                PdfPCell nomPrenomEloNoir = new PdfPCell(new Paragraph(p.getJoueur_noir().toStringPDF()));
                 nomPrenomEloNoir.setBackgroundColor(myColor);
                 table.addCell(nomPrenomEloNoir);
 
@@ -127,6 +127,92 @@ public class PDF {
         }
 
     }
+
+    // todo changer le toString pour ne pas afficher la clef et le num de liscense
+
+    public static void appareillementPDF(ArrayList<Partie> partieListe, Tournoi t){
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Appareillement round  "+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
+
+            document.open();
+
+            document.add(new Paragraph("Les matchs du round "+partieListe.get(0).getNumRonde()+" du tournois "+t.getNom()+".pdf"));
+
+            PdfPTable table = new PdfPTable(3);
+
+            table.setWidthPercentage(100); //Width 100%
+            table.setSpacingBefore(10f); //Space before table
+            table.setSpacingAfter(10f); //Space after table
+
+            //largueur colone
+
+            float[] columnWidths = {1f, 1f, 1f};
+            table.setWidths(columnWidths);
+
+            //définition d'une couleurr
+
+            BaseColor myColor = BaseColor.CYAN;
+
+
+
+            // ajoue des noms des colums pour l'impression
+            PdfPCell cell1= new PdfPCell(new Paragraph("table"));
+            cell1.setBackgroundColor(myColor);
+            table.addCell(cell1);
+
+            PdfPCell cell2= new PdfPCell(new Paragraph("joueur blanc"));
+            cell2.setBackgroundColor(myColor);
+            table.addCell(cell2);
+
+            PdfPCell cell3= new PdfPCell(new Paragraph("joueur noir"));
+            cell3.setBackgroundColor(myColor);
+            table.addCell(cell3);
+
+
+
+            for (Partie p : partieListe ) {
+                int intGetTab = Integer.parseInt(p.getTable());
+
+                if (intGetTab%2 == 0){
+                    // couleur fond case
+                    myColor = WebColors.getRGBColor("#a6ada9");
+                }
+                else {
+                    myColor = WebColors.getRGBColor("#ffffff");
+                }
+                PdfPCell nbTable= new PdfPCell(new Paragraph(p.getTable()));// début de la nouvelle ligne
+                nbTable.setBackgroundColor(myColor); // définition de la couleur
+                table.addCell(nbTable); //ajoue de la cellule au tableau
+
+                PdfPCell nomPrenomEloBlanc = new PdfPCell(new Paragraph(p.getJoueur_blanc().toStringPDF()));
+                nomPrenomEloBlanc.setBackgroundColor(myColor);
+                table.addCell(nomPrenomEloBlanc);
+
+
+                PdfPCell nomPrenomEloNoir = new PdfPCell(new Paragraph(p.getJoueur_noir().toStringPDF()));
+                nomPrenomEloNoir.setBackgroundColor(myColor);
+                table.addCell(nomPrenomEloNoir);
+
+            }
+
+
+            document.add(table);
+            document.close();
+            writer.close();
+            System.out.println("le doc a était créer ");
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
 
 
 

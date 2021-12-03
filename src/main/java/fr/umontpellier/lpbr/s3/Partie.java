@@ -98,7 +98,8 @@ public class Partie {
     public String resultatToString(){
         if (resultat == 1) return "1-0" ;
         else if (resultat ==  2) return "0-1";
-        else return "X-X" ;
+        else if (resultat == 3) return "X-X";
+        else return "Partie en cour" ;
     }
 
 
