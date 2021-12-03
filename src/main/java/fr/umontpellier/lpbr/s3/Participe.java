@@ -17,6 +17,16 @@ public class Participe {
 
     private int elo_joueur;
 
+    /**
+     * +1 si joué noir -1 si joué blanc
+     */
+    @JoinColumn(name="couleurPref")
+    private int couleurPref = 0; //est positif pour préférentiel blanc //compliqué ==> http://www.echecs.asso.fr/LivreArbitre/310.pdf paragraphe A7
+    @JoinColumn(name="colorInRow")
+    private int colorInRow = 0; // nombre de fois qu'un joueur joue la même couleur
+    @JoinColumn(name="flotteur")
+    private int flotteur = 0; // -1 si flotteur descendant //compliqué ==> http://www.echecs.asso.fr/LivreArbitre/310.pdf paragraphe A4
+
     public Participe() {
     }
 
@@ -53,6 +63,22 @@ public class Participe {
         this.tournoi = tournoi;
     }
 
+    public int getFlotteur(){
+        return flotteur;
+    }
+
+    public int getCouleurPref() {
+        return couleurPref;
+    }
+
+    public void setFlotteur(int flotteur){
+        this.flotteur = flotteur;
+    }
+
+    public void setCouleurPref(int couleurPref) {
+        this.couleurPref = couleurPref;
+    }
+
     @Override
     public String toString() {
         return "Participe{" +
@@ -60,6 +86,8 @@ public class Participe {
                 ", joueur=" + joueur.getNom() +
                 ", tournoi=" + tournoi.getNom() +
                 ", elo_joueur=" + elo_joueur +
+                ", couleurPref=" + couleurPref +
+                ", flotteur=" + flotteur +
                 '}';
     }
 }

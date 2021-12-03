@@ -2,6 +2,7 @@ package fr.umontpellier.lpbr.s3;
 
 
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
+import fr.umontpellier.lpbr.s3.SystemTournoi.SuisseComplet;
 import fr.umontpellier.lpbr.s3.SystemTournoi.SystemTournoi;
 import fr.umontpellier.lpbr.s3.views.View;
 import org.hibernate.Session;
@@ -12,7 +13,7 @@ import java.util.*;
 @Entity(name = "tournois")
 public class Tournoi {
     private int id;
-    private int nbRound;
+    private int nbRound; //nombre de rondes à jouer
     private String nom;
     private String methode;
     private int status;
@@ -162,6 +163,7 @@ public class Tournoi {
         return true;
     }
 
+
     public Set<Partie> gotRound(int round) {
         Session sess = HibernateUtil.openSession();
         sess.refresh(this);
@@ -195,8 +197,13 @@ public class Tournoi {
             EchecIHM.taskSetProgress(100);
             return null;
         }
-        SystemTournoi sys = new Suisse(this);
-        return round == 1 ? sys.firstRound() : sys.newRound(round);
+        SystemTournoi sys = new SuisseComplet(this);
+        try {
+            return round == 1 ? sys.firstRound() : sys.newRound(round);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Tournoi clone() {

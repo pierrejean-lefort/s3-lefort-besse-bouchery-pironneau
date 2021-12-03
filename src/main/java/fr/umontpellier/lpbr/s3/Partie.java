@@ -11,7 +11,8 @@ public class Partie {
     private int numRonde;
 
     /**
-     * resultat :
+     * résultat :
+     * 0 if not initialized
      * 1 if white wins
      * 2 if black wins
      * 3 if equality
