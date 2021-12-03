@@ -224,7 +224,7 @@ public class SuisseComplet extends SystemTournoi{
         return parties;
     }
 
-    public int calculX(List<Participe> joueurs){
+  /*  public int calculX(List<Participe> joueurs){
         int b = 0; //nombre de joueurs ayant une couleur préférencielle blanche
         int n = 0; //nombre de joueurs ayant une couleur préférentielle noire
         int q = (int) Math.ceil(joueurs.size()/2.0); //moitié du nombre de joueurs du niveau de points ,arrondie au nombre entier supérieur
@@ -235,7 +235,7 @@ public class SuisseComplet extends SystemTournoi{
         }
         if(n>b) return n-q;
         else return b-q;
-    }
+    }*/
 
     /** la fonction ne met pas à jour l'attribut flottant des joueurs de niveaux différents
      *
@@ -289,7 +289,7 @@ public class SuisseComplet extends SystemTournoi{
                 }
 
                 //calcul de x suivant la règle A8 (nombre d'appariement sans couleurs)
-                int x=calculX(nivPts);
+                //int x=calculX(nivPts);
 
                 //calcul de p suivant la règle A6 (nombre de joueur de S1)
                 int p=S1.size();
@@ -344,7 +344,7 @@ public class SuisseComplet extends SystemTournoi{
                 }
 
                 //calcul de x suivant la règle A8 (nombre d'appariement sans couleurs)
-                int x=calculX(nivPts);
+                //int x=calculX(nivPts);
 
                 //calcul de p suivant la règle A6 (nombre de joueur de S1)
                 int p=S1.size();
@@ -477,7 +477,7 @@ public class SuisseComplet extends SystemTournoi{
             }else{
                 System.out.println("appariement échoué");
             }
-            System.out.println("temps d'execution (ms) : "+(start-System.currentTimeMillis()));
+            System.out.println("temps d'execution (ms) : "+(System.currentTimeMillis()-start));
             HibernateUtil.closeSession(sess);
 
             return parties;
