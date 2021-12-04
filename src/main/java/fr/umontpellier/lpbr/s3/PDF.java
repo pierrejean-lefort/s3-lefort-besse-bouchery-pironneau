@@ -61,8 +61,6 @@ public class PDF {
             cell3.setBackgroundColor(myColor);
             table.addCell(cell3);
 
-
-
             PdfPCell cell5= new PdfPCell(new Paragraph("res"));
             cell5.setBackgroundColor(myColor);
             table.addCell(cell5);
@@ -70,8 +68,6 @@ public class PDF {
             PdfPCell cell6= new PdfPCell(new Paragraph("Noir"));
             cell6.setBackgroundColor(myColor);
             table.addCell(cell6);
-
-
 
             PdfPCell cell8= new PdfPCell(new Paragraph("pts"));
             cell8.setBackgroundColor(myColor);
@@ -208,6 +204,73 @@ public class PDF {
             e.printStackTrace();
         }
 
+
+
+
+    }
+
+    //todo création pdf grille américaine
+
+    public static void grilleAmericainePDF(ArrayList<Partie> partieListe, Tournoi t){
+        Document document = new Document();
+
+        try{
+            int numRound = partieListe.get(0).getNumRonde();
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Grille Américaine round "+numRound+" du tournois "+t.getNom()+".pdf"));
+
+
+            PdfPTable table = new PdfPTable(7+numRound);
+
+            BaseColor myColor = BaseColor.CYAN;
+
+            PdfPCell cell1= new PdfPCell(new Paragraph("place"));
+            cell1.setBackgroundColor(myColor);
+            table.addCell(cell1);
+
+            PdfPCell cell2= new PdfPCell(new Paragraph("Nom"));
+            cell2.setBackgroundColor(myColor);
+            table.addCell(cell2);
+
+            PdfPCell cell3= new PdfPCell(new Paragraph("Elo"));
+            cell3.setBackgroundColor(myColor);
+            table.addCell(cell3);
+
+
+            // création du nom des colones de round
+            for (int i = 1; i<= numRound; i++){
+                PdfPCell cell4= new PdfPCell(new Paragraph("round"+i));
+                cell4.setBackgroundColor(myColor);
+                table.addCell(cell4);
+            }
+
+            PdfPCell cell5= new PdfPCell(new Paragraph("Pts"));
+            cell5.setBackgroundColor(myColor);
+            table.addCell(cell5);
+
+            PdfPCell cell6= new PdfPCell(new Paragraph("Bu"));
+            cell6.setBackgroundColor(myColor);
+            table.addCell(cell6);
+
+
+
+            PdfPCell cell8= new PdfPCell(new Paragraph("Cu"));
+            cell8.setBackgroundColor(myColor);
+            table.addCell(cell8);
+
+            PdfPCell cell9= new PdfPCell(new Paragraph("Perf"));
+            cell9.setBackgroundColor(myColor);
+            table.addCell(cell9);
+
+            //todo faire un for each sur le classement des joueurs pour récupérer leurs informations et les insérer dans les cellule
+
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
