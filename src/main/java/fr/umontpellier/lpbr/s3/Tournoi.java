@@ -15,7 +15,7 @@ public class Tournoi {
     private int id;
     private int nbRound; //nombre de rondes à jouer
     private String nom;
-    private String methode;
+    private String methode; //methode de départage 1: Elo (perfELO) 2: Buch (buccholz)
     private int status;
     private Set<Participe> participation = new HashSet<>();
     private Set<Partie> parties = new HashSet<>();
@@ -28,6 +28,33 @@ public class Tournoi {
         this.nbRound = nbRound;
         this.nom = nom;
         this.methode = methode;
+    }
+
+    public List<Joueur> classement(List<Joueur> l){
+        List<Joueur> joueurs= new ArrayList<>();
+        Map<Integer,Double> map = new HashMap<>();
+        switch (methode) {
+            case "Elo":
+                for (Joueur j : l){
+                    joueurs.add(j);
+                    map.put(j.getId(),j.nbPoint(this));
+                }
+                Collections.sort(joueurs, (j1,j2)->{
+                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
+                        if (j1.getElo() == j2.getElo())
+                            return j1.getNom().compareTo(j2.getNom());
+                        else
+                            return j2.getElo() - j1.getElo();
+                    }
+                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
+                });
+            case "Buch":
+                for (Joueur j : l){
+                    joueurs.add(j);
+                    map.put(j.getId(),j.nbPointBuch(this));
+                }
+        }
+        return joueurs;
     }
 
     @Id

@@ -121,6 +121,19 @@ public class Joueur {
         return parties.size() != 0;
     }
 
+    public double nbPointBuch(Tournoi t){
+        double compt = 0;
+        Set<Partie> parties = t.getParties();
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        for (Partie p: parties){
+            if (p.getJoueur_blanc().equals(this)) compt+=p.getJoueur_noir().nbPoint(t);
+            else if (p.getJoueur_noir().equals(this)) compt+=p.getJoueur_blanc().nbPoint(t);
+        }
+//        HibernateUtil.closeSession(ses);
+
+        return compt;
+    }
+
     public double nbPoint(Tournoi t){
         double compt = 0;
         Set<Partie> parties = t.getParties();
