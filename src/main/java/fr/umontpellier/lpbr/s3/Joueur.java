@@ -17,6 +17,7 @@ public class Joueur {
     private String club;
     private String nationalite;
     private String sexe;
+    private int couleurB = 0;
     private Set<Participe> participations = new HashSet<>();
     private Set<Partie> parties_jb = new HashSet<>();
     private Set<Partie> parties_jn = new HashSet<>();

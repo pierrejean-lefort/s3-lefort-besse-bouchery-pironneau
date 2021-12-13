@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 
 public class TournoiTest {
@@ -59,7 +61,6 @@ public class TournoiTest {
         }
 
         HibernateUtil.closeSession(sess);
-        System.out.println("stopping initialisation");
     }
 
     private Joueur searchByName(String name) {

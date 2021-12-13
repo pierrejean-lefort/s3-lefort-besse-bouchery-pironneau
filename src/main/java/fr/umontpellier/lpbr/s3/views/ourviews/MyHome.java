@@ -110,5 +110,6 @@ public class MyHome extends Home {
         ObservableList<Methode> list = Methode.getMethodeList();
         methode.setItems(list);
 
+
     }
 }
