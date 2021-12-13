@@ -6,15 +6,13 @@ import javafx.collections.ObservableList;
 public class Methode {
 
     public String nom;
-    public String code;
 
     public Methode() {
 
     }
 
-    public Methode(String nom, String code) {
+    public Methode(String nom) {
         this.nom = nom;
-        this.code = code;
     }
 
     public String getNom() {
@@ -25,13 +23,7 @@ public class Methode {
         this.nom = nom;
     }
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     @Override
     public String toString() {
@@ -39,8 +31,8 @@ public class Methode {
     }
 
     public static ObservableList<Methode> getMethodeList() {
-        Methode elo = new Methode("Performance Elo", "Elo");
-        Methode buchholz = new Methode("buccholz", "Buch");
+        Methode elo = new Methode("PerFElo");
+        Methode buchholz = new Methode("Bucc");
 
         ObservableList<Methode> list = FXCollections.observableArrayList(elo, buchholz);
         return list;

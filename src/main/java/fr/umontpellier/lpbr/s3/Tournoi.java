@@ -15,7 +15,7 @@ public class Tournoi {
     private int id;
     private int nbRound; //nombre de rondes à jouer
     private String nom;
-    private String methode; //methode de départage 1: Elo (perfELO) 2: Buch (buccholz)
+    private String methode; //methode de départage 1: PerFElo (perfELO) 2: Bucc (buccholz)
     private int status;
     private Set<Participe> participation = new HashSet<>();
     private Set<Partie> parties = new HashSet<>();
@@ -34,7 +34,7 @@ public class Tournoi {
         List<Joueur> joueurs= new ArrayList<>();
         Map<Integer,Double> map = new HashMap<>();
         switch (methode) {
-            case "Elo":
+            case "PerFElo":
                 for (Joueur j : l){
                     joueurs.add(j);
                     map.put(j.getId(),j.nbPoint(this));
@@ -48,7 +48,7 @@ public class Tournoi {
                     }
                     else return (int) (map.get(j1.getId())-map.get(j2.getId()));
                 });
-            case "Buch":
+            case "Bucc":
                 for (Joueur j : l){
                     joueurs.add(j);
                     map.put(j.getId(),j.nbPointBuch(this));

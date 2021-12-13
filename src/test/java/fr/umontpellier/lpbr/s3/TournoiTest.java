@@ -34,7 +34,7 @@ public class TournoiTest {
         testTournoi = new Tournoi();
         testTournoi.setId(1);
         testTournoi.setNom("Test1");
-        testTournoi.setMethode(Methode.getMethodeList().get(0).getCode());
+        testTournoi.setMethode(Methode.getMethodeList().get(0).getNom());
         testTournoi.setNbRound(9);
         sess.save(testTournoi);
 

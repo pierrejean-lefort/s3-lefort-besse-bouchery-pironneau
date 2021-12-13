@@ -123,6 +123,7 @@ public class Joueur {
 
     public double nbPointBuch(Tournoi t){
         double compt = 0;
+
         Set<Partie> parties = t.getParties();
         parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
         for (Partie p: parties){
