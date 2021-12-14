@@ -16,6 +16,7 @@ public class View {
     private static View view;
     private static EchecIHM ihm;
     private static Map<String, Scene> scenes;
+    private static Class lastScene;
 
     private View() { scenes = new HashMap<String, Scene>(); }
 
@@ -28,6 +29,14 @@ public class View {
         View.ihm = ihm;
 
         return this;
+    }
+
+    public static Class getLastScene() {
+        return lastScene;
+    }
+
+    public static void setLastScene(Class lastScene) {
+        View.lastScene = lastScene;
     }
 
     public static EchecIHM getIhm() {

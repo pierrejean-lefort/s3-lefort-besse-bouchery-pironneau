@@ -58,6 +58,7 @@ public class MyTournoiInfo extends TounoiInfo {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
+                View.setLastScene(MyTournoiInfo.class);
                 View.getView().setScene(MyJoueurSearch.class);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();

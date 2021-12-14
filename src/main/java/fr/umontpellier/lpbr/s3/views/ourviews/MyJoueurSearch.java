@@ -39,7 +39,7 @@ public class MyJoueurSearch extends JoueurSearch {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
-                View.getView().setScene(MyTournoiInfo.class);
+                View.getView().setScene(View.getLastScene());
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -49,33 +49,52 @@ public class MyJoueurSearch extends JoueurSearch {
     private EventHandler<ActionEvent> selectionnerAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            Tournoi t = View.getIhm().getSelectedTournoi();
-            Joueur j = View.getIhm().getSelectedJoueur();
-            for (Participe p : t.getParticipation()) {
-                System.out.println("J: " + j);
-                System.out.println("P: " + p.getJoueur());
-                System.out.println("-----");
-                if (p.getJoueur().equals(j)) {
-                    error.setText("Ce joueur est déjà dans le tournoi !");
+            System.out.println(View.getLastScene());
+            System.out.println("gné");
+            if (View.getLastScene() == MyTournoiInfo.class) {
+                Tournoi t = View.getIhm().getSelectedTournoi();
+                Joueur j = View.getIhm().getSelectedJoueur();
+                for (Participe p : t.getParticipation()) {
+                    System.out.println("J: " + j);
+                    System.out.println("P: " + p.getJoueur());
+                    System.out.println("-----");
+                    if (p.getJoueur().equals(j)) {
+                        error.setText("Ce joueur est déjà dans le tournoi !");
+                        return;
+                    }
+                }
+
+                DataValidation.joueurExiste(j, t, error,"Ce joueur est déjà dans le tournoi !");
+                Participe p = new Participe();
+                p.setJoueur(j);
+                p.setTournoi(t);
+                p.setElo_joueur(j.getElo());
+
+                HibernateUtil.save(p);// add in databse
+
+                Set<Participe> pa = t.getParticipation(); // add in class because no refresh
+                pa.add(p);
+                t.setParticipation(pa);
+
+                System.out.println("Joueur ajouté !");
+            } else if (View.getLastScene() == MyAppar.class) {
+                Tournoi t = View.getIhm().getSelectedTournoi();
+                Joueur j = View.getIhm().getSelectedJoueur();
+                boolean found = false;
+
+                for(Participe p : t.getParticipation()) {
+                    if (p.getJoueur().equals(j)) {
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    error.setText("Le joueur n'est pas dans le tournoi");
                     return;
                 }
             }
-
-            DataValidation.joueurExiste(j, t, error,"Ce joueur est déjà dans le tournoi !");
-            Participe p = new Participe();
-            p.setJoueur(j);
-            p.setTournoi(t);
-            p.setElo_joueur(j.getElo());
-
-            HibernateUtil.save(p);// add in databse
-
-            Set<Participe> pa = t.getParticipation(); // add in class because no refresh
-            pa.add(p);
-            t.setParticipation(pa);
-
-            System.out.println("Joueur ajouté !");
             try {
-                View.getView().setScene(MyTournoiInfo.class, true);
+                View.getView().setScene(View.getLastScene(), true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -143,7 +162,16 @@ public class MyJoueurSearch extends JoueurSearch {
         search.textProperty().addListener(searchListener);
 
         Session sess = HibernateUtil.openSession();
-        allJoueurs = sess.createQuery("from joueurs").list();
+        allJoueurs = View.getLastScene() != MyAppar.class ? sess.createQuery("from joueurs").list() : new ArrayList<>();
+        if (View.getLastScene() == MyAppar.class) {
+            Joueur toAppar = View.getIhm().getSelectedJoueurAppar();
+            for(Joueur j : View.getIhm().getaAppairer()) {
+                if (!j.equals(toAppar)) {
+                    allJoueurs.add(j);
+                }
+            }
+        }
+
         HibernateUtil.closeSession(sess);
 
         joueurs = FXCollections.observableArrayList();

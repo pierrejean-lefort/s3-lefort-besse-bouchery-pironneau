@@ -147,7 +147,6 @@ public class Tournoi {
                 .setParameter("t", this)
                 .list();
         HibernateUtil.closeSession(sess);
-        System.out.println(parties1);
 
 //        parties1.sort(Comparator.comparingInt(Partie::getNumRonde));
         if (parties1.size() == 0) {
@@ -250,5 +249,7 @@ public class Tournoi {
         t.setNbRound(nbRound);
         return t;
     }
+
+
 }
 
