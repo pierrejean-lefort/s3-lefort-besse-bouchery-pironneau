@@ -1,9 +1,6 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
-import fr.umontpellier.lpbr.s3.HibernateUtil;
-import fr.umontpellier.lpbr.s3.PDF;
-import fr.umontpellier.lpbr.s3.Participe;
-import fr.umontpellier.lpbr.s3.Partie;
+import fr.umontpellier.lpbr.s3.*;
 import fr.umontpellier.lpbr.s3.views.Resultat;
 import fr.umontpellier.lpbr.s3.views.Table;
 import fr.umontpellier.lpbr.s3.views.View;
@@ -133,6 +130,17 @@ public class MyResultat extends Resultat {
         }
     };
 
+    private EventHandler<ActionEvent> classementView = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getView().setScene(MyClassement.class);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         retour.setOnAction(retourAction);
@@ -148,7 +156,13 @@ public class MyResultat extends Resultat {
         page.setText((View.getIhm().getCurrentPage()+1)+"");
 
         round = View.getIhm().getSelectedTournoi().gotCurrentRound();
-
+        // si le tournoi est terminé on ne doit pas pouvoir ajouter de ronde supplémentaire, évidemment la partie logicielle que pj a codé pour gérer l'affichage des vues (lors de la selection d'un tournoi dans MyTournoi) fais n'importe quoi sans vérifications et on se bloque dans des loop infinies de création de rondes
+        // alors on essaie de fix :)
+        if(View.getIhm().getSelectedTournoi().getNbRound()<=round) {
+            rdsuiv.setText("Classement");
+            rdsuiv.setOnAction(classementView);
+            round = View.getIhm().getSelectedTournoi().getNbRound(); // si un round a été généré en trop, on revient quand même sur le roundMax
+        }
         System.out.println(round);
         if (round == 0) round = 1;
 

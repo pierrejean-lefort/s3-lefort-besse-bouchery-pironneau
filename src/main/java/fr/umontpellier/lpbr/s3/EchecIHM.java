@@ -122,6 +122,13 @@ public class EchecIHM extends Application {
             int round = getSelectedTournoi().gotCurrentRound();
             if (round == 0) round = 1;
 
+            //todo: fix la création de rounds à l'infini: vérifier si le tournoi est fini  ?
+            //temporay workaround
+            if (round > View.getIhm().getSelectedTournoi().getNbRound()){
+                View.getView().setScene(MyResultat.class, true);
+                return;
+            }
+
             Session sess = HibernateUtil.openSession();
             for (Participe p : getSelectedTournoi().getParticipation()) {
                 Joueur j = p.getJoueur();

@@ -8,15 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <ListView fx:id="listTournoi" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="selectTournoi" mnemonicParsing="false" text="Selectionner" disable="true">
+            <Button fx:id="selectTournoi" disable="true" mnemonicParsing="false" text="Selectionner">
                <font>
                   <Font name="Arial Black" size="14.0" />
                </font>
@@ -28,6 +27,14 @@
                <font>
                   <Font name="Arial Black" size="14.0" />
                </font>
+            </Button>
+            <Button fx:id="supprimerTournoi" mnemonicParsing="false" text="Supprimer un tournoi">
+               <font>
+                  <Font name="Arial Black" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin>
             </Button>
          </children>
       </HBox>

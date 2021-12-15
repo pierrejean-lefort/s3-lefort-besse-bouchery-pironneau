@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.HibernateUtil;
+import fr.umontpellier.lpbr.s3.Participe;
 import fr.umontpellier.lpbr.s3.Tournoi;
 import fr.umontpellier.lpbr.s3.views.Tournois;
 import fr.umontpellier.lpbr.s3.views.View;
@@ -17,6 +18,7 @@ import org.hibernate.Session;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -26,8 +28,29 @@ public class MyTournoi extends Tournois {
     @FXML private ListView<Tournoi> listTournoi;
     @FXML private Button selectTournoi;
     @FXML private Button creerTournoi;
+    @FXML private Button supprimerTournoi;
 
     public MyTournoi() {}
+
+    private EventHandler<ActionEvent> deleteAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Tournoi tournoi = View.getIhm().getSelectedTournoi();
+            View.getIhm().setSelectedTournoi(null);
+            Session sess = HibernateUtil.openSession();
+            for (Participe p : tournoi.getParticipation()) {
+                sess.delete(p);
+            }
+            tournoi.setParticipation(new HashSet<>());
+            sess.delete(tournoi);
+            HibernateUtil.closeSession(sess);
+            try {
+                View.getView().setScene(MyTournoi.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     private EventHandler<ActionEvent> creerTournoiHandler = new EventHandler<ActionEvent>() {
         @Override
@@ -63,6 +86,7 @@ public class MyTournoi extends Tournois {
             View.getIhm().setSelectedTournoi(t1);
             System.out.println("Tournoi selectioné: " + t1.getNom());
             selectTournoi.setDisable(false);
+            supprimerTournoi.setDisable(false);
         }
     };
 
@@ -70,6 +94,8 @@ public class MyTournoi extends Tournois {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         creerTournoi.setOnAction(creerTournoiHandler);
         selectTournoi.setOnAction(selectTournoiHandler);
+        supprimerTournoi.setOnAction(deleteAction);
+        supprimerTournoi.setDisable(true);
 
         Session sess = HibernateUtil.openSession();
         tournois = FXCollections.observableArrayList(sess.createQuery("from tournois").list());
