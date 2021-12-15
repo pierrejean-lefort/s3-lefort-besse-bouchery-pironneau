@@ -209,9 +209,9 @@ public class PDF {
 
     }
 
-    //todo création pdf grille américaine
+    //création pdf grille américaine
 
-    public static void grilleAmericainePDF(ArrayList<Partie> partieListe, Tournoi t){
+    public static void grilleAmericainePDF(ArrayList<Partie> partieListe, Tournoi t, ArrayList<Joueur> joueurs){
         Document document = new Document();
 
         try{
@@ -253,19 +253,57 @@ public class PDF {
 
 
 
-            PdfPCell cell8= new PdfPCell(new Paragraph("Cu"));
+            PdfPCell cell7= new PdfPCell(new Paragraph("Cu"));
+            cell7.setBackgroundColor(myColor);
+            table.addCell(cell7);
+
+            PdfPCell cell8= new PdfPCell(new Paragraph("Perf"));
             cell8.setBackgroundColor(myColor);
             table.addCell(cell8);
 
-            PdfPCell cell9= new PdfPCell(new Paragraph("Perf"));
-            cell9.setBackgroundColor(myColor);
-            table.addCell(cell9);
-
             //todo faire un for each sur le classement des joueurs pour récupérer leurs informations et les insérer dans les cellule
 
+            int classement = 1;
 
+            for (Joueur j : joueurs){
 
+                if (classement%2 == 0){
+                    // couleur fond case
+                    myColor = WebColors.getRGBColor("#a6ada9");
+                }
+                else {
+                    myColor = WebColors.getRGBColor("#ffffff");
+                }
 
+                PdfPCell position= new PdfPCell(new Paragraph(classement));// début de la nouvelle ligne
+                position.setBackgroundColor(myColor); // définition de la couleur
+                table.addCell(position); //ajoue de la cellule au tableau
+
+                PdfPCell nom= new PdfPCell(new Paragraph(j.getNom()+" " +j.getPrenom()));
+                nom.setBackgroundColor(myColor);
+                table.addCell(nom);
+
+                PdfPCell elo= new PdfPCell(new Paragraph(j.getElo()));
+                elo.setBackgroundColor(myColor);
+                table.addCell(elo);
+
+                //todo création de la méthodde pour calculer le bucolse
+                PdfPCell bucolse= new PdfPCell(new Paragraph(classement));
+                bucolse.setBackgroundColor(myColor);
+                table.addCell(bucolse);
+
+                //todo création de la méthodde pour calculer le cu
+                PdfPCell cu= new PdfPCell(new Paragraph(classement));
+                cu.setBackgroundColor(myColor);
+                table.addCell(cu);
+
+                //todo création de la méthodde pour calculer le perfElo
+                PdfPCell perfElo= new PdfPCell(new Paragraph(classement));
+                perfElo.setBackgroundColor(myColor);
+                table.addCell(perfElo);
+
+                classement ++;
+            }
 
         }
         catch (Exception e){
