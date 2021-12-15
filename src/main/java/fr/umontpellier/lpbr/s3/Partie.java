@@ -106,7 +106,7 @@ public class Partie {
 
     @Override
     public String toString() {
-        return "|#" + id + " | " + joueur_blanc.getId() + " / " + joueur_blanc.getNom() + " | " + joueur_noir.getId() + " / " + joueur_noir.getNom() + " | " + resultat + " | " + table + "\n";
+        return "|#" + id + " | " + getNumRonde() + " | " + joueur_blanc.getId() + " / " + joueur_blanc.getNom() + " | " + joueur_noir.getId() + " / " + joueur_noir.getNom() + " | " + resultat + " | " + table + "\n";
     }
 
     /**
@@ -130,7 +130,7 @@ public class Partie {
             Session sess = HibernateUtil.openSession();
             if (t.getStatus() == 0) {
                 t.setStatus(1);
-                sess.save(HibernateUtil.prepareToSave(t));
+                sess.update(HibernateUtil.prepareToSave(t));
             }
             sess.save(p);
             HibernateUtil.closeSession(sess);

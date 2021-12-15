@@ -17,6 +17,7 @@ public class Joueur {
     private String club;
     private String nationalite;
     private String sexe;
+    private int couleurB = 0;
     private Set<Participe> participations = new HashSet<>();
     private Set<Partie> parties_jb = new HashSet<>();
     private Set<Partie> parties_jn = new HashSet<>();
@@ -118,6 +119,20 @@ public class Joueur {
         Set<Partie> parties = t.getParties();
         parties.removeIf((p) -> p.getJoueur_blanc() != this || p.getNumRonde() != r);
         return parties.size() != 0;
+    }
+
+    public double nbPointBuch(Tournoi t){
+        double compt = 0;
+
+        Set<Partie> parties = t.getParties();
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        for (Partie p: parties){
+            if (p.getJoueur_blanc().equals(this)) compt+=p.getJoueur_noir().nbPoint(t);
+            else if (p.getJoueur_noir().equals(this)) compt+=p.getJoueur_blanc().nbPoint(t);
+        }
+//        HibernateUtil.closeSession(ses);
+
+        return compt;
     }
 
     public double nbPoint(Tournoi t){

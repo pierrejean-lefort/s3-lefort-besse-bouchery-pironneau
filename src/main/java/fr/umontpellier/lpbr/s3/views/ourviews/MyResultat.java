@@ -123,17 +123,6 @@ public class MyResultat extends Resultat {
         @Override
         public void handle(ActionEvent actionEvent) {
 
-//            for (Node n : vbox.getChildren()) {
-//                for (Node nn : ((HBox)n).getChildren()) {
-//                    MyTable tbl = (MyTable)nn;
-//                    if (!tbl.isValid()) {
-//                        String err = "Toutes les tables ne sont pas validées";
-//                        System.out.println(err);
-//                        error.setText(err);
-//                        return;
-//                    }
-//                }
-//            }
             if (!View.getIhm().getSelectedTournoi().isRoundValid(round)) {
                 String err = "Toutes les tables ne sont pas validées";
                 System.out.println(err);

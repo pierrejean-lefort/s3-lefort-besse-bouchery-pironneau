@@ -39,8 +39,8 @@ public class Methode {
     }
 
     public static ObservableList<Methode> getMethodeList() {
-        Methode elo = new Methode("Performance Elo", "Elo");
-        Methode buchholz = new Methode("buccholz", "Buch");
+        Methode elo = new Methode("PerFElo", "Elo");
+        Methode buchholz = new Methode("Bucc", "Buch");
 
         ObservableList<Methode> list = FXCollections.observableArrayList(elo, buchholz);
         return list;

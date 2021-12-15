@@ -75,6 +75,7 @@ public class MyHome extends Home {
                 nvTournoi.setNom(nomTournoiSaisi);
                 nvTournoi.setMethode(methodeSaisi);
                 nvTournoi.setNbRound(compt);
+            System.out.println(nvTournoi.getMethode());
 
                 //enregistrement dans la bd
                 HibernateUtil.save(nvTournoi);
@@ -109,6 +110,7 @@ public class MyHome extends Home {
         retour.setOnAction(retourAction);
         ObservableList<Methode> list = Methode.getMethodeList();
         methode.setItems(list);
+
 
     }
 }
