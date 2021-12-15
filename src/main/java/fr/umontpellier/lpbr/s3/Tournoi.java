@@ -30,15 +30,33 @@ public class Tournoi {
         this.methode = methode;
     }
 
-    public List<Joueur> classement(List<Joueur> l){
+    public List<Joueur> gotJoueurs(){
+        List<Joueur> joueursList= new ArrayList<>();
+        LinkedHashSet<Joueur> joueurs = new LinkedHashSet<>();//disparition doublons ?
+        for (Participe p:
+             participation) {
+            if(joueurs.add(p.getJoueur()))joueursList.add(p.getJoueur());
+        }
+        return joueursList;
+    }
+
+    public List<Joueur> gotClassement(){ //todo: revoir la fonction avec Jojo ou PJ
+        List<Joueur> l = this.gotJoueurs();
         List<Joueur> joueurs= new ArrayList<>();
         Map<Integer,Double> map = new HashMap<>();
+        Map<Integer, Double> mapBuch = new HashMap<>();
+        //map buchholz
+        for (Joueur j : l){
+            joueurs.add(j);
+            mapBuch.put(j.getId(),j.nbPointBuch(this));
+        }
+        //map score
+        for (Joueur j : l){
+            joueurs.add(j);
+            map.put(j.getId(),j.nbPoint(this));
+        }
         switch (methode) {
             case "PerFElo":
-                for (Joueur j : l){
-                    joueurs.add(j);
-                    map.put(j.getId(),j.nbPoint(this));
-                }
                 Collections.sort(joueurs, (j1,j2)->{
                     if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
                         if (j1.getElo() == j2.getElo())
@@ -48,11 +66,16 @@ public class Tournoi {
                     }
                     else return (int) (map.get(j1.getId())-map.get(j2.getId()));
                 });
-            case "Bucc":
-                for (Joueur j : l){
-                    joueurs.add(j);
-                    map.put(j.getId(),j.nbPointBuch(this));
-                }
+//            case "Buch":
+//                Collections.sort(joueurs, (j1,j2)->{
+//                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
+//                        if (Objects.equals(mapBuch.get(j1.getId()), mapBuch.get(j2.getId())))
+//                            return j1.getNom().compareTo(j2.getNom());
+//                        else
+//                            return (int) (mapBuch.get(j1.getId())-mapBuch.get(j2.getId()));
+//                    }
+//                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
+//                });
         }
         return joueurs;
     }
@@ -197,7 +220,7 @@ public class Tournoi {
         return true;
     }
 
-
+    //récupère les parties de la bd du round en param si il existe, null si non.
     public Set<Partie> gotRound(int round) {
         Session sess = HibernateUtil.openSession();
         sess.refresh(this);
@@ -214,7 +237,7 @@ public class Tournoi {
 
     /**
      * @param round le numéro de la round souhaitée
-     * @return Liste de Partie correspondant au round, null si le dernier round n'est pas rentré
+     * @return Liste de Parties correspondant au round, null si le dernier round n'est pas rentré
      */
     public List<Partie> gotRepartition(int round) {
 

@@ -121,10 +121,10 @@ public class Joueur {
         return parties.size() != 0;
     }
 
-    public double nbPointBuch(Tournoi t){
+    public double nbPointBuch(Tournoi t){//todo: cas spécifiques pour les matchs non disputés (forfait ou exempt)
         double compt = 0;
 
-        Set<Partie> parties = t.getParties();
+        Set<Partie> parties = new HashSet<>(t.getParties());
         parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
         for (Partie p: parties){
             if (p.getJoueur_blanc().equals(this)) compt+=p.getJoueur_noir().nbPoint(t);
