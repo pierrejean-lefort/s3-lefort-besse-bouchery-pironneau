@@ -66,16 +66,16 @@ public class Tournoi {
                     }
                     else return (int) (map.get(j1.getId())-map.get(j2.getId()));
                 });
-//            case "Buch":
-//                Collections.sort(joueurs, (j1,j2)->{
-//                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
-//                        if (Objects.equals(mapBuch.get(j1.getId()), mapBuch.get(j2.getId())))
-//                            return j1.getNom().compareTo(j2.getNom());
-//                        else
-//                            return (int) (mapBuch.get(j1.getId())-mapBuch.get(j2.getId()));
-//                    }
-//                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
-//                });
+            case "Buch":
+                Collections.sort(joueurs, (j1,j2)->{
+                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
+                        if (Objects.equals(mapBuch.get(j1.getId()), mapBuch.get(j2.getId())))
+                            return j1.getNom().compareTo(j2.getNom());
+                        else
+                            return (int) (mapBuch.get(j1.getId())-mapBuch.get(j2.getId()));
+                    }
+                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
+                });
         }
         return joueurs;
     }
