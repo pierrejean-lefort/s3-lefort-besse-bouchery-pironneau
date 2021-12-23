@@ -218,8 +218,15 @@ public class PDF {
             int numRound = partieListe.get(0).getNumRonde();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Grille Américaine round "+numRound+" du tournois "+t.getNom()+".pdf"));
 
+            document.open();
+
+
 
             PdfPTable table = new PdfPTable(7+numRound);
+
+
+            float[] columnWidths = {0.25f, 2f, 0.25f,0.25f,0.25f,0.25f,0.25f};
+            table.setWidths(columnWidths);
 
             BaseColor myColor = BaseColor.CYAN;
 
@@ -236,12 +243,8 @@ public class PDF {
             table.addCell(cell3);
 
 
-            // création du nom des colones de round
-            for (int i = 1; i<= numRound; i++){
-                PdfPCell cell4= new PdfPCell(new Paragraph("round"+i));
-                cell4.setBackgroundColor(myColor);
-                table.addCell(cell4);
-            }
+
+
 
             PdfPCell cell5= new PdfPCell(new Paragraph("Pts"));
             cell5.setBackgroundColor(myColor);
@@ -260,6 +263,14 @@ public class PDF {
             PdfPCell cell8= new PdfPCell(new Paragraph("Perf"));
             cell8.setBackgroundColor(myColor);
             table.addCell(cell8);
+
+            // création du nom des colones de round
+
+            for (int i = 1; i<= numRound; i++){
+                PdfPCell cell4= new PdfPCell(new Paragraph("round"+i));
+                cell4.setBackgroundColor(myColor);
+                table.addCell(cell4);
+            }
 
             //todo faire un for each sur le classement des joueurs pour récupérer leurs informations et les insérer dans les cellule
 
@@ -287,18 +298,18 @@ public class PDF {
                 elo.setBackgroundColor(myColor);
                 table.addCell(elo);
 
-                //todo création de la méthodde pour calculer le bucolse
-                PdfPCell bucolse= new PdfPCell(new Paragraph(classement));
+
+                PdfPCell bucolse= new PdfPCell(new Paragraph(""+j.nbPointBuch(t)));
                 bucolse.setBackgroundColor(myColor);
                 table.addCell(bucolse);
 
-                //todo création de la méthodde pour calculer le cu
-                PdfPCell cu= new PdfPCell(new Paragraph(classement));
+
+                PdfPCell cu= new PdfPCell(new Paragraph(""+j.cumulatif(t)));
                 cu.setBackgroundColor(myColor);
                 table.addCell(cu);
 
-                //todo création de la méthodde pour calculer le perfElo
-                PdfPCell perfElo= new PdfPCell(new Paragraph(classement));
+
+                PdfPCell perfElo= new PdfPCell(new Paragraph(""+j.perfElo(t)));
                 perfElo.setBackgroundColor(myColor);
                 table.addCell(perfElo);
 

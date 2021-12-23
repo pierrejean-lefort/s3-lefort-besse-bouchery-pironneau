@@ -197,4 +197,61 @@ public class Joueur {
     public int hashCode() {
         return Objects.hash(id, numLicence, nom, prenom, elo, dateNaissance, club, nationalite, sexe);
     }
+
+    public double perfElo(Tournoi t){
+        double totalEloJoueurCompatible = 0;
+        int nbJoueurCompatibles = 0;
+
+        // nombre de victoire sur le sjoueurs comptabiles
+        int nbVictoire = 0;
+
+        Set<Partie> parties = t.getParties();
+
+        //récupération des partie que le joueur a jouer
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        for (Partie p: parties){
+            //si le joueur est blanc
+            if (this.equals(p.getJoueur_blanc())){
+                // joueur compatible sont les joueurs avec 450 élo de dif
+
+                    if (p.getResultat() == 1){nbVictoire ++;}
+                    totalEloJoueurCompatible = totalEloJoueurCompatible + p.getJoueur_noir().getElo();
+                    nbJoueurCompatibles ++;
+
+
+            }
+
+            //si le joueur est noir
+            else if (this.equals(p.getJoueur_noir())){
+
+                if (p.getResultat() == 2){nbVictoire ++;}
+                totalEloJoueurCompatible = totalEloJoueurCompatible + p.getJoueur_blanc().getElo();
+                nbJoueurCompatibles ++;
+
+            }
+        }
+        return  totalEloJoueurCompatible/nbJoueurCompatibles;
+
+    }
+
+    public double cumulatif(Tournoi t){
+        double compt = 0;
+        Set<Partie> parties = t.getParties();
+        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        for (Partie p: parties){
+            int res = p.getResultat();
+            if (res == 1 && this.equals(p.getJoueur_blanc())){
+                compt = compt + (t.getNbRound()- p.getNumRonde());
+            }
+            else if (res == 2 && this.equals(p.getJoueur_noir())){
+                compt = compt + (t.getNbRound()- p.getNumRonde());
+            }
+            else if (res == 3 ){
+                compt = compt + 0.5*(t.getNbRound()- p.getNumRonde());
+            }
+        }
+//        HibernateUtil.closeSession(ses);
+        return compt;
+    }
+
 }
