@@ -49,8 +49,6 @@ public class MyJoueurSearch extends JoueurSearch {
     private EventHandler<ActionEvent> selectionnerAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            System.out.println(View.getLastScene());
-            System.out.println("gné");
             if (View.getLastScene() == MyTournoiInfo.class) {
                 Tournoi t = View.getIhm().getSelectedTournoi();
                 Joueur j = View.getIhm().getSelectedJoueur();
@@ -149,6 +147,12 @@ public class MyJoueurSearch extends JoueurSearch {
         @Override
         public void changed(ObservableValue<? extends Joueur> observableValue, Joueur joueur, Joueur t1) {
             updateJoueur.setDisable(false);
+            if (View.getLastScene() == MyAppar.class) {
+                if (View.getIhm().getToAssign() == 0) {
+                    View.getIhm().setSelectedJoueurAppar(t1);
+                    return;
+                }
+            }
             View.getIhm().setSelectedJoueur(t1);
         }
     };

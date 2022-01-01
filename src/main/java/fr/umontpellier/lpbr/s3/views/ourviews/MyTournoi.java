@@ -67,7 +67,8 @@ public class MyTournoi extends Tournois {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
-                int round = View.getIhm().getSelectedTournoi().gotCurrentRound();
+                Tournoi t = View.getIhm().getSelectedTournoi();
+                int round = t.gotCurrentRound();
                 View.getIhm().setCurrentPage(0);
                 if (round != 0) {
                     View.getIhm().setLoading();

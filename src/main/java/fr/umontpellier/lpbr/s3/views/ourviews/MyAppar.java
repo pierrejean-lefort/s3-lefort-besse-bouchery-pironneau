@@ -33,6 +33,9 @@ public class MyAppar extends Appar {
     private Button search;
 
     @FXML
+    private Button search1;
+
+    @FXML
     private Text round;
 
     @FXML
@@ -93,6 +96,20 @@ public class MyAppar extends Appar {
         @Override
         public void handle(ActionEvent actionEvent) {
             try {
+                View.getIhm().setToAssign(1);
+                View.setLastScene(MyAppar.class);
+                View.getView().setScene(MyJoueurSearch.class, true);
+            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private EventHandler<ActionEvent> searchAction1 = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            try {
+                View.getIhm().setToAssign(0);
                 View.setLastScene(MyAppar.class);
                 View.getView().setScene(MyJoueurSearch.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
@@ -144,7 +161,7 @@ public class MyAppar extends Appar {
         }
     };
 
-    public void setJoueurInfo(Joueur j) {
+    public void setJoueurInfo1(Joueur j) {
         nom1.setText(j != null ? j.getNom() : "");
         prenom1.setText(j != null ? j.getPrenom() : "");
         sexe1.setText(j != null ? j.getSexe() : "");
@@ -153,12 +170,22 @@ public class MyAppar extends Appar {
         points1.setText(""+(j != null ? j.nbPoint(View.getIhm().getSelectedTournoi()) : ""));
     }
 
+    public void setJoueurInfo(Joueur j) {
+        nom.setText(j != null ? j.getNom() : "");
+        prenom.setText(j != null ? j.getPrenom() : "");
+        sexe.setText(j != null ? j.getSexe() : "");
+        numLicense.setText(j != null ? j.getNumLicence() : "");
+        elo.setText(""+(j != null ? j.getElo() : ""));
+        points.setText(""+(j != null ? j.nbPoint(View.getIhm().getSelectedTournoi()) : ""));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retour.setOnAction(retourAction);
         precedent.setOnAction(precedentAction);
         suivant.setOnAction(suivantAction);
         search.setOnAction(searchAction);
+        search1.setOnAction(searchAction1);
         error.setText("");
         rounde = View.getIhm().getSelectedTournoi().gotCurrentRound();
         if (rounde == 0) rounde = 1;
@@ -166,17 +193,11 @@ public class MyAppar extends Appar {
 
         Joueur j = View.getIhm().getSelectedJoueurAppar();
         if (j == null) {
-            error.setText("Error, joueur à appairer non-existant");
+            error.setText("Error, joueur à appairer non-existant !");
             return;
         }
 
-        nom.setText(j.getNom());
-        prenom.setText(j.getPrenom());
-        sexe.setText(j.getSexe());
-        numLicense.setText(j.getNumLicence());
-        elo.setText(""+j.getElo());
-        points.setText(""+j.nbPoint(View.getIhm().getSelectedTournoi()));
-
-        setJoueurInfo(View.getIhm().getSelectedJoueur());
+        setJoueurInfo(j);
+        setJoueurInfo1(View.getIhm().getSelectedJoueur());
     }
 }

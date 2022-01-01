@@ -40,7 +40,7 @@
       </HBox>
    </bottom>
    <top>
-      <Label text="Gestion Tournoi d'échec" BorderPane.alignment="CENTER">
+      <Label text="Gestion Tournoi d'échecs" BorderPane.alignment="CENTER">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>

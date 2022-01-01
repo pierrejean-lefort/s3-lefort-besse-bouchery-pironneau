@@ -16,12 +16,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class EchecIHM extends Application {
     private Stage primaryStage;
     private Tournoi selectedTournoi;
-    private Joueur selectedJoueur;
-    private Joueur selectedJoueurAppar;
+    private Joueur selectedJoueur; // joueur pour créer un tournoi, ou celui de gauche dans les appariments
+    private Joueur selectedJoueurAppar; // Joueur à droite
+    private int toAssign; // Lequel du droite ou du gauche à assigner
     private int currentPage;
     private DoubleProperty progress;
     private List<Joueur> aAppairer;
@@ -37,11 +39,12 @@ public class EchecIHM extends Application {
 
         this.currentPage = 0;
         this.progress = new SimpleDoubleProperty(0.0);
+        this.toAssign = -1;
 
         this.aAppairer = new ArrayList<>();
         this.appaire = new ArrayList<>();
 
-        primaryStage.setTitle("Echec !");
+        primaryStage.setTitle("Echecs !");
         if (true) {
             View.getView()
                     .setIhm(this)
@@ -79,6 +82,14 @@ public class EchecIHM extends Application {
     }
 
     public void setSelectedJoueurAppar(Joueur selectedJoueurAppar) { this.selectedJoueurAppar = selectedJoueurAppar; }
+
+    public int getToAssign() {
+        return toAssign;
+    }
+
+    public void setToAssign(int toAssign) {
+        this.toAssign = toAssign;
+    }
 
     public List<Joueur> getaAppairer() {
         return aAppairer;
@@ -118,23 +129,23 @@ public class EchecIHM extends Application {
             appaire.clear();
             setSelectedJoueurAppar(null);
             setSelectedJoueur(null);
+            setSelectedJoueur(null);
 
             int round = getSelectedTournoi().gotCurrentRound();
             if (round == 0) round = 1;
 
-            //todo: fix la création de rounds à l'infini: vérifier si le tournoi est fini  ?
-            //temporay workaround
-            if (round > View.getIhm().getSelectedTournoi().getNbRound()){
-                View.getView().setScene(MyResultat.class, true);
+            Tournoi t = View.getIhm().getSelectedTournoi();
+            if (round >= t.getNbRound()){
+                View.getView().setScene(MyClassement.class, true);
                 return;
             }
 
             Session sess = HibernateUtil.openSession();
-            for (Participe p : getSelectedTournoi().getParticipation()) {
+            for (Participe p : t.getParticipation()) {
                 Joueur j = p.getJoueur();
 
                 List<Partie> parties = sess.createQuery("FROM parties WHERE tournoi=:t AND numRonde=:r AND ( joueur_noir=:j OR joueur_blanc=:j )")
-                        .setParameter("t", getSelectedTournoi())
+                        .setParameter("t", t)
                         .setParameter("r", round)
                         .setParameter("j", j)
                         .list();
@@ -143,6 +154,8 @@ public class EchecIHM extends Application {
                     aAppairer.add(j);
                     if (getSelectedJoueurAppar() == null) {
                         setSelectedJoueurAppar(j);
+                    } else if (getSelectedJoueur() == null) {
+                        setSelectedJoueur(j);
                     }
                 } else {
                     appaire.add(j);
@@ -161,7 +174,6 @@ public class EchecIHM extends Application {
     }
 
     public Joueur suivantAppariement() {
-        System.out.println(aAppairer);
         if (aAppairer.size() == 0) return null;
         return aAppairer.get(0);
     }
