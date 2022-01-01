@@ -49,10 +49,6 @@ public class Tournoi {
         for (Joueur j : l){
             joueurs.add(j);
             mapBuch.put(j.getId(),j.nbPointBuch(this));
-        }
-        //map score
-        for (Joueur j : l){
-            joueurs.add(j);
             map.put(j.getId(),j.nbPoint(this));
         }
         switch (methode) {
