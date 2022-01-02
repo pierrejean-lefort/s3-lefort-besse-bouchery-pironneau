@@ -1,22 +1,14 @@
 package fr.umontpellier.lpbr.s3;
 
+import fr.umontpellier.lpbr.s3.Methode.Methode;
 import org.hibernate.*;
-import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 

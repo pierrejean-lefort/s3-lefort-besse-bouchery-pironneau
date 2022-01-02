@@ -1,11 +1,10 @@
 package fr.umontpellier.lpbr.s3.views.ourviews;
 
 import fr.umontpellier.lpbr.s3.HibernateUtil;
-import fr.umontpellier.lpbr.s3.Methode;
+import fr.umontpellier.lpbr.s3.Methode.Methode;
 import fr.umontpellier.lpbr.s3.Tournoi;
 import fr.umontpellier.lpbr.s3.views.Home;
 import fr.umontpellier.lpbr.s3.views.View;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

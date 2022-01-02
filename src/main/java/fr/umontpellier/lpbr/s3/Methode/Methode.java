@@ -1,25 +1,11 @@
-package fr.umontpellier.lpbr.s3;
+package fr.umontpellier.lpbr.s3.Methode;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Methode {
+import java.util.List;
 
-    public String nom;
-    public String code;
-
-    public Methode() {
-
-    }
-
-    public Methode(String nom, String code) {
-        this.nom = nom;
-        this.code = code;
-    }
-
-    public String getNom() {
-        return nom;
-    }
+public interface Methode {
 
     public void setNom(String nom) {
         this.nom = nom;

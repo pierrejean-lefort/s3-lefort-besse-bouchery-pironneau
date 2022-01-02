@@ -15,4 +15,5 @@ open module ihm.echec {
     exports fr.umontpellier.lpbr.s3.views;
     exports fr.umontpellier.lpbr.s3.views.ourviews;
     exports fr.umontpellier.lpbr.s3.SystemTournoi;
+    exports fr.umontpellier.lpbr.s3.Methode;
 }
