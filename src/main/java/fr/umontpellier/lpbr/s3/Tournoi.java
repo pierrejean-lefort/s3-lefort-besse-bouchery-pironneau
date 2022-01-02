@@ -43,7 +43,7 @@ public class Tournoi {
         List<Methode> allMethode = Methode.getMethodeList();
         Methode classementMethode = null;
         for (Methode m : allMethode) {
-            if (m.getNom() == methode) {
+            if (Objects.equals(m.getNom(), methode)) {
                 classementMethode = m;
             }
         }
@@ -53,39 +53,6 @@ public class Tournoi {
         }
 
         return classementMethode.classer(this);
-        List<Joueur> l = this.gotJoueurs();
-        List<Joueur> joueurs= new ArrayList<>();
-        Map<Integer,Double> map = new HashMap<>();
-        Map<Integer, Double> mapBuch = new HashMap<>();
-        //map buchholz
-        for (Joueur j : l){
-            joueurs.add(j);
-            mapBuch.put(j.getId(),j.nbPointBuch(this));
-            map.put(j.getId(),j.nbPoint(this));
-        }
-        switch (methode) {
-            case "PerFElo":
-                Collections.sort(joueurs, (j1,j2)->{
-                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
-                        if (j1.getElo() == j2.getElo())
-                            return j1.getNom().compareTo(j2.getNom());
-                        else
-                            return j2.getElo() - j1.getElo();
-                    }
-                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
-                });
-            case "Buch":
-                Collections.sort(joueurs, (j1,j2)->{
-                    if (Objects.equals(map.get(j1.getId()), map.get(j2.getId()))){
-                        if (Objects.equals(mapBuch.get(j1.getId()), mapBuch.get(j2.getId())))
-                            return j1.getNom().compareTo(j2.getNom());
-                        else
-                            return (int) (mapBuch.get(j1.getId())-mapBuch.get(j2.getId()));
-                    }
-                    else return (int) (map.get(j1.getId())-map.get(j2.getId()));
-                });
-        }
-        return joueurs;
     }
 
     @Id
