@@ -48,6 +48,9 @@ public class MyClassement extends Classement{
         methode.setText(View.getIhm().getSelectedTournoi().getMethode());
         nomTournoi.setText(View.getIhm().getSelectedTournoi().getNom());
         allJoueurs = View.getIhm().getSelectedTournoi().gotClassement();
+        if (allJoueurs == null) {
+            return;
+        }
         for (Joueur j : allJoueurs){
             list.getItems().add(j);
         }

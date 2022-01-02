@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3;
 
 
+import fr.umontpellier.lpbr.s3.Methode.Elo;
 import fr.umontpellier.lpbr.s3.Methode.Methode;
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.SystemTournoi.SuisseComplet;
@@ -48,8 +49,9 @@ public class Tournoi {
             }
         }
         if (classementMethode == null) {
-            System.out.println("Methode de départage inexistante !");
-            return null;
+            System.out.println("Methode de départage inexistante (" + methode + ") !");
+            System.out.println("Utilisation de la perf élo par défaut !");
+            classementMethode = new Elo();
         }
 
         return classementMethode.classer(this);
