@@ -1,5 +1,6 @@
 package fr.umontpellier.lpbr.s3;
 
+import fr.umontpellier.lpbr.s3.Methode.Methode;
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.views.View;
 import fr.umontpellier.lpbr.s3.views.ourviews.*;

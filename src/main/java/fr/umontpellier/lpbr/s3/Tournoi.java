@@ -1,6 +1,7 @@
 package fr.umontpellier.lpbr.s3;
 
 
+import fr.umontpellier.lpbr.s3.Methode.Methode;
 import fr.umontpellier.lpbr.s3.SystemTournoi.Suisse;
 import fr.umontpellier.lpbr.s3.SystemTournoi.SuisseComplet;
 import fr.umontpellier.lpbr.s3.SystemTournoi.SystemTournoi;
@@ -32,15 +33,26 @@ public class Tournoi {
 
     public List<Joueur> gotJoueurs(){
         List<Joueur> joueursList= new ArrayList<>();
-        LinkedHashSet<Joueur> joueurs = new LinkedHashSet<>();//disparition doublons ?
-        for (Participe p:
-             participation) {
-            if(joueurs.add(p.getJoueur()))joueursList.add(p.getJoueur());
+        for (Participe p: participation) {
+            joueursList.add(p.getJoueur());
         }
         return joueursList;
     }
 
     public List<Joueur> gotClassement(){ //todo: revoir la fonction avec Jojo ou PJ
+        List<Methode> allMethode = Methode.getMethodeList();
+        Methode classementMethode = null;
+        for (Methode m : allMethode) {
+            if (m.getNom() == methode) {
+                classementMethode = m;
+            }
+        }
+        if (classementMethode == null) {
+            System.out.println("Methode de départage inexistante !");
+            return null;
+        }
+
+        return classementMethode.classer(this);
         List<Joueur> l = this.gotJoueurs();
         List<Joueur> joueurs= new ArrayList<>();
         Map<Integer,Double> map = new HashMap<>();

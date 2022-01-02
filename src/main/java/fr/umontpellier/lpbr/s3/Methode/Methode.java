@@ -1,5 +1,7 @@
 package fr.umontpellier.lpbr.s3.Methode;
 
+import fr.umontpellier.lpbr.s3.Joueur;
+import fr.umontpellier.lpbr.s3.Tournoi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -7,28 +9,15 @@ import java.util.List;
 
 public interface Methode {
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    String getNom();
 
-    public String getCode() {
-        return code;
-    }
+    List<Joueur> classer(Tournoi t);
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+    public static List<Methode> getMethodeList() {
+        Methode elo = new Elo();
+        Methode buchholz = new Bucholz();
 
-    @Override
-    public String toString() {
-        return nom;
-    }
-
-    public static ObservableList<Methode> getMethodeList() {
-        Methode elo = new Methode("PerFElo", "Elo");
-        Methode buchholz = new Methode("Bucc", "Buch");
-
-        ObservableList<Methode> list = FXCollections.observableArrayList(elo, buchholz);
+        List<Methode> list = FXCollections.observableArrayList(elo, buchholz);
         return list;
     }
 }
