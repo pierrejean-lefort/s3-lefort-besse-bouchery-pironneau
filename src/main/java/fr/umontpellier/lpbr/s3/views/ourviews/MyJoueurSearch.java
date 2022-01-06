@@ -107,7 +107,7 @@ public class MyJoueurSearch extends JoueurSearch {
         public void handle(ActionEvent actionEvent) {
             if (View.getIhm().getSelectedJoueur() == null) return;
             try {
-                View.getView().setScene(MyModification.class);
+                View.getView().setScene(MyModification.class, true);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

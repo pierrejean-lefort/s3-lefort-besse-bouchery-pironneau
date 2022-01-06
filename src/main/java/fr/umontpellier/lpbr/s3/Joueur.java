@@ -120,21 +120,28 @@ public class Joueur {
     public double nbPointBuch(Tournoi t){//todo: cas spécifiques pour les matchs non disputés (forfait ou exempt)
         double compt = 0;
 
-        Set<Partie> parties = new HashSet<>(t.getParties());
-        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        Session sess = HibernateUtil.openSession();
+        List<Partie> parties = sess.createQuery("FROM parties WHERE tournoi=:t AND (joueur_blanc = :j OR joueur_noir =:j)")
+                .setParameter("t", t)
+                .setParameter("j", this)
+                .list();
+        HibernateUtil.closeSession(sess);
         for (Partie p: parties){
             if (p.getJoueur_blanc().equals(this)) compt+=p.getJoueur_noir().nbPoint(t);
             else if (p.getJoueur_noir().equals(this)) compt+=p.getJoueur_blanc().nbPoint(t);
         }
-//        HibernateUtil.closeSession(ses);
 
         return compt;
     }
 
     public double nbPoint(Tournoi t){
         double compt = 0;
-        Set<Partie> parties = t.getParties();
-        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
+        Session sess = HibernateUtil.openSession();
+        List<Partie> parties = sess.createQuery("FROM parties WHERE tournoi=:t AND (joueur_blanc = :j OR joueur_noir =:j)")
+                .setParameter("t", t)
+                .setParameter("j", this)
+                .list();
+        HibernateUtil.closeSession(sess);
         for (Partie p: parties){
             int res = p.getResultat();
             if (res == 1 && this.equals(p.getJoueur_blanc())){
@@ -147,15 +154,18 @@ public class Joueur {
                 compt = compt + 0.5;
             }
         }
-//        HibernateUtil.closeSession(ses);
         return compt;
     }
 
     public double nbPoint(Tournoi t, double numRound){
         double compt = 0;
-        Set<Partie> parties = t.getParties();
-        parties.removeIf((p) -> p.getJoueur_noir() != this && p.getJoueur_blanc() != this);
-        parties.removeIf((p) -> p.getNumRonde()>numRound);
+        Session sess = HibernateUtil.openSession();
+        List<Partie> parties = sess.createQuery("FROM parties WHERE tournoi=:t AND numRonde=:r AND (joueur_blanc = :j OR joueur_noir =:j)")
+                .setParameter("t", t)
+                .setParameter("r", numRound)
+                .setParameter("j", this)
+                .list();
+        HibernateUtil.closeSession(sess);
         for (Partie p: parties){
             int res = p.getResultat();
             if (res == 1 && this.equals(p.getJoueur_blanc())){
@@ -168,7 +178,6 @@ public class Joueur {
                 compt = compt + 0.5;
             }
         }
-//        HibernateUtil.closeSession(ses);
         return compt;
     }
 

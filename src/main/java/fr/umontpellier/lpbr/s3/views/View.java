@@ -31,6 +31,10 @@ public class View {
         return this;
     }
 
+    public static Scene removeScene(String fxmlPath) {
+        return scenes.remove(fxmlPath);
+    }
+
     public static Class getLastScene() {
         return lastScene;
     }

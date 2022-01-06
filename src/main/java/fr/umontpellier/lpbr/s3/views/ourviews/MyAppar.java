@@ -149,6 +149,7 @@ public class MyAppar extends Appar {
 
                 Joueur next = View.getIhm().suivantAppariement();
                 if (next == null) {
+                    View.removeScene(MyJoueurSearch.fxmlPath);
                     View.getIhm().setLoading();
                     return;
                 }
