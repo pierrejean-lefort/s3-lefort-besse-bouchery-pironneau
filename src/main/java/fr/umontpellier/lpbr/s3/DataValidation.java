@@ -36,7 +36,7 @@ public class DataValidation {
         boolean isAlphabet = true;
         String validationString = null;
 
-        if (!inputTextField.getText().matches("[a-zA-Z]")) {
+        if (!inputTextField.getText().matches("[A-Za-z\\s]*$")) {
             isAlphabet = false;
             validationString = validationText;
         }

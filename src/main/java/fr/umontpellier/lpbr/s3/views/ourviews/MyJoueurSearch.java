@@ -52,17 +52,9 @@ public class MyJoueurSearch extends JoueurSearch {
             if (View.getLastScene() == MyTournoiInfo.class) {
                 Tournoi t = View.getIhm().getSelectedTournoi();
                 Joueur j = View.getIhm().getSelectedJoueur();
-                for (Participe p : t.getParticipation()) {
-                    System.out.println("J: " + j);
-                    System.out.println("P: " + p.getJoueur());
-                    System.out.println("-----");
-                    if (p.getJoueur().equals(j)) {
-                        error.setText("Ce joueur est déjà dans le tournoi !");
-                        return;
-                    }
-                }
 
-                DataValidation.joueurExiste(j, t, error,"Ce joueur est déjà dans le tournoi !");
+                if (!DataValidation.joueurExiste(j, t, error,"Ce joueur est déjà dans le tournoi !"))
+                    return;
                 Participe p = new Participe();
                 p.setJoueur(j);
                 p.setTournoi(t);
@@ -147,6 +139,7 @@ public class MyJoueurSearch extends JoueurSearch {
         @Override
         public void changed(ObservableValue<? extends Joueur> observableValue, Joueur joueur, Joueur t1) {
             updateJoueur.setDisable(false);
+            error.setText("");
             if (View.getLastScene() == MyAppar.class) {
                 if (View.getIhm().getToAssign() == 0) {
                     View.getIhm().setSelectedJoueurAppar(t1);

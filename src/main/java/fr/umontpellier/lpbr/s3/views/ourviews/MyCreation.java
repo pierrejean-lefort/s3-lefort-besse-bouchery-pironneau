@@ -106,63 +106,40 @@ public class MyCreation extends Creation {
             String numLicenceSaisi = numLicenceText.getText();
             String nomClubSaisi = nomClubText.getText();
             String eloSaisi = eloText.getText();
-            String sexeSaisi = (String)sexeText.getValue();
+            String sexeSaisi = sexeText.getValue();
             LocalDate dateNaissanceSaisi = dateNaissanceText.getValue();
             Instant instant = dateNaissanceSaisi == null ? Instant.now() : Instant.from(dateNaissanceSaisi.atStartOfDay(ZoneId.systemDefault()));
             Date date = Date.from(instant);
 
-            //@TODO trouver un moyen pour que le code ci-dessous ne soit pas aussi dégueulasse.
+            boolean isError = false;
+            if (sexeSaisi == null || sexeSaisi.equals("")) {
+                sexErr.setText("A remplir.");
+                isError = true;
+            } else {
+                sexErr.setText("");
+            }
 
-            if (sexeSaisi == null) sexErr.setText("A remplir.");
+            if(!DataValidation.textFieldIsNull(nomText, nomErr, "A remplir") || !DataValidation.dataLength(nomText, nomErr, "Trop long", 32) || !DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?")){
+                isError = true;
+            }
 
-//            if(DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")){
-//                if (DataValidation.dataLength(nomText, nomErr, "Trop long", 32)){
-//                    DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?");
-//                }
-//            }
-//            if(DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir")){
-//                if(DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32)){
-//                    DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?");
-//                }
-//            }
-//            if(DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir")){
-//                if(DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32)){
-//                    DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?");
-//                }
-//            }
-//            if(DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir")){
-//                if(DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32)){
-//                    DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?");
-//                }
-//            }
-//            if(DataValidation.textFieldIsNull(eloText, eloErr, "A remplir")){
-//                if(DataValidation.dataLength(eloText, eloErr, "Trop long", 32)){
-//                    DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?");
-//                }
-//            }
-//
-//            if(
-//                    !DataValidation.textFieldIsNull(nomText, nomErr, "A remplir")||
-//                            !DataValidation.dataLength(nomText, nomErr, "Trop long", 32)||
-//                            !DataValidation.textAlphabet(nomText, nomErr, "Des lettres ?")||
-//
-//                            !DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir")||
-//                            !DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32)||
-//                            !DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?")||
-//
-//                            !DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir")||
-//                            !DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32)||
-//                            !DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des Chiffres ?")||
-//
-//                            !DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir")||
-//                            !DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32)||
-////                            !DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?")||
-////
-//                            !DataValidation.textFieldIsNull(eloText, eloErr, "A remplir")||
-//                            !DataValidation.dataLength(eloText, eloErr, "Trop long", 32)||
-//                            !DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?")){
-//                System.out.println("je suis bloké");
-//            }else {
+            if(!DataValidation.textFieldIsNull(prenomText, prenomErr, "A remplir") || !DataValidation.dataLength(prenomText, prenomErr, "Trop long", 32) || !DataValidation.textAlphabet(prenomText, prenomErr, "Des lettres ?")){
+                isError = true;
+            }
+
+            if(!DataValidation.textFieldIsNull(numLicenceText, numLicenceErr, "A remplir") || !DataValidation.dataLength(numLicenceText, numLicenceErr, "Trop long", 32) || !DataValidation.textNumeric(numLicenceText, numLicenceErr, "Des chiffres ?")){
+                isError = true;
+            }
+
+            if(!DataValidation.textFieldIsNull(nomClubText, nomClubErr, "A remplir") || !DataValidation.dataLength(nomClubText, nomClubErr, "Trop long", 32) || !DataValidation.textAlphabet(nomClubText, nomClubErr, "Des lettres ?")){
+                isError = true;
+            }
+
+            if(!DataValidation.textFieldIsNull(eloText, eloErr, "A remplir") || !DataValidation.dataLength(eloText, eloErr, "Trop long", 32) || !DataValidation.textNumeric(eloText, eloErr, "Des chiffres ?")){
+                isError = true;
+            }
+
+            if(!isError) {
                 Joueur joueur = new Joueur();
                 joueur.setNumLicence(numLicenceSaisi);
                 joueur.setNom(nomSaisi);
@@ -172,15 +149,6 @@ public class MyCreation extends Creation {
                 joueur.setDateNaissance(date);
                 joueur.setSexe(sexeSaisi);
                 joueur.setNationalite("fr");
-
-                //            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-                //            Validator validator = factory.getValidator();
-                //            Validator v = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
-                //
-                //            Set<ConstraintViolation<Joueur>> violations = v.validate(joueur);
-                //            for (ConstraintViolation<Joueur> violation : violations) {
-                //                System.out.println(violation.getMessage());
-                //            }
 
                 Session ses = HibernateUtil.getSessionFactory().openSession();
                 ses.beginTransaction();
@@ -192,7 +160,7 @@ public class MyCreation extends Creation {
                     e.printStackTrace();
                 }
             }
-//        }
+        }
     };
 
     @Override

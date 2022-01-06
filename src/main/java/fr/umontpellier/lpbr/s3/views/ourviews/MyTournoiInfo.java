@@ -69,6 +69,9 @@ public class MyTournoiInfo extends TounoiInfo {
     private EventHandler<ActionEvent> startAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            Set<Participe> participes = View.getIhm().getSelectedTournoi().getParticipation();
+            if (participes.size() <= 1 || participes.size() % 2 != 0)
+                return;
             View.getIhm().setLoading();
         }
     };
